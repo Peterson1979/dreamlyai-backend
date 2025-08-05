@@ -1,7 +1,10 @@
-// Import the Google Generative AI client library
 const { GoogleGenerativeAI } = require("@google/generative-ai");
+const {
+  getTokensToday,
+  addTokensToday,
+  checkTokenLimit
+} = require("../utils/tokenTracker"); // ⬅️ új modul
 
-// Nyelvkód → nyelv neve konverzió
 const getLanguageName = (code) => {
   switch (code) {
     case "en": return "English";
@@ -54,6 +57,15 @@ module.exports = async (req, res) => {
       });
     }
 
+    // Token használati ellenőrzés
+    const estimatedTokens = (dreamNarrative.length + (symbols?.length || 0) + (emotions?.length || 0) + 500); // ~500 rendszerprompt
+    if (!checkTokenLimit(estimatedTokens)) {
+      return res.status(429).json({
+        error: 'token_limit_exceeded',
+        message: 'Daily token quota exceeded.'
+      });
+    }
+
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       console.error('Gemini API key not found.');
@@ -66,7 +78,6 @@ module.exports = async (req, res) => {
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
 
-    // --- Nyelv hozzáadása ---
     const languageName = getLanguageName(language || "en");
 
     const systemInstruction = `
@@ -99,6 +110,9 @@ Here is my dream:
     const result = await model.generateContent(fullPrompt);
     const response = await result.response;
     const interpretationText = response.text();
+
+    // ✅ Token log frissítése
+    addTokensToday(estimatedTokens);
 
     res.status(200).json({ interpretation: interpretationText });
 
