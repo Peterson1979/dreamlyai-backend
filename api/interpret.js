@@ -36,6 +36,7 @@ const getLanguageName = (code) => {
   }
 };
 
+
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({
@@ -69,28 +70,30 @@ module.exports = async (req, res) => {
     // --- Nyelv hozzáadása ---
     const languageName = getLanguageName(language || "en");
 
-    const systemInstruction = `
-You are a concise and empathetic dream interpreter.
+    const systemInstruction = 
+You are an empathetic and insightful dream interpreter. Your goal is to provide a thoughtful, non-definitive interpretation of a user's dream.
+Your tone should be supportive, curious, and gentle, like a wise guide. Never state interpretations as facts, but as possibilities for self-reflection.
+Use phrases like "This could symbolize...", "Perhaps this reflects...", "It might suggest...".
 
-Your goal is to briefly analyze the user's dream. Be gentle, supportive, and never state anything as fact—only possibilities. Use short, simple sentences and avoid repetition.
+IMPORTANT: The entire response must be written in ${languageName}.
 
-IMPORTANT: Your full response must be in ${languageName} and under 150 words.
-
-Respond in Markdown format with these two sections:
-
+The output MUST be in Markdown format and strictly follow this structure:
 ### Summary
-1–2 sentences describing the main theme of the dream.
+A brief, one or two-sentence summary of the most likely core theme of the dream.
 
-### Interpretation
-Briefly mention what key elements (symbols, emotions, events) might suggest. Use speculative phrases like "might represent..." or "could reflect...".
-`;
+### Detailed Analysis
+- **Symbols:** Analyze the key symbols provided or found in the narrative. For each symbol, explain its common meanings and how it might relate to the user's context.
+- **Emotions:** Discuss the emotions felt in the dream and what they might indicate about the user's current emotional state.
+- **Narrative Flow:** Interpret the story or events of the dream. What could the progression of events signify?
+- **Possible Meaning:** Offer a concluding thought on what the dream as a whole could be encouraging the user to reflect upon in their waking life.
+;
 
-    const userPrompt = `
+    const userPrompt = 
 Here is my dream:
 - Narrative: ${dreamNarrative}
 - Key Symbols: ${symbols || 'Not provided'}
 - Emotions Felt: ${emotions || 'Not provided'}
-`;
+;
 
     const fullPrompt = systemInstruction + "\n\n" + userPrompt;
 
