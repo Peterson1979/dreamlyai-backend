@@ -1,9 +1,8 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const {
-  getTokensToday,
-  addTokensToday,
-  checkTokenLimit
-} = require("../utils/tokenTracker"); // ⬅️ új modul
+  canUseTokens,
+  getTokenStatus
+} = require("../utils/tokenTracker"); // javított import
 
 const getLanguageName = (code) => {
   switch (code) {
@@ -57,9 +56,10 @@ module.exports = async (req, res) => {
       });
     }
 
-    // Token használati ellenőrzés
-    const estimatedTokens = (dreamNarrative.length + (symbols?.length || 0) + (emotions?.length || 0) + 500); // ~500 rendszerprompt
-    if (!checkTokenLimit(estimatedTokens)) {
+    // Token használati ellenőrzés és token hozzáadás egyben
+    const estimatedTokens = (dreamNarrative.length + (symbols?.length || 0) + (emotions?.length || 0) + 500); // kb 500 token a rendszerprompt
+
+    if (!canUseTokens(estimatedTokens)) {
       return res.status(429).json({
         error: 'token_limit_exceeded',
         message: 'Daily token quota exceeded.'
@@ -110,9 +110,6 @@ Here is my dream:
     const result = await model.generateContent(fullPrompt);
     const response = await result.response;
     const interpretationText = response.text();
-
-    // ✅ Token log frissítése
-    addTokensToday(estimatedTokens);
 
     res.status(200).json({ interpretation: interpretationText });
 
