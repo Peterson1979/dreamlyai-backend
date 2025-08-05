@@ -4,18 +4,38 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 // Nyelvkód → nyelv neve konverzió
 const getLanguageName = (code) => {
   switch (code) {
+    case "en": return "English";
     case "hu": return "Hungarian";
     case "de": return "German";
     case "fr": return "French";
-    case "es": return "Spanish";
     case "it": return "Italian";
-    case "ja": return "Japanese";
-    case "ar": return "Arabic";
-    case "fa": return "Persian";
     case "ru": return "Russian";
+    case "es": return "Spanish";
+    case "pt": return "Portuguese";
+    case "zh": return "Chinese (Simplified)";
+    case "ja": return "Japanese";
+    case "ko": return "Korean";
+    case "sw": return "Swahili";
+    case "fa": return "Persian";
+    case "ta": return "Tamil";
+    case "bn": return "Bengali";
+    case "hi": return "Hindi";
+    case "id": return "Indonesian";
+    case "th": return "Thai";
+    case "vi": return "Vietnamese";
+    case "ur": return "Urdu";
+    case "te": return "Telugu";
+    case "pl": return "Polish";
+    case "tr": return "Turkish";
+    case "uk": return "Ukrainian";
+    case "ro": return "Romanian";
+    case "nl": return "Dutch";
+    case "ms": return "Malay";
+    case "ar": return "Arabic";
     default: return "English";
   }
 };
+
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
