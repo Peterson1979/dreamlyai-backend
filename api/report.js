@@ -1,7 +1,4 @@
 // api/report.js
-import { writeFileSync, existsSync, readFileSync } from "fs";
-import path from "path";
-
 export default function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -14,15 +11,7 @@ export default function handler(req, res) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    // 📂 Tárolás egy JSON fájlban (egyszerű megoldás DB nélkül)
-    const filePath = path.join(process.cwd(), "reports.json");
-    let reports = [];
-
-    if (existsSync(filePath)) {
-      const data = readFileSync(filePath, "utf8");
-      reports = JSON.parse(data || "[]");
-    }
-
+    // Új report objektum létrehozása
     const newReport = {
       id: Date.now(),
       dreamId,
@@ -31,9 +20,8 @@ export default function handler(req, res) {
       createdAt: new Date().toISOString()
     };
 
-    reports.push(newReport);
-
-    writeFileSync(filePath, JSON.stringify(reports, null, 2));
+    // Nem írunk fájlba, csak visszaadjuk
+    console.log("Report submitted:", newReport);
 
     return res.status(200).json({ success: true, report: newReport });
   } catch (err) {
