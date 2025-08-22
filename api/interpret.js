@@ -5,25 +5,24 @@ const Redis = require("ioredis");
 // --- Beállítások ---
 const DAILY_TOKEN_LIMIT = 1_000_000; // napi 1 millió token
 
-// --- Redis kliens (csak UPSTASH_REDIS_URL) ---
-const redisUrl = process.env.UPSTASH_REDIS_URL;
-let redis = null;
+// --- Redis kliens (singleton) ---
+let redis = global.redisClient;
 
-if (redisUrl) {
-  // Upstash Redis URL formátum: rediss://:<PASSWORD>@<HOST>:<PORT>
-  // A TLS automatikus; a maxRetriesPerRequest-et levesszük, hogy ne lógjon sokáig hiba esetén.
-  redis = new Redis(redisUrl, {
-    maxRetriesPerRequest: 2,
-    enableReadyCheck: true,
-    lazyConnect: false,
-    tls: {}, // Upstash-hez TLS kell
+if (!redis && process.env.UPSTASH_REDIS_URL) {
+  redis = new Redis(process.env.UPSTASH_REDIS_URL, {
+    maxRetriesPerRequest: 3,
+    connectTimeout: 10000,
+    tls: {}, // fontos: Upstash TLS kötelező
   });
 
   redis.on("error", (err) => {
     console.error("Redis error:", err?.message || err);
   });
-} else {
+
+  global.redisClient = redis; // cache-eljük, hogy Vercel Lambda újrafutáskor is megmaradjon
+} else if (!process.env.UPSTASH_REDIS_URL) {
   console.warn("UPSTASH_REDIS_URL nincs beállítva – token limit ellenőrzés KIHAGYVA (fail-open).");
+  redis = null;
 }
 
 // --- Nyelvkód -> megjelenítendő nyelv ---
@@ -61,34 +60,35 @@ function getLanguageName(code) {
   }
 }
 
-// --- Token limit ellenőrzés (Redis) ---
+// --- Token limit ellenőrzés ---
 async function canUseTokens(estimatedTokens) {
-  // Ha nincs redis beállítva, fail-open (engedjük a hívást, csak logolunk)
   if (!redis) {
     console.warn("Redis nem elérhető – token limit ellenőrzés átugorva.");
     return true;
   }
 
-  const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+  const today = new Date().toISOString().slice(0, 10);
   const key = `daily_tokens:${today}`;
 
-  // 1) Jelenlegi felhasználás lekérdezése
-  const usedStr = await redis.get(key);
-  const used = usedStr ? parseInt(usedStr, 10) : 0;
+  try {
+    const usedStr = await redis.get(key);
+    const used = usedStr ? parseInt(usedStr, 10) : 0;
 
-  // 2) Limit ellenőrzése
-  if (used + estimatedTokens > DAILY_TOKEN_LIMIT) {
-    return false;
+    if (used + estimatedTokens > DAILY_TOKEN_LIMIT) {
+      return false;
+    }
+
+    const pipeline = redis.multi();
+    pipeline.incrby(key, estimatedTokens);
+    pipeline.expire(key, 60 * 60 * 24);
+    await pipeline.exec();
+
+    return true;
+  } catch (err) {
+    console.error("Redis write error:", err?.message || err);
+    // Fail-open fallback
+    return true;
   }
-
-  // 3) Növelés + lejárat beállítás (1 nap)
-  //   Ha új kulcs, az EXPIRE gondoskodik a napi resetről.
-  const pipeline = redis.multi();
-  pipeline.incrby(key, estimatedTokens);
-  pipeline.expire(key, 60 * 60 * 24); // 24 óra
-  await pipeline.exec();
-
-  return true;
 }
 
 // --- HTTP handler ---
@@ -110,14 +110,12 @@ module.exports = async (req, res) => {
       });
     }
 
-    // Durva token becslés (szöveghossz + ~500 a rendszerprompt)
     const estimatedTokens =
       (dreamNarrative?.length || 0) +
       (symbols?.length || 0) +
       (emotions?.length || 0) +
       500;
 
-    // Token limit ellenőrzés
     const allowed = await canUseTokens(estimatedTokens);
     if (!allowed) {
       return res.status(429).json({
