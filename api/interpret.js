@@ -1,14 +1,30 @@
 // api/interpret.js
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const Redis = require("ioredis");
+import { createClient } from "redis";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// Redis kapcsolat létrehozása (Upstash)
-const redis = new Redis(process.env.REDIS_URL);
+// Redis kliens létrehozása Upstash REST URL és Token alapján
+const redis = createClient({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 
-// Token limit beállítás
+await redis.connect();
+
+// Napi token limit
 const DAILY_TOKEN_LIMIT = 1000000;
-const REDIS_KEY = "dreamlyai:tokens"; // kulcs a napi tokenekhez
+const TOKEN_KEY = "dreamly_tokens";
 
+// Segédfüggvény: ellenőrzi, hogy van-e elég token, és növeli a számlálót
+async function canUseTokens(neededTokens) {
+  const current = parseInt(await redis.get(TOKEN_KEY)) || 0;
+  if (current + neededTokens > DAILY_TOKEN_LIMIT) {
+    return false;
+  }
+  await redis.incrBy(TOKEN_KEY, neededTokens);
+  return true;
+}
+
+// Segédfüggvény: nyelv kód -> nyelv név
 const getLanguageName = (code) => {
   switch (code) {
     case "en": return "English";
@@ -43,11 +59,11 @@ const getLanguageName = (code) => {
   }
 };
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({
       error: "method_not_allowed",
-      message: "Only POST requests are allowed."
+      message: "Only POST requests are allowed.",
     });
   }
 
@@ -57,39 +73,38 @@ module.exports = async (req, res) => {
     if (!dreamNarrative) {
       return res.status(400).json({
         error: "missing_dream_narrative",
-        message: "Dream narrative is required."
+        message: "Dream narrative is required.",
       });
     }
 
-    // Token becslés
+    // Token számítás (kb. 500 token rendszerprompt + input hossz)
     const estimatedTokens =
       dreamNarrative.length +
       (symbols?.length || 0) +
       (emotions?.length || 0) +
-      500; // kb 500 token a rendszerprompt
+      500;
 
-    // Napi token limit ellenőrzése Redis-ben
-    let currentTokens = await redis.get(REDIS_KEY);
-    currentTokens = parseInt(currentTokens || "0", 10);
-
-    if (currentTokens + estimatedTokens > DAILY_TOKEN_LIMIT) {
+    const allowed = await canUseTokens(estimatedTokens);
+    if (!allowed) {
       return res.status(429).json({
         error: "token_limit_exceeded",
-        message: "Daily token quota exceeded."
+        message: "Daily token quota exceeded.",
       });
     }
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      console.error("Gemini API key not found.");
       return res.status(500).json({
         error: "server_config_error",
-        message: "Server configuration error."
+        message: "Server configuration error.",
       });
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+    const model = genAI.getGenerativeModel({
+      model: "gemini-1.5-flash-latest",
+    });
+
     const languageName = getLanguageName(language || "en");
 
     const systemInstruction = `
@@ -123,16 +138,7 @@ Here is my dream:
     const response = await result.response;
     const interpretationText = response.text();
 
-    // Tokenek hozzáadása a Redis-hez, napi lejárattal (UTC 24:00-ig)
-    const now = new Date();
-    const midnightUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0));
-    const secondsUntilMidnight = Math.floor((midnightUTC - now) / 1000);
-
-    await redis.incrby(REDIS_KEY, estimatedTokens);
-    await redis.expire(REDIS_KEY, secondsUntilMidnight);
-
     res.status(200).json({ interpretation: interpretationText });
-
   } catch (error) {
     console.error("Error calling Gemini API:", error);
 
@@ -156,7 +162,7 @@ Here is my dream:
 
     return res.status(statusCode).json({
       error: errorCode,
-      message
+      message,
     });
   }
-};
+}

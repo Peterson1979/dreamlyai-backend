@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Peterson1979/dreamlyai-backend#readme",
   "dependencies": {
-    "@google/generative-ai": "^0.24.1"
+    "@google/generative-ai": "^0.24.1",
+    "ioredis": "^5.7.0"
   }
 }
