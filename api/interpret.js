@@ -1,4 +1,4 @@
-// api/interpret.js
+// api/interpret.js 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const Redis = require("ioredis");
 
@@ -133,8 +133,9 @@ module.exports = async (req, res) => {
       });
     }
 
+    // ÚJ MODELL: stabil v1 API + flash
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const languageName = getLanguageName(language || "en");
 
