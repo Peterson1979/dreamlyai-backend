@@ -1,6 +1,6 @@
-// api/interpret.js
+// api/interpret.js 
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 const Redis = require("ioredis");
-const { GoogleGenAI } = require("@google/genai");
 
 // --- Beállítások ---
 const DAILY_TOKEN_LIMIT = 1_000_000; // napi 1 millió token
@@ -19,7 +19,7 @@ if (!redis && process.env.UPSTASH_REDIS_URL) {
     console.error("Redis error:", err?.message || err);
   });
 
-  global.redisClient = redis;
+  global.redisClient = redis; // cache-eljük, hogy Vercel Lambda újrafutáskor is megmaradjon
 } else if (!process.env.UPSTASH_REDIS_URL) {
   console.warn("UPSTASH_REDIS_URL nincs beállítva – token limit ellenőrzés KIHAGYVA (fail-open).");
   redis = null;
@@ -86,7 +86,8 @@ async function canUseTokens(estimatedTokens) {
     return true;
   } catch (err) {
     console.error("Redis write error:", err?.message || err);
-    return true; // fail-open
+    // Fail-open fallback
+    return true;
   }
 }
 
@@ -123,13 +124,20 @@ module.exports = async (req, res) => {
       });
     }
 
-    const languageName = getLanguageName(language || "en");
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      console.error("Gemini API key not found.");
+      return res.status(500).json({
+        error: "server_config_error",
+        message: "Server configuration error.",
+      });
+    }
 
-    // Gemini 2.5 Pro kliens inicializálás (service account-tal)
-    const genAI = new GoogleGenAI({
-      project: process.env.GOOGLE_CLOUD_PROJECT,
-      location: "us-central1"
-    });
+    // ÚJ MODELL: Gemini 2.5 Flash
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+    const languageName = getLanguageName(language || "en");
 
     const systemInstruction = `
 You are an empathetic and insightful dream interpreter. Your goal is to provide a thoughtful, non-definitive interpretation of a user's dream.
@@ -158,17 +166,13 @@ Here is my dream:
 
     const fullPrompt = systemInstruction + "\n\n" + userPrompt;
 
-    const result = await genAI.models.generateContent({
-      model: "gemini-2.5-pro",
-      contents: fullPrompt
-    });
-
-    const interpretationText = result.parts?.[0]?.text || "Nincs elérhető válasz.";
+    const result = await model.generateContent(fullPrompt);
+    const response = await result.response;
+    const interpretationText = response.text();
 
     return res.status(200).json({ interpretation: interpretationText });
-
   } catch (error) {
-    console.error("Error calling Gemini 2.5 Pro API:", error);
+    console.error("Error calling Gemini API:", error);
 
     let statusCode = 500;
     let errorCode = "internal_error";
@@ -185,10 +189,9 @@ Here is my dream:
     } else if (error?.status === 401 || error?.status === 403) {
       statusCode = error.status;
       errorCode = "unauthorized";
-      message = "Unauthorized request. Please check your service account.";
+      message = "Unauthorized request. Please check your API key.";
     }
 
     return res.status(statusCode).json({ error: errorCode, message });
   }
 };
-
