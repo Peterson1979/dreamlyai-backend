@@ -171,7 +171,7 @@ A brief, one or two-sentence summary of the most likely core theme of the dream.
 ### Detailed Analysis
 - **Symbols:** Analyze the key symbols provided or found in the narrative. For each symbol, explain its common meanings and how it might relate to the user's context.
 - **Emotions:** Discuss the emotions felt in the dream and what they might indicate about the user's current emotional state.
-- **Narrative Flow:** Interpret the story or events of the dream. What could the progression of events signify?
+- **Event Sequence:** Interpret the story or events of the dream. What could the progression of events signify?
 - **Possible Meaning:** Offer a concluding thought on what the dream as a whole could be encouraging the user to reflect upon in their waking life.
 `;
 
