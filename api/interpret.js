@@ -12,23 +12,23 @@ let redis = global.redisClient;
 
 if (!redis && process.env.UPSTASH_REDIS_URL) {
   redis = new Redis(process.env.UPSTASH_REDIS_URL, {
-    lazyConnect: true,          // csak használatkor próbál kapcsolódni
+    lazyConnect: true,
     maxRetriesPerRequest: 2,
-    connectTimeout: 5000,       // rövidebb connect timeout
-    tls: {},                    // Upstash TLS kötelező
+    connectTimeout: 5000,
+    tls: {},
   });
 
   redis.on("error", (err) => {
     console.error("Redis error:", err?.message || err);
   });
 
-  global.redisClient = redis; // cache-eljük a kapcsolatot
+  global.redisClient = redis;
 } else if (!process.env.UPSTASH_REDIS_URL) {
   console.warn("UPSTASH_REDIS_URL nincs beállítva – token limit ellenőrzés KIHAGYVA (fail-open).");
   redis = null;
 }
 
-// --- Nyelvkód -> nyelv ---
+// --- Nyelvkód -> nyelv neve ---
 function getLanguageName(code) {
   switch (code) {
     case "en": return "English";
@@ -63,6 +63,40 @@ function getLanguageName(code) {
   }
 }
 
+// --- Szekció címek nyelvenként ---
+function getSectionTitles(langCode) {
+  switch (langCode) {
+    case "hu": return { s: "Összefoglalás", d: "Részletes elemzés", sym: "Szimbólumok", emo: "Érzelmek", seq: "Eseménysor", mean: "Lehetséges jelentés" };
+    case "de": return { s: "Zusammenfassung", d: "Detaillierte Analyse", sym: "Symbole", emo: "Emotionen", seq: "Ereignisablauf", mean: "Mögliche Bedeutung" };
+    case "fr": return { s: "Résumé", d: "Analyse détaillée", sym: "Symboles", emo: "Émotions", seq: "Séquence d'événements", mean: "Signification possible" };
+    case "it": return { s: "Riassunto", d: "Analisi dettagliata", sym: "Simboli", emo: "Emozioni", seq: "Sequenza di eventi", mean: "Significato possibile" };
+    case "ru": return { s: "Краткое содержание", d: "Подробный анализ", sym: "Символы", emo: "Эмоции", seq: "Последовательность событий", mean: "Возможное значение" };
+    case "es": return { s: "Resumen", d: "Análisis detallado", sym: "Símbolos", emo: "Emociones", seq: "Secuencia de eventos", mean: "Significado posible" };
+    case "pt": return { s: "Resumo", d: "Análise detalhada", sym: "Símbolos", emo: "Emoções", seq: "Sequência de eventos", mean: "Significado possível" };
+    case "zh": return { s: "总结", d: "详细分析", sym: "符号", emo: "情绪", seq: "事件顺序", mean: "可能的含义" };
+    case "ja": return { s: "要約", d: "詳細な分析", sym: "シンボル", emo: "感情", seq: "出来事の流れ", mean: "可能な意味" };
+    case "ko": return { s: "요약", d: "자세한 분석", sym: "상징", emo: "감정", seq: "사건 순서", mean: "가능한 의미" };
+    case "sw": return { s: "Muhtasari", d: "Uchambuzi wa kina", sym: "Alama", emo: "Hisia", seq: "Mtiririko wa matukio", mean: "Maana inayowezekana" };
+    case "fa": return { s: "خلاصه", d: "تحلیل دقیق", sym: "نمادها", emo: "احساسات", seq: "دنباله‌ی رویدادها", mean: "معنای احتمالی" };
+    case "ta": return { s: "சுருக்கம்", d: "விரிவான பகுப்பாய்வு", sym: "குறியீடுகள்", emo: "உணர்ச்சிகள்", seq: "நிகழ்வு வரிசை", mean: "சாத்தியமான பொருள்" };
+    case "bn": return { s: "সারাংশ", d: "বিস্তারিত বিশ্লেষণ", sym: "প্রতীক", emo: "আবেগ", seq: "ঘটনার ধারা", mean: "সম্ভাব্য অর্থ" };
+    case "hi": return { s: "सारांश", d: "विस्तृत विश्लेषण", sym: "प्रतीक", emo: "भावनाएँ", seq: "घटना क्रम", mean: "संभावित अर्थ" };
+    case "id": return { s: "Ringkasan", d: "Analisis Mendetail", sym: "Simbol", emo: "Emosi", seq: "Urutan Kejadian", mean: "Kemungkinan Makna" };
+    case "th": return { s: "สรุป", d: "การวิเคราะห์โดยละเอียด", sym: "สัญลักษณ์", emo: "อารมณ์", seq: "ลำดับเหตุการณ์", mean: "ความหมายที่เป็นไปได้" };
+    case "vi": return { s: "Tóm tắt", d: "Phân tích chi tiết", sym: "Biểu tượng", emo: "Cảm xúc", seq: "Trình tự sự kiện", mean: "Ý nghĩa có thể" };
+    case "ur": return { s: "خلاصہ", d: "تفصیلی تجزیہ", sym: "علامات", emo: "جذبات", seq: "واقعات کا سلسلہ", mean: "ممکنہ معنی" };
+    case "te": return { s: "సారాంశం", d: "వివరణాత్మక విశ్లేషణ", sym: "చిహ్నాలు", emo: "భావోద్వేగాలు", seq: "సంఘటనల క్రమం", mean: "సాధ్యమైన అర్థం" };
+    case "pl": return { s: "Podsumowanie", d: "Szczegółowa analiza", sym: "Symbole", emo: "Emocje", seq: "Kolejność zdarzeń", mean: "Możliwe znaczenie" };
+    case "tr": return { s: "Özet", d: "Detaylı Analiz", sym: "Semboller", emo: "Duygular", seq: "Olay Akışı", mean: "Olası Anlam" };
+    case "uk": return { s: "Підсумок", d: "Детальний аналіз", sym: "Символи", emo: "Емоції", seq: "Послідовність подій", mean: "Можливе значення" };
+    case "ro": return { s: "Rezumat", d: "Analiză detaliată", sym: "Simboluri", emo: "Emoții", seq: "Secvența evenimentelor", mean: "Semnificație posibilă" };
+    case "nl": return { s: "Samenvatting", d: "Gedetailleerde analyse", sym: "Symbolen", emo: "Emoties", seq: "Gebeurtenisvolgorde", mean: "Mogelijke betekenis" };
+    case "ms": return { s: "Ringkasan", d: "Analisis Terperinci", sym: "Simbol", emo: "Emosi", seq: "Turutan Peristiwa", mean: "Maksud yang Mungkin" };
+    case "ar": return { s: "الملخص", d: "التحليل التفصيلي", sym: "الرموز", emo: "المشاعر", seq: "تسلسل الأحداث", mean: "المعنى المحتمل" };
+    default: return { s: "Summary", d: "Detailed Analysis", sym: "Symbols", emo: "Emotions", seq: "Event Sequence", mean: "Possible Meaning" };
+  }
+}
+
 // --- Token limit ellenőrzés ---
 async function canUseTokens(estimatedTokens) {
   if (!redis) {
@@ -89,12 +123,11 @@ async function canUseTokens(estimatedTokens) {
     return true;
   } catch (err) {
     console.error("Redis write error:", err?.message || err);
-    // Fail-open fallback
     return true;
   }
 }
 
-// --- Retry helper (exponential backoff) ---
+// --- Retry helper ---
 async function retryWithBackoff(fn, retries = MAX_RETRIES) {
   let attempt = 0;
   while (attempt < retries) {
@@ -103,13 +136,13 @@ async function retryWithBackoff(fn, retries = MAX_RETRIES) {
     } catch (err) {
       attempt++;
       if (attempt >= retries) throw err;
-      const delay = Math.pow(2, attempt) * 200; // pl. 200ms, 400ms, 800ms
+      const delay = Math.pow(2, attempt) * 200;
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
 }
 
-// --- HTTP handler (SSE streaming) ---
+// --- HTTP handler ---
 module.exports = async (req, res) => {
   if (req.method !== "POST") {
     return res.status(405).json({
@@ -151,28 +184,31 @@ module.exports = async (req, res) => {
       });
     }
 
-    // --- Gemini 2.5 Flash ---
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-    const languageName = getLanguageName(language || "en");
+    const langCode = language || "en";
+    const languageName = getLanguageName(langCode);
+    const titles = getSectionTitles(langCode);
 
     const systemInstruction = `
 You are an empathetic and insightful dream interpreter. Your goal is to provide a thoughtful, non-definitive interpretation of a user's dream.
 Your tone should be supportive, curious, and gentle, like a wise guide. Never state interpretations as facts, but as possibilities for self-reflection.
 Use phrases like "This could symbolize...", "Perhaps this reflects...", "It might suggest...".
 
-IMPORTANT: Your full response must be in ${languageName} and under 150 words.
+IMPORTANT RULES:
+1. Your ENTIRE response MUST be in ${languageName}.
+2. DO NOT use ANY English words – not even for section titles.
+3. Use ONLY the following section titles, EXACTLY as provided below.
+4. Keep your response under 150 words.
+5. Output MUST be in Markdown format.
 
-The output MUST be in Markdown format and strictly follow this structure:
-### Summary
-A brief, one or two-sentence summary of the most likely core theme of the dream.
-
-### Detailed Analysis
-- **Symbols:** Analyze the key symbols provided or found in the narrative. For each symbol, explain its common meanings and how it might relate to the user's context.
-- **Emotions:** Discuss the emotions felt in the dream and what they might indicate about the user's current emotional state.
-- **Event Sequence:** Interpret the story or events of the dream. What could the progression of events signify?
-- **Possible Meaning:** Offer a concluding thought on what the dream as a whole could be encouraging the user to reflect upon in their waking life.
+### ${titles.s}
+### ${titles.d}
+- **${titles.sym}:**
+- **${titles.emo}:**
+- **${titles.seq}:**
+- **${titles.mean}:**
 `;
 
     const userPrompt = `
@@ -184,7 +220,6 @@ Here is my dream:
 
     const fullPrompt = systemInstruction + "\n\n" + userPrompt;
 
-    // --- Streaming válasz küldése a kliensnek ---
     res.writeHead(200, {
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache",
@@ -235,7 +270,6 @@ Here is my dream:
     if (!res.headersSent) {
       res.status(statusCode).json({ error: errorCode, message });
     } else {
-      // ha már streamelés közben volt hiba
       res.write(`data: ${JSON.stringify({ error: errorCode, message })}\n\n`);
       res.write("data: [DONE]\n\n");
       res.end();
