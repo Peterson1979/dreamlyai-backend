@@ -3,9 +3,10 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const Redis = require("ioredis");
 
 // --- Beállítások ---
-const DAILY_TOKEN_LIMIT = 1_000_000; // napi 1 millió token
+const DAILY_TOKEN_LIMIT = 10_000_000; // napi 10 millió token
 const GEMINI_TIMEOUT_MS = 25000; // max 25 másodperc várakozás
 const MAX_RETRIES = 3;
+const RATE_LIMIT = 20; // 20 kérés / perc
 
 // --- Redis kliens (singleton) ---
 let redis = global.redisClient;
@@ -24,7 +25,7 @@ if (!redis && process.env.UPSTASH_REDIS_URL) {
 
   global.redisClient = redis;
 } else if (!process.env.UPSTASH_REDIS_URL) {
-  console.warn("UPSTASH_REDIS_URL nincs beállítva – token limit ellenőrzés KIHAGYVA (fail-open).");
+  console.warn("UPSTASH_REDIS_URL nincs beállítva – token limit és rate limit ellenőrzés KIHAGYVA (fail-open).");
   redis = null;
 }
 
@@ -97,27 +98,34 @@ function getSectionTitles(langCode) {
   }
 }
 
-// --- Token limit ellenőrzés ---
+// --- Token limit ellenőrzés + rate limit ---
 async function canUseTokens(estimatedTokens) {
   if (!redis) {
-    console.warn("Redis nem elérhető – token limit ellenőrzés átugorva.");
+    console.warn("Redis nem elérhető – token és rate limit ellenőrzés átugorva.");
     return true;
   }
 
   const today = new Date().toISOString().slice(0, 10);
-  const key = `daily_tokens:${today}`;
+  const tokenKey = `daily_tokens:${today}`;
+  const rateKey = `rate_limit:${today}`;
 
   try {
-    const usedStr = await redis.get(key);
+    // Token limit ellenőrzés
+    const usedStr = await redis.get(tokenKey);
     const used = usedStr ? parseInt(usedStr, 10) : 0;
+    if (used + estimatedTokens > DAILY_TOKEN_LIMIT) return false;
 
-    if (used + estimatedTokens > DAILY_TOKEN_LIMIT) {
-      return false;
-    }
+    // Rate limit ellenőrzés
+    const reqStr = await redis.get(rateKey);
+    const reqCount = reqStr ? parseInt(reqStr, 10) : 0;
+    if (reqCount >= RATE_LIMIT) return false;
 
+    // Pipeline: növelés + lejárat
     const pipeline = redis.multi();
-    pipeline.incrby(key, estimatedTokens);
-    pipeline.expire(key, 60 * 60 * 24);
+    pipeline.incrby(tokenKey, estimatedTokens);
+    pipeline.expire(tokenKey, 60 * 60 * 24);
+    pipeline.incr(rateKey);
+    pipeline.expire(rateKey, 60); // 1 perc
     await pipeline.exec();
 
     return true;
@@ -170,8 +178,8 @@ module.exports = async (req, res) => {
     const allowed = await canUseTokens(estimatedTokens);
     if (!allowed) {
       return res.status(429).json({
-        error: "token_limit_exceeded",
-        message: "Daily token quota exceeded.",
+        error: "token_or_rate_limit_exceeded",
+        message: "Token vagy rate limit túllépve.",
       });
     }
 
@@ -185,8 +193,7 @@ module.exports = async (req, res) => {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
-
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
     const langCode = language || "en";
     const languageName = getLanguageName(langCode);
