@@ -98,6 +98,30 @@ function getSectionTitles(langCode) {
   }
 }
 
+// --- NYELVFÜGGETLEN SZÖVEGTISZTÍTÓ ---
+function cleanText(text) {
+  if (!text) return text;
+  
+  return text
+    // 1. Markdown jelölők eltávolítása (félkövér, dőlt, aláhúzás, fejlécek)
+    .replace(/\*\*|\*|__|_|\#\#\#|\#\#|\#/g, '')
+    
+    // 2. AI "gondolkodási" blokkok eltávolítása (ha előfordul)
+    .replace(/<thinking>[\s\S]*?<\/thinking>/g, '')
+    .replace(/delta:\s*/g, '')
+    
+    // 3. Felesleges whitespace és sortörések normalizálása
+    .replace(/\s{2,}/g, ' ')          // többszörös szóköz → egy szóköz
+    .replace(/\n{3,}/g, '\n\n')       // 3+ sortörés → 2 sortörés
+    .replace(/^[ \t]+|[ \t]+$/gm, '') // sor eleji/végi szóközök
+    
+    // 4. Felesleges prefixek/szimbólumok (pl. ***, ---, ===)
+    .replace(/^\s*[\*\-\_]{3,}\s*$/gm, '')
+    .replace(/^\s*[=\-]{3,}\s*$/gm, '')
+    
+    .trim();
+}
+
 // --- Token limit ellenőrzés + rate limit ---
 async function canUseTokens(estimatedTokens) {
   if (!redis) {
@@ -209,14 +233,16 @@ IMPORTANT RULES:
 2. DO NOT use ANY English words – not even for section titles.
 3. Use ONLY the following section titles, EXACTLY as provided below.
 4. Keep your response under 150 words.
-5. Output MUST be in Markdown format.
+5. **DO NOT USE MARKDOWN FORMATTING** – no **bold**, *italic*, ### headers, or bullet points. Use plain text only.
+6. Use natural punctuation appropriate for the language.
 
-### ${titles.s}
-### ${titles.d}
-- **${titles.sym}:**
-- **${titles.emo}:**
-- **${titles.seq}:**
-- **${titles.mean}:**
+Section titles to use:
+- ${titles.s}
+- ${titles.d}
+  • ${titles.sym}:
+  • ${titles.emo}:
+  • ${titles.seq}:
+  • ${titles.mean}:
 `;
 
     const userPrompt = `
@@ -242,11 +268,15 @@ Here is my dream:
       for await (const chunk of stream.stream) {
         const text = chunk.text();
         if (text) {
-          res.write(`data: ${JSON.stringify({ delta: text })}\n\n`);
+          // NYELVFÜGGETLEN tisztítás – csak formázási szemét eltávolítása
+          const cleanedText = cleanText(text);
+          if (cleanedText) {
+            res.write(` ${JSON.stringify({ delta: cleanedText })}\n\n`);
+          }
         }
       }
 
-      res.write("data: [DONE]\n\n");
+      res.write(" [DONE]\n\n");
       res.end();
     });
 
@@ -278,8 +308,8 @@ Here is my dream:
     if (!res.headersSent) {
       res.status(statusCode).json({ error: errorCode, message });
     } else {
-      res.write(`data: ${JSON.stringify({ error: errorCode, message })}\n\n`);
-      res.write("data: [DONE]\n\n");
+      res.write(` ${JSON.stringify({ error: errorCode, message })}\n\n`);
+      res.write(" [DONE]\n\n");
       res.end();
     }
   }
