@@ -98,13 +98,15 @@ function getSectionTitles(langCode) {
   }
 }
 
-// --- NYELVFÜGGETLEN SZÖVEGTISZTÍTÓ ---
+// --- BIZTONSÁGOS NYELVFÜGGETLEN SZÖVEGTISZTÍTÓ (nem üríti ki a szöveget!) ---
 function cleanText(text) {
-  if (!text) return text;
-  
-  return text
+  if (!text || text.trim().length === 0) return text;
+
+  let cleaned = text
     // 1. Markdown jelölők eltávolítása (félkövér, dőlt, aláhúzás, fejlécek)
-    .replace(/\*\*|\*|__|_|\#\#\#|\#\#|\#/g, '')
+    .replace(/\*\*|\*|__|_|~~/g, '') // félkövér, dőlt, áthúzott
+    .replace(/(^|\n)#+\s*/g, '$1')   // fejlécek (# jel eltávolítása, de a szöveg megmarad)
+    .replace(/(^|\n)\s*[\*\-\+]\s+/g, '$1• ') // listák konvertálása egyszerű pontokká
     
     // 2. AI "gondolkodási" blokkok eltávolítása (ha előfordul)
     .replace(/<thinking>[\s\S]*?<\/thinking>/g, '')
@@ -120,6 +122,9 @@ function cleanText(text) {
     .replace(/^\s*[=\-]{3,}\s*$/gm, '')
     
     .trim();
+
+  // ⚠️ KRITIKUS VÉDELEM: Ha a tisztítás üresre vezetne, visszaadjuk az eredetit
+  return cleaned.length > 0 ? cleaned : text.trim();
 }
 
 // --- Token limit ellenőrzés + rate limit ---
@@ -217,7 +222,7 @@ module.exports = async (req, res) => {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" }); // ✅ JAVÍTVA: stabilabb modell
 
     const langCode = language || "en";
     const languageName = getLanguageName(langCode);
@@ -254,25 +259,30 @@ Here is my dream:
 
     const fullPrompt = systemInstruction + "\n\n" + userPrompt;
 
+    // ✅ SSE HEADERS – helyes formátum Vercel-hez
     res.writeHead(200, {
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache",
-      Connection: "keep-alive",
+      "Connection": "keep-alive",
+      "X-Accel-Buffering": "no", // fontos Vercel-hez
     });
+    res.flushHeaders(); // ⚠️ KRITIKUS: azonnali header küldés
+
+    let hasSentContent = false;
 
     await retryWithBackoff(async () => {
-      const stream = await model.generateContentStream(fullPrompt, {
+      // ⚠️ NEM stream – megbízhatóbb Vercel-en
+      const result = await model.generateContent(fullPrompt, {
         timeout: GEMINI_TIMEOUT_MS,
       });
+      
+      const fullText = result.response.text();
 
-      for await (const chunk of stream.stream) {
-        const text = chunk.text();
-        if (text) {
-          // NYELVFÜGGETLEN tisztítás – csak formázási szemét eltávolítása
-          const cleanedText = cleanText(text);
-          if (cleanedText) {
-            res.write(` ${JSON.stringify({ delta: cleanedText })}\n\n`);
-          }
+      if (fullText && fullText.trim().length > 0) {
+        const cleaned = cleanText(fullText);
+        if (cleaned.trim().length > 0) {
+          res.write(` ${JSON.stringify({ delta: cleaned })}\n\n`);
+          hasSentContent = true;
         }
       }
 
@@ -280,8 +290,27 @@ Here is my dream:
       res.end();
     });
 
+    // ⚠️ DEBUG: Ha üres válasz érkezik
+    if (!hasSentContent) {
+      console.warn("⚠️ Empty interpretation returned", { 
+        dreamNarrative: dreamNarrative.substring(0, 50) + "...", 
+        language: langCode 
+      });
+      
+      // Fallback üzenet a felhasználó nyelvén
+      const fallbackMessage = langCode === "hu" 
+        ? "Nem sikerült értelmezni az álmot. Kérlek, próbáld meg egy hosszabb leírással."
+        : langCode === "de"
+        ? "Die Traumdeutung konnte nicht generiert werden. Bitte versuche es mit einer längeren Beschreibung."
+        : "Failed to interpret dream. Please try with a longer description.";
+      
+      res.write(` ${JSON.stringify({ delta: fallbackMessage })}\n\n`);
+      res.write(" [DONE]\n\n");
+      res.end();
+    }
+
   } catch (error) {
-    console.error("Error calling Gemini API:", error);
+    console.error("❌ Error calling Gemini API:", error?.message || error);
 
     let statusCode = 500;
     let errorCode = "internal_error";
