@@ -271,22 +271,19 @@ Here is my dream:
     let hasSentContent = false;
 
     await retryWithBackoff(async () => {
-      // ⚠️ NEM stream – megbízhatóbb Vercel-en
-      const result = await model.generateContent(fullPrompt, {
-        timeout: GEMINI_TIMEOUT_MS,
-      });
-      
-      const fullText = result.response.text();
-
-      if (fullText && fullText.trim().length > 0) {
-        const cleaned = cleanText(fullText);
-        if (cleaned.trim().length > 0) {
-          res.write(` ${JSON.stringify({ delta: cleaned })}\n\n`);
-          hasSentContent = true;
+      const stream = await model.generateContentStream(fullPrompt, { timeout: GEMINI_TIMEOUT_MS });
+      for await (const chunk of stream.stream) {
+        const text = chunk.text();
+        if (text?.trim()) {
+          const cleaned = cleanText(text);
+          if (cleaned?.trim()) {
+            // ✅ JAVÍTVA: "data: " prefix hozzáadva
+            res.write(` ${JSON.stringify({ delta: cleaned })}\n\n`);
+          }
         }
       }
-
-      res.write(" [DONE]\n\n");
+      // ✅ JAVÍTVA: "data: " prefix hozzáadva
+      res.write(` [DONE]\n\n`);
       res.end();
     });
 
