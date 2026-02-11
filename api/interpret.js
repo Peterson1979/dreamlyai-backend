@@ -222,7 +222,7 @@ module.exports = async (req, res) => {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" }); // ✅ JAVÍTVA: stabilabb modell
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
     const langCode = language || "en";
     const languageName = getLanguageName(langCode);
@@ -264,47 +264,47 @@ Here is my dream:
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache",
       "Connection": "keep-alive",
-      "X-Accel-Buffering": "no", // fontos Vercel-hez
+      "X-Accel-Buffering": "no",
     });
-    res.flushHeaders(); // ⚠️ KRITIKUS: azonnali header küldés
+    res.flushHeaders();
 
     let hasSentContent = false;
 
     await retryWithBackoff(async () => {
       const stream = await model.generateContentStream(fullPrompt, { timeout: GEMINI_TIMEOUT_MS });
+      
       for await (const chunk of stream.stream) {
         const text = chunk.text();
         if (text?.trim()) {
           const cleaned = cleanText(text);
           if (cleaned?.trim()) {
             // ✅ JAVÍTVA: "data: " prefix hozzáadva
-            res.write(` ${JSON.stringify({ delta: cleaned })}\n\n`);
+            res.write(`data: ${JSON.stringify({ delta: cleaned })}\n\n`);
+            hasSentContent = true;
           }
         }
       }
+
+      // ✅ Fallback üzenet CSAK ha üres a válasz
+      if (!hasSentContent) {
+        console.warn("⚠️ Empty interpretation returned", { 
+          dreamNarrative: dreamNarrative.substring(0, 50) + "...", 
+          language: langCode 
+        });
+        
+        const fallbackMessage = langCode === "hu" 
+          ? "Nem sikerült értelmezni az álmot. Kérlek, próbáld meg egy hosszabb leírással."
+          : langCode === "de"
+          ? "Die Traumdeutung konnte nicht generiert werden. Bitte versuche es mit einer längeren Beschreibung."
+          : "Failed to interpret dream. Please try with a longer description.";
+        
+        res.write(`data: ${JSON.stringify({ delta: fallbackMessage })}\n\n`);
+      }
+
       // ✅ JAVÍTVA: "data: " prefix hozzáadva
-      res.write(` [DONE]\n\n`);
+      res.write(`data: [DONE]\n\n`);
       res.end();
     });
-
-    // ⚠️ DEBUG: Ha üres válasz érkezik
-    if (!hasSentContent) {
-      console.warn("⚠️ Empty interpretation returned", { 
-        dreamNarrative: dreamNarrative.substring(0, 50) + "...", 
-        language: langCode 
-      });
-      
-      // Fallback üzenet a felhasználó nyelvén
-      const fallbackMessage = langCode === "hu" 
-        ? "Nem sikerült értelmezni az álmot. Kérlek, próbáld meg egy hosszabb leírással."
-        : langCode === "de"
-        ? "Die Traumdeutung konnte nicht generiert werden. Bitte versuche es mit einer längeren Beschreibung."
-        : "Failed to interpret dream. Please try with a longer description.";
-      
-      res.write(` ${JSON.stringify({ delta: fallbackMessage })}\n\n`);
-      res.write(" [DONE]\n\n");
-      res.end();
-    }
 
   } catch (error) {
     console.error("❌ Error calling Gemini API:", error?.message || error);
@@ -334,8 +334,8 @@ Here is my dream:
     if (!res.headersSent) {
       res.status(statusCode).json({ error: errorCode, message });
     } else {
-      res.write(` ${JSON.stringify({ error: errorCode, message })}\n\n`);
-      res.write(" [DONE]\n\n");
+      res.write(`data: ${JSON.stringify({ error: errorCode, message })}\n\n`);
+      res.write(`data: [DONE]\n\n`);
       res.end();
     }
   }
