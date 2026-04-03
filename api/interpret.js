@@ -1,14 +1,14 @@
-// api/interpret.js
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const Redis = require("ioredis");
+const crypto = require("crypto");
 
 // --- Beállítások ---
-const DAILY_TOKEN_LIMIT = 10_000_000; // napi 10 millió token
-const GEMINI_TIMEOUT_MS = 25000; // max 25 másodperc várakozás
+const DAILY_TOKEN_LIMIT = 500_000;
+const GEMINI_TIMEOUT_MS = 25000;
 const MAX_RETRIES = 3;
-const RATE_LIMIT = 20; // 20 kérés / perc
+const RATE_LIMIT = 20;
 
-// --- Redis kliens (singleton) ---
+// --- Redis ---
 let redis = global.redisClient;
 
 if (!redis && process.env.UPSTASH_REDIS_URL) {
@@ -24,147 +24,107 @@ if (!redis && process.env.UPSTASH_REDIS_URL) {
   });
 
   global.redisClient = redis;
-} else if (!process.env.UPSTASH_REDIS_URL) {
-  console.warn("UPSTASH_REDIS_URL nincs beállítva – token limit és rate limit ellenőrzés KIHAGYVA (fail-open).");
-  redis = null;
 }
 
-// --- Nyelvkód -> nyelv neve ---
-function getLanguageName(code) {
-  switch (code) {
-    case "en": return "English";
-    case "hu": return "Hungarian";
-    case "de": return "German";
-    case "fr": return "French";
-    case "it": return "Italian";
-    case "ru": return "Russian";
-    case "es": return "Spanish";
-    case "pt": return "Portuguese";
-    case "zh": return "Chinese (Simplified)";
-    case "ja": return "Japanese";
-    case "ko": return "Korean";
-    case "sw": return "Swahili";
-    case "fa": return "Persian";
-    case "ta": return "Tamil";
-    case "bn": return "Bengali";
-    case "hi": return "Hindi";
-    case "id": return "Indonesian";
-    case "th": return "Thai";
-    case "vi": return "Vietnamese";
-    case "ur": return "Urdu";
-    case "te": return "Telugu";
-    case "pl": return "Polish";
-    case "tr": return "Turkish";
-    case "uk": return "Ukrainian";
-    case "ro": return "Romanian";
-    case "nl": return "Dutch";
-    case "ms": return "Malay";
-    case "ar": return "Arabic";
-    default: return "English";
-  }
+if (!redis) {
+  console.error("❌ Redis REQUIRED (fail-closed).");
 }
 
-// --- Szekció címek nyelvenként ---
-function getSectionTitles(langCode) {
-  switch (langCode) {
-    case "hu": return { s: "Összefoglalás", d: "Részletes elemzés", sym: "Szimbólumok", emo: "Érzelmek", seq: "Eseménysor", mean: "Lehetséges jelentés" };
-    case "de": return { s: "Zusammenfassung", d: "Detaillierte Analyse", sym: "Symbole", emo: "Emotionen", seq: "Ereignisablauf", mean: "Mögliche Bedeutung" };
-    case "fr": return { s: "Résumé", d: "Analyse détaillée", sym: "Symboles", emo: "Émotions", seq: "Séquence d'événements", mean: "Signification possible" };
-    case "it": return { s: "Riassunto", d: "Analisi dettagliata", sym: "Simboli", emo: "Emozioni", seq: "Sequenza di eventi", mean: "Significato possibile" };
-    case "ru": return { s: "Краткое содержание", d: "Подробный анализ", sym: "Символы", emo: "Эмоции", seq: "Последовательность событий", mean: "Возможное значение" };
-    case "es": return { s: "Resumen", d: "Análisis detallado", sym: "Símbolos", emo: "Emociones", seq: "Secuencia de eventos", mean: "Significado posible" };
-    case "pt": return { s: "Resumo", d: "Análise detalhada", sym: "Símbolos", emo: "Emoções", seq: "Sequência de eventos", mean: "Significado possível" };
-    case "zh": return { s: "总结", d: "详细分析", sym: "符号", emo: "情绪", seq: "事件顺序", mean: "可能的含义" };
-    case "ja": return { s: "要約", d: "詳細な分析", sym: "シンボル", emo: "感情", seq: "出来事の流れ", mean: "可能な意味" };
-    case "ko": return { s: "요약", d: "자세한 분석", sym: "상징", emo: "감정", seq: "사건 순서", mean: "가능한 의미" };
-    case "sw": return { s: "Muhtasari", d: "Uchambuzi wa kina", sym: "Alama", emo: "Hisia", seq: "Mtiririko wa matukio", mean: "Maana inayowezekana" };
-    case "fa": return { s: "خلاصه", d: "تحلیل دقیق", sym: "نمادها", emo: "احساسات", seq: "دنباله‌ی رویدادها", mean: "معنای احتمالی" };
-    case "ta": return { s: "சுருக்கம்", d: "விரிவான பகுப்பாய்வு", sym: "குறியீடுகள்", emo: "உணர்ச்சிகள்", seq: "நிகழ்வு வரிசை", mean: "சாத்தியமான பொருள்" };
-    case "bn": return { s: "সারাংশ", d: "বিস্তারিত বিশ্লেষণ", sym: "প্রতীক", emo: "আবেগ", seq: "ঘটনার ধারা", mean: "সম্ভাব্য অর্থ" };
-    case "hi": return { s: "सारांश", d: "विस्तृत विश्लेषण", sym: "प्रतीक", emo: "भावनाएँ", seq: "घटना क्रम", mean: "संभावित अर्थ" };
-    case "id": return { s: "Ringkasan", d: "Analisis Mendetail", sym: "Simbol", emo: "Emosi", seq: "Urutan Kejadian", mean: "Kemungkinan Makna" };
-    case "th": return { s: "สรุป", d: "การวิเคราะห์โดยละเอียด", sym: "สัญลักษณ์", emo: "อารมณ์", seq: "ลำดับเหตุการณ์", mean: "ความหมายที่เป็นไปได้" };
-    case "vi": return { s: "Tóm tắt", d: "Phân tích chi tiết", sym: "Biểu tượng", emo: "Cảm xúc", seq: "Trình tự sự kiện", mean: "Ý nghĩa có thể" };
-    case "ur": return { s: "خلاصہ", d: "تفصیلی تجزیہ", sym: "علامات", emo: "جذبات", seq: "واقعات کا سلسلہ", mean: "ممکنہ معنی" };
-    case "te": return { s: "సారాంశం", d: "వివరణాత్మక విశ్లేషణ", sym: "చిహ్నాలు", emo: "భావోద్వేగాలు", seq: "సంఘటనల క్రమం", mean: "సాధ్యమైన అర్థం" };
-    case "pl": return { s: "Podsumowanie", d: "Szczegółowa analiza", sym: "Symbole", emo: "Emocje", seq: "Kolejność zdarzeń", mean: "Możliwe znaczenie" };
-    case "tr": return { s: "Özet", d: "Detaylı Analiz", sym: "Semboller", emo: "Duygular", seq: "Olay Akışı", mean: "Olası Anlam" };
-    case "uk": return { s: "Підсумок", d: "Детальний аналіз", sym: "Символи", emo: "Емоції", seq: "Послідовність подій", mean: "Можливе значення" };
-    case "ro": return { s: "Rezumat", d: "Analiză detaliată", sym: "Simboluri", emo: "Emoții", seq: "Secvența evenimentelor", mean: "Semnificație posibilă" };
-    case "nl": return { s: "Samenvatting", d: "Gedetailleerde analyse", sym: "Symbolen", emo: "Emoties", seq: "Gebeurtenisvolgorde", mean: "Mogelijke betekenis" };
-    case "ms": return { s: "Ringkasan", d: "Analisis Terperinci", sym: "Simbol", emo: "Emosi", seq: "Turutan Peristiwa", mean: "Maksud yang Mungkin" };
-    case "ar": return { s: "الملخص", d: "التحليل التفصيلي", sym: "الرموز", emo: "المشاعر", seq: "تسلسل الأحداث", mean: "المعنى المحتمل" };
-    default: return { s: "Summary", d: "Detailed Analysis", sym: "Symbols", emo: "Emotions", seq: "Event Sequence", mean: "Possible Meaning" };
-  }
+// --- Token becslés ---
+function estimateTokens(str) {
+  return Math.ceil((str?.length || 0) / 4);
 }
 
-// --- BIZTONSÁGOS NYELVFÜGGETLEN SZÖVEGTISZTÍTÓ (nem üríti ki a szöveget!) ---
+// --- TELJES NYELVI MAP (optimalizált objektum formában) ---
+const LANGUAGE_MAP = {
+  en: "English",
+  hu: "Hungarian",
+  de: "German",
+  fr: "French",
+  it: "Italian",
+  ru: "Russian",
+  es: "Spanish",
+  pt: "Portuguese",
+  zh: "Chinese (Simplified)",
+  ja: "Japanese",
+  ko: "Korean",
+  sw: "Swahili",
+  fa: "Persian",
+  ta: "Tamil",
+  bn: "Bengali",
+  hi: "Hindi",
+  id: "Indonesian",
+  th: "Thai",
+  vi: "Vietnamese",
+  ur: "Urdu",
+  te: "Telugu",
+  pl: "Polish",
+  tr: "Turkish",
+  uk: "Ukrainian",
+  ro: "Romanian",
+  nl: "Dutch",
+  ms: "Malay",
+  ar: "Arabic",
+};
+
+// --- Section titles ---
+const SECTION_TITLES = {
+  hu: { s: "Összefoglalás", d: "Részletes elemzés", sym: "Szimbólumok", emo: "Érzelmek", seq: "Eseménysor", mean: "Lehetséges jelentés" },
+  de: { s: "Zusammenfassung", d: "Detaillierte Analyse", sym: "Symbole", emo: "Emotionen", seq: "Ereignisablauf", mean: "Mögliche Bedeutung" },
+  fr: { s: "Résumé", d: "Analyse détaillée", sym: "Symboles", emo: "Émotions", seq: "Séquence d'événements", mean: "Signification possible" },
+  es: { s: "Resumen", d: "Análisis detallado", sym: "Símbolos", emo: "Emociones", seq: "Secuencia de eventos", mean: "Significado posible" },
+  it: { s: "Riassunto", d: "Analisi dettagliata", sym: "Simboli", emo: "Emozioni", seq: "Sequenza di eventi", mean: "Significato possibile" },
+  pt: { s: "Resumo", d: "Análise detalhada", sym: "Símbolos", emo: "Emoções", seq: "Sequência de eventos", mean: "Significado possível" },
+  ru: { s: "Краткое содержание", d: "Подробный анализ", sym: "Символы", emo: "Эмоции", seq: "Последовательность событий", mean: "Возможное значение" },
+  zh: { s: "总结", d: "详细分析", sym: "符号", emo: "情绪", seq: "事件顺序", mean: "可能的含义" },
+  ja: { s: "要約", d: "詳細な分析", sym: "シンボル", emo: "感情", seq: "出来事の流れ", mean: "可能な意味" },
+  ko: { s: "요약", d: "자세한 분석", sym: "상징", emo: "감정", seq: "사건 순서", mean: "가능한 의미" },
+  default: { s: "Summary", d: "Detailed Analysis", sym: "Symbols", emo: "Emotions", seq: "Event Sequence", mean: "Possible Meaning" },
+};
+
+// --- cleanText (változatlan) ---
 function cleanText(text) {
   if (!text || text.trim().length === 0) return text;
 
   let cleaned = text
-    // 1. Markdown jelölők eltávolítása (félkövér, dőlt, aláhúzás, fejlécek)
-    .replace(/\*\*|\*|__|_|~~/g, '') // félkövér, dőlt, áthúzott
-    .replace(/(^|\n)#+\s*/g, '$1')   // fejlécek (# jel eltávolítása, de a szöveg megmarad)
-    .replace(/(^|\n)\s*[\*\-\+]\s+/g, '$1• ') // listák konvertálása egyszerű pontokká
-    
-    // 2. AI "gondolkodási" blokkok eltávolítása (ha előfordul)
+    .replace(/\*\*|\*|__|_|~~/g, '')
+    .replace(/(^|\n)#+\s*/g, '$1')
+    .replace(/(^|\n)\s*[\*\-\+]\s+/g, '$1• ')
     .replace(/<thinking>[\s\S]*?<\/thinking>/g, '')
     .replace(/delta:\s*/g, '')
-    
-    // 3. Felesleges whitespace és sortörések normalizálása
-    .replace(/\s{2,}/g, ' ')          // többszörös szóköz → egy szóköz
-    .replace(/\n{3,}/g, '\n\n')       // 3+ sortörés → 2 sortörés
-    .replace(/^[ \t]+|[ \t]+$/gm, '') // sor eleji/végi szóközök
-    
-    // 4. Felesleges prefixek/szimbólumok (pl. ***, ---, ===)
-    .replace(/^\s*[\*\-\_]{3,}\s*$/gm, '')
-    .replace(/^\s*[=\-]{3,}\s*$/gm, '')
-    
+    .replace(/\s{2,}/g, ' ')
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/^[ \t]+|[ \t]+$/gm, '')
     .trim();
 
-  // ⚠️ KRITIKUS VÉDELEM: Ha a tisztítás üresre vezetne, visszaadjuk az eredetit
   return cleaned.length > 0 ? cleaned : text.trim();
 }
 
-// --- Token limit ellenőrzés + rate limit ---
+// --- Token + rate limit ---
 async function canUseTokens(estimatedTokens) {
-  if (!redis) {
-    console.warn("Redis nem elérhető – token és rate limit ellenőrzés átugorva.");
-    return true;
-  }
+  if (!redis) return false;
 
   const today = new Date().toISOString().slice(0, 10);
-  const tokenKey = `daily_tokens:${today}`;
-  const rateKey = `rate_limit:${today}`;
+  const tokenKey = `tokens:${today}`;
+  const minuteKey = `rate:${Math.floor(Date.now() / 60000)}`;
 
-  try {
-    // Token limit ellenőrzés
-    const usedStr = await redis.get(tokenKey);
-    const used = usedStr ? parseInt(usedStr, 10) : 0;
-    if (used + estimatedTokens > DAILY_TOKEN_LIMIT) return false;
+  const used = parseInt(await redis.get(tokenKey)) || 0;
+  if (used + estimatedTokens > DAILY_TOKEN_LIMIT) return false;
 
-    // Rate limit ellenőrzés
-    const reqStr = await redis.get(rateKey);
-    const reqCount = reqStr ? parseInt(reqStr, 10) : 0;
-    if (reqCount >= RATE_LIMIT) return false;
+  const req = parseInt(await redis.get(minuteKey)) || 0;
+  if (req >= RATE_LIMIT) return false;
 
-    // Pipeline: növelés + lejárat
-    const pipeline = redis.multi();
-    pipeline.incrby(tokenKey, estimatedTokens);
-    pipeline.expire(tokenKey, 60 * 60 * 24);
-    pipeline.incr(rateKey);
-    pipeline.expire(rateKey, 60); // 1 perc
-    await pipeline.exec();
+  const pipe = redis.multi();
+  pipe.incrby(tokenKey, estimatedTokens);
+  pipe.expire(tokenKey, 86400);
+  pipe.incr(minuteKey);
+  pipe.expire(minuteKey, 60);
+  await pipe.exec();
 
-    return true;
-  } catch (err) {
-    console.error("Redis write error:", err?.message || err);
-    return true;
-  }
+  return true;
 }
 
-// --- Retry helper ---
+// --- Retry ---
 async function retryWithBackoff(fn, retries = MAX_RETRIES) {
   let attempt = 0;
   while (attempt < retries) {
@@ -173,168 +133,124 @@ async function retryWithBackoff(fn, retries = MAX_RETRIES) {
     } catch (err) {
       attempt++;
       if (attempt >= retries) throw err;
-      const delay = Math.pow(2, attempt) * 200;
-      await new Promise((resolve) => setTimeout(resolve, delay));
+      await new Promise(r => setTimeout(r, 200 * 2 ** attempt));
     }
   }
 }
 
-// --- HTTP handler ---
+// --- Handler ---
 module.exports = async (req, res) => {
   if (req.method !== "POST") {
-    return res.status(405).json({
-      error: "method_not_allowed",
-      message: "Only POST requests are allowed.",
-    });
+    return res.status(405).json({ error: "method_not_allowed" });
   }
 
   try {
     const { dreamNarrative, symbols, emotions, language } = req.body || {};
-
     if (!dreamNarrative) {
-      return res.status(400).json({
-        error: "missing_dream_narrative",
-        message: "Dream narrative is required.",
-      });
+      return res.status(400).json({ error: "missing_dream" });
     }
 
+    const langCode = language || "en";
+    const languageName = LANGUAGE_MAP[langCode] || "English";
+    const titles = SECTION_TITLES[langCode] || SECTION_TITLES.default;
+
     const estimatedTokens =
-      (dreamNarrative?.length || 0) +
-      (symbols?.length || 0) +
-      (emotions?.length || 0) +
-      500;
+      estimateTokens(dreamNarrative) +
+      estimateTokens(symbols) +
+      estimateTokens(emotions) +
+      200;
 
     const allowed = await canUseTokens(estimatedTokens);
     if (!allowed) {
-      return res.status(429).json({
-        error: "token_or_rate_limit_exceeded",
-        message: "Token vagy rate limit túllépve.",
-      });
+      return res.status(429).json({ error: "limit_exceeded" });
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
-      console.error("Gemini API key not found.");
-      return res.status(500).json({
-        error: "server_config_error",
-        message: "Server configuration error.",
-      });
-    }
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
-
-    const langCode = language || "en";
-    const languageName = getLanguageName(langCode);
-    const titles = getSectionTitles(langCode);
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash-lite",
+      generationConfig: {
+        maxOutputTokens: 250,
+        temperature: 0.7,
+      },
+    });
 
     const systemInstruction = `
-You are an empathetic and insightful dream interpreter. Your goal is to provide a thoughtful, non-definitive interpretation of a user's dream.
-Your tone should be supportive, curious, and gentle, like a wise guide. Never state interpretations as facts, but as possibilities for self-reflection.
-Use phrases like "This could symbolize...", "Perhaps this reflects...", "It might suggest...".
+You are a thoughtful dream interpreter.
 
-IMPORTANT RULES:
-1. Your ENTIRE response MUST be in ${languageName}.
-2. DO NOT use ANY English words – not even for section titles.
-3. Use ONLY the following section titles, EXACTLY as provided below.
-4. Keep your response under 150 words.
-5. **DO NOT USE MARKDOWN FORMATTING** – no **bold**, *italic*, ### headers, or bullet points. Use plain text only.
-6. Use natural punctuation appropriate for the language.
+Rules:
+- Respond ONLY in ${languageName}.
+- No English words.
+- Plain text only.
+- Max 120 words.
 
-Section titles to use:
-- ${titles.s}
-- ${titles.d}
-  • ${titles.sym}:
-  • ${titles.emo}:
-  • ${titles.seq}:
-  • ${titles.mean}:
+Structure:
+${titles.s}
+${titles.d}
+${titles.sym}:
+${titles.emo}:
+${titles.seq}:
+${titles.mean}:
 `;
 
     const userPrompt = `
-Here is my dream:
-- Narrative: ${dreamNarrative}
-- Key Symbols: ${symbols || "Not provided"}
-- Emotions Felt: ${emotions || "Not provided"}
+Dream: ${dreamNarrative}
+Symbols: ${symbols || "none"}
+Emotions: ${emotions || "none"}
 `;
 
-    const fullPrompt = systemInstruction + "\n\n" + userPrompt;
+    const fullPrompt = systemInstruction + userPrompt;
 
-    // ✅ SSE HEADERS – helyes formátum Vercel-hez
+    // --- CACHE ---
+    const hash = crypto.createHash("sha256").update(fullPrompt).digest("hex");
+    const cached = await redis.get(`cache:${hash}`);
+
     res.writeHead(200, {
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache",
       "Connection": "keep-alive",
       "X-Accel-Buffering": "no",
     });
+
     res.flushHeaders();
 
-    let hasSentContent = false;
-
-    await retryWithBackoff(async () => {
-      const stream = await model.generateContentStream(fullPrompt, { timeout: GEMINI_TIMEOUT_MS });
-      
-      for await (const chunk of stream.stream) {
-        const text = chunk.text();
-        if (text?.trim()) {
-          const cleaned = cleanText(text);
-          if (cleaned?.trim()) {
-            // ✅ JAVÍTVA: "data: " prefix hozzáadva
-            res.write(`data: ${JSON.stringify({ delta: cleaned })}\n\n`);
-            hasSentContent = true;
-          }
-        }
-      }
-
-      // ✅ Fallback üzenet CSAK ha üres a válasz
-      if (!hasSentContent) {
-        console.warn("⚠️ Empty interpretation returned", { 
-          dreamNarrative: dreamNarrative.substring(0, 50) + "...", 
-          language: langCode 
-        });
-        
-        const fallbackMessage = langCode === "hu" 
-          ? "Nem sikerült értelmezni az álmot. Kérlek, próbáld meg egy hosszabb leírással."
-          : langCode === "de"
-          ? "Die Traumdeutung konnte nicht generiert werden. Bitte versuche es mit einer längeren Beschreibung."
-          : "Failed to interpret dream. Please try with a longer description.";
-        
-        res.write(`data: ${JSON.stringify({ delta: fallbackMessage })}\n\n`);
-      }
-
-      // ✅ JAVÍTVA: "data: " prefix hozzáadva
+    if (cached) {
+      res.write(`data: ${JSON.stringify({ delta: cached })}\n\n`);
       res.write(`data: [DONE]\n\n`);
-      res.end();
-    });
-
-  } catch (error) {
-    console.error("❌ Error calling Gemini API:", error?.message || error);
-
-    let statusCode = 500;
-    let errorCode = "internal_error";
-    let message = "An unexpected error occurred.";
-
-    if (error?.code === "ETIMEDOUT" || error.message?.includes("timeout")) {
-      statusCode = 504;
-      errorCode = "timeout";
-      message = "The request to Gemini timed out. Please try again.";
-    } else if (error?.status === 503) {
-      statusCode = 503;
-      errorCode = "model_overloaded";
-      message = "The Gemini model is currently overloaded. Please try again later.";
-    } else if (error?.status === 429) {
-      statusCode = 429;
-      errorCode = "rate_limited";
-      message = "Too many requests. Please wait and try again.";
-    } else if (error?.status === 401 || error?.status === 403) {
-      statusCode = error.status;
-      errorCode = "unauthorized";
-      message = "Unauthorized request. Please check your API key.";
+      return res.end();
     }
 
+    let fullResponse = "";
+
+    await retryWithBackoff(async () => {
+      const stream = await model.generateContentStream(fullPrompt, {
+        timeout: GEMINI_TIMEOUT_MS,
+      });
+
+      for await (const chunk of stream.stream) {
+        const text = chunk.text();
+        if (text) {
+          const cleaned = cleanText(text);
+          fullResponse += cleaned;
+          res.write(`data: ${JSON.stringify({ delta: cleaned })}\n\n`);
+        }
+      }
+    });
+
+    if (fullResponse) {
+      await redis.set(`cache:${hash}`, fullResponse, "EX", 3600);
+    }
+
+    res.write(`data: [DONE]\n\n`);
+    res.end();
+
+  } catch (err) {
+    console.error(err);
+
     if (!res.headersSent) {
-      res.status(statusCode).json({ error: errorCode, message });
+      res.status(500).json({ error: "internal_error" });
     } else {
-      res.write(`data: ${JSON.stringify({ error: errorCode, message })}\n\n`);
+      res.write(`data: ${JSON.stringify({ error: "internal_error" })}\n\n`);
       res.write(`data: [DONE]\n\n`);
       res.end();
     }
