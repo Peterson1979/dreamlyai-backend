@@ -3,7 +3,7 @@ const Redis = require("ioredis");
 const crypto = require("crypto");
 
 // --- Beállítások ---
-const DAILY_TOKEN_LIMIT = 500_000;
+const DAILY_TOKEN_LIMIT = 10_000_000;
 const GEMINI_TIMEOUT_MS = 25000;
 const MAX_RETRIES = 3;
 const RATE_LIMIT = 20;
@@ -82,7 +82,7 @@ const SECTION_TITLES = {
   default: { s: "Summary", d: "Detailed Analysis", sym: "Symbols", emo: "Emotions", seq: "Event Sequence", mean: "Possible Meaning" },
 };
 
-// --- cleanText (változatlan) ---
+// --- cleanText ---
 function cleanText(text) {
   if (!text || text.trim().length === 0) return text;
 
@@ -170,7 +170,7 @@ module.exports = async (req, res) => {
     const model = genAI.getGenerativeModel({
       model: "gemini-2.5-flash-lite",
       generationConfig: {
-        maxOutputTokens: 250,
+        maxOutputTokens: 600,
         temperature: 0.7,
       },
     });
@@ -182,15 +182,15 @@ Rules:
 - Respond ONLY in ${languageName}.
 - No English words.
 - Plain text only.
-- Max 120 words.
+- Max 220 words. Always finish every sentence completely. Never cut off mid-sentence.
 
-Structure:
+Structure (use these exact section titles, each on its own line):
 ${titles.s}
 ${titles.d}
-${titles.sym}:
-${titles.emo}:
-${titles.seq}:
-${titles.mean}:
+${titles.sym}: ...
+${titles.emo}: ...
+${titles.seq}: ...
+${titles.mean}: ...
 `;
 
     const userPrompt = `
