@@ -183,7 +183,7 @@ describe("Unit Tests - DreamlyAI Backend Phase 3C.2", () => {
   });
 
   describe("3. Prompt Construction", () => {
-    it("builds clean single prompt with natural translated headings and no contradiction", () => {
+    it("builds concise single prompt with 150-180 word target, section budgets, and non-repetition rules", () => {
       const prompt = buildInterpretationPrompt({
         dreamNarrative: "Walking in a pine forest.",
         symbols: "trees, wind",
@@ -192,11 +192,18 @@ describe("Unit Tests - DreamlyAI Backend Phase 3C.2", () => {
       });
 
       assert.ok(prompt.includes("Respond entirely in German."));
+      assert.ok(prompt.includes("Target a total length of 150-180 words."));
+      assert.ok(prompt.includes("1. Summary (20-25 words"));
+      assert.ok(prompt.includes("2. Detailed Analysis (40-50 words"));
+      assert.ok(prompt.includes("3. Symbols (20-25 words"));
+      assert.ok(prompt.includes("4. Emotions (15-20 words"));
+      assert.ok(prompt.includes("5. Event Sequence (15-20 words"));
+      assert.ok(prompt.includes("6. Possible Meaning (30-40 words"));
+      assert.ok(prompt.includes("Do not repeat interpretations across sections"));
+      assert.ok(prompt.includes("natural headings translated into German"));
       assert.ok(prompt.includes("Dream: Walking in a pine forest."));
       assert.ok(prompt.includes("Symbols: trees, wind"));
       assert.ok(prompt.includes("Emotions: peace"));
-      assert.ok(prompt.includes("160-190 words"));
-      assert.ok(!prompt.includes("No English words"));
     });
   });
 
