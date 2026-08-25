@@ -1,38 +1,64 @@
 // api/report.js
-export default async function handler(req, res) {
-  console.log("Report API called:", { method: req.method, body: req.body });
 
+// Allowed known reason codes
+const KNOWN_REASONS = new Set([
+  "inappropriate",
+  "inaccurate",
+  "offensive",
+  "bug",
+  "poor_quality",
+  "other",
+]);
+
+function sanitizeReason(rawReason) {
+  if (!rawReason || typeof rawReason !== "string") {
+    return "unknown";
+  }
+  const clean = rawReason.trim().toLowerCase();
+  if (KNOWN_REASONS.has(clean)) {
+    return clean;
+  }
+  // If it's a short alphanumeric token, keep it; otherwise categorize as custom_reason
+  if (/^[a-z0-9_-]{1,30}$/.test(clean)) {
+    return clean;
+  }
+  return "custom_reason";
+}
+
+module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
-    console.warn("Method not allowed:", req.method);
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
-    const { dreamId, reason, content } = req.body;
+    const { dreamId, reason } = req.body || {};
 
     if (!dreamId || !reason) {
-      console.warn("Missing required fields:", req.body);
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    // Új report objektum létrehozása
+    const safeReason = sanitizeReason(reason);
+    const safeDreamId = String(dreamId).replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 64) || "unknown_id";
+
+    // Create report record with sanitized metadata (content is never logged for privacy)
     const newReport = {
       id: Date.now(),
-      dreamId,
-      reason,
-      content: content || null,
+      dreamId: safeDreamId,
+      reason: safeReason,
       createdAt: new Date().toISOString(),
     };
 
-    // Logoljuk a reportot
-    console.log("Report submitted successfully:", newReport);
-
-    // Ha később Redis vagy más adatbázisba akarod menteni, ide kell majd az insert
-    // Például: await redis.lpush('reports', JSON.stringify(newReport));
+    // Log strictly sanitized operational metadata (NEVER log user dream text, content, or free-form comments)
+    console.log("Report submitted successfully:", {
+      id: newReport.id,
+      dreamId: newReport.dreamId,
+      reason: newReport.reason,
+      createdAt: newReport.createdAt,
+    });
 
     return res.status(200).json({ success: true, report: newReport });
   } catch (err) {
-    console.error("Report API error:", err);
-    return res.status(500).json({ error: "Internal Server Error", message: err?.message || null });
+    console.error("Report API error:", err?.message || err);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
-}
+};
