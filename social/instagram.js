@@ -14,6 +14,7 @@ const {
 } = require("./instagramConfig");
 const { validateManifest } = require("./manifest");
 const { buildPlatformCaptions } = require("./captions");
+const { logMetaDiagnostic } = require("./metaDiagnostic");
 
 const ERROR_CLASSIFICATION = Object.freeze({
   DEFINITIVE_FAILURE: "DEFINITIVE_FAILURE",
@@ -87,6 +88,13 @@ async function executeGraphRequest(fetchImpl, url, options = {}) {
           error_subcode: data.error.error_subcode
         }
       : undefined;
+
+    logMetaDiagnostic({
+      provider: "instagram",
+      operation: "graph_request",
+      status: response.status,
+      graphError
+    });
 
     throw new InstagramProviderError(
       `Graph API request failed (HTTP ${response.status}): ${
@@ -492,6 +500,11 @@ async function publishInstagramCarousel({
   try {
     publishData = await publishResponse.json();
   } catch (parseErr) {
+    logMetaDiagnostic({
+      provider: "instagram",
+      operation: "media_publish",
+      status: publishResponse.status
+    });
     throw new InstagramProviderError(
       `Instagram media_publish returned unparseable JSON (HTTP ${publishResponse.status})`,
       {
@@ -512,6 +525,13 @@ async function publishInstagramCarousel({
           error_subcode: publishData.error.error_subcode
         }
       : undefined;
+
+    logMetaDiagnostic({
+      provider: "instagram",
+      operation: "media_publish",
+      status: publishResponse.status,
+      graphError
+    });
 
     throw new InstagramProviderError(
       `Instagram media_publish failed (HTTP ${publishResponse.status}): ${

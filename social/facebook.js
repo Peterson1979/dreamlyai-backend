@@ -11,6 +11,7 @@ const {
 } = require("./facebookConfig");
 const { validateManifest } = require("./manifest");
 const { buildPlatformCaptions } = require("./captions");
+const { logMetaDiagnostic } = require("./metaDiagnostic");
 
 const ERROR_CLASSIFICATION = Object.freeze({
   DEFINITIVE_FAILURE: "DEFINITIVE_FAILURE",
@@ -82,6 +83,13 @@ async function executeGraphRequest(fetchImpl, url, options = {}) {
           error_subcode: data.error.error_subcode
         }
       : undefined;
+
+    logMetaDiagnostic({
+      provider: "facebook",
+      operation: "graph_request",
+      status: response.status,
+      graphError
+    });
 
     throw new FacebookProviderError(
       `Graph API request failed (HTTP ${response.status}): ${
@@ -282,6 +290,11 @@ async function publishFacebookCarousel({
   try {
     feedData = await feedResponse.json();
   } catch (parseErr) {
+    logMetaDiagnostic({
+      provider: "facebook",
+      operation: "feed_publish",
+      status: feedResponse.status
+    });
     throw new FacebookProviderError(
       `Facebook feed endpoint returned invalid JSON (HTTP ${feedResponse.status})`,
       {
@@ -301,6 +314,13 @@ async function publishFacebookCarousel({
           error_subcode: feedData.error.error_subcode
         }
       : undefined;
+
+    logMetaDiagnostic({
+      provider: "facebook",
+      operation: "feed_publish",
+      status: feedResponse.status,
+      graphError
+    });
 
     throw new FacebookProviderError(
       `Facebook feed publishing failed (HTTP ${feedResponse.status}): ${
