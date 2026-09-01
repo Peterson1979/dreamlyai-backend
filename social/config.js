@@ -1,0 +1,51 @@
+/**
+ * Social Content Configuration for DreamlyAI
+ *
+ * Defines deterministic, immutable constants for social content generation.
+ */
+
+const SOCIAL_SCHEMA_VERSION = 1;
+const SLIDE_COUNT = 5;
+
+const SLIDE_ROLES = Object.freeze([
+  "cover",
+  "content",
+  "content",
+  "content",
+  "cta"
+]);
+
+const SUPPORTED_PLATFORMS = Object.freeze([
+  "facebook",
+  "instagram"
+]);
+
+const GOOGLE_PLAY_URL = "https://play.google.com/store/apps/details?id=com.oberon.dreamlyai";
+
+const TEXT_LIMITS = Object.freeze({
+  COVER_HEADLINE_MAX: 70,
+  COVER_SUBHEADLINE_MAX: 120,
+  CONTENT_TITLE_MAX: 70,
+  CONTENT_BODY_MAX: 280,
+  CTA_HEADLINE_MAX: 70,
+  CTA_BODY_MAX: 180,
+  INSTAGRAM_CAPTION_MAX: 1800,
+  FACEBOOK_CAPTION_MAX: 1800
+});
+
+module.exports = {
+  SOCIAL_SCHEMA_VERSION,
+  SLIDE_COUNT,
+  SLIDE_ROLES,
+  SUPPORTED_PLATFORMS,
+  GOOGLE_PLAY_URL,
+  TEXT_LIMITS,
+  COVER_HEADLINE_MAX: TEXT_LIMITS.COVER_HEADLINE_MAX,
+  COVER_SUBHEADLINE_MAX: TEXT_LIMITS.COVER_SUBHEADLINE_MAX,
+  CONTENT_TITLE_MAX: TEXT_LIMITS.CONTENT_TITLE_MAX,
+  CONTENT_BODY_MAX: TEXT_LIMITS.CONTENT_BODY_MAX,
+  CTA_HEADLINE_MAX: TEXT_LIMITS.CTA_HEADLINE_MAX,
+  CTA_BODY_MAX: TEXT_LIMITS.CTA_BODY_MAX,
+  INSTAGRAM_CAPTION_MAX: TEXT_LIMITS.INSTAGRAM_CAPTION_MAX,
+  FACEBOOK_CAPTION_MAX: TEXT_LIMITS.FACEBOOK_CAPTION_MAX
+};
