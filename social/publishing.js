@@ -24,16 +24,17 @@ const {
 } = require("./qualityGate");
 const {
   ERROR_CLASSIFICATION: FB_ERROR_CLASSIFICATION,
-  FacebookProviderError,
   publishFacebookCarousel
 } = require("./facebook");
 const {
   ERROR_CLASSIFICATION: IG_ERROR_CLASSIFICATION,
-  InstagramProviderError,
   publishInstagramCarousel
 } = require("./instagram");
 
-const SUPPORTED_PUBLISH_PLATFORMS = Object.freeze(["facebook", "instagram"]);
+const SUPPORTED_PUBLISH_PLATFORMS = Object.freeze([
+  "facebook",
+  "instagram"
+]);
 
 const PUBLISHING_ERROR_CODES = Object.freeze({
   INVALID_PUBLISH_INPUT: "INVALID_PUBLISH_INPUT",
@@ -52,10 +53,13 @@ class SocialPublishingError extends Error {
   constructor(message, { code, originalCode, cause } = {}) {
     super(message);
     this.name = "SocialPublishingError";
-    this.code = code || PUBLISHING_ERROR_CODES.PUBLICATION_STATE_FAILURE;
+    this.code =
+      code || PUBLISHING_ERROR_CODES.PUBLICATION_STATE_FAILURE;
+
     if (originalCode) {
       this.originalCode = originalCode;
     }
+
     if (cause) {
       this.cause = cause;
     }
@@ -77,57 +81,78 @@ function validatePublishInputs({
   if (!isValidDateString(publishDate)) {
     throw new SocialPublishingError(
       `Invalid publishDate: expected strict YYYY-MM-DD format, received '${publishDate}'`,
-      { code: PUBLISHING_ERROR_CODES.INVALID_PUBLISH_INPUT }
+      {
+        code: PUBLISHING_ERROR_CODES.INVALID_PUBLISH_INPUT
+      }
     );
   }
 
-  if (typeof platform !== "string" || !SUPPORTED_PUBLISH_PLATFORMS.includes(platform)) {
+  if (
+    typeof platform !== "string" ||
+    !SUPPORTED_PUBLISH_PLATFORMS.includes(platform)
+  ) {
     throw new SocialPublishingError(
       `Invalid platform: '${platform}'. Must be one of: ${SUPPORTED_PUBLISH_PLATFORMS.join(", ")}`,
-      { code: PUBLISHING_ERROR_CODES.INVALID_PUBLISH_INPUT }
+      {
+        code: PUBLISHING_ERROR_CODES.INVALID_PUBLISH_INPUT
+      }
     );
   }
 
-  if (typeof leaseId !== "string" || leaseId.trim().length === 0) {
+  if (
+    typeof leaseId !== "string" ||
+    leaseId.trim().length === 0
+  ) {
     throw new SocialPublishingError(
       "Invalid leaseId: must be a non-empty string",
-      { code: PUBLISHING_ERROR_CODES.INVALID_PUBLISH_INPUT }
+      {
+        code: PUBLISHING_ERROR_CODES.INVALID_PUBLISH_INPUT
+      }
     );
   }
 
   if (!redis || typeof redis !== "object") {
     throw new SocialPublishingError(
       "Invalid redis: must be an injected Redis client object",
-      { code: PUBLISHING_ERROR_CODES.INVALID_PUBLISH_INPUT }
+      {
+        code: PUBLISHING_ERROR_CODES.INVALID_PUBLISH_INPUT
+      }
     );
   }
 
   if (typeof fetchImpl !== "function") {
     throw new SocialPublishingError(
       "Invalid fetchImpl: must be a fetch function",
-      { code: PUBLISHING_ERROR_CODES.INVALID_PUBLISH_INPUT }
+      {
+        code: PUBLISHING_ERROR_CODES.INVALID_PUBLISH_INPUT
+      }
     );
   }
 
-  if (platform === "facebook") {
-    if (!facebookConfig || typeof facebookConfig !== "object") {
-      throw new SocialPublishingError(
-        "Invalid facebookConfig: must be an injected config object for Facebook publishing",
-        { code: PUBLISHING_ERROR_CODES.INVALID_PUBLISH_INPUT }
-      );
-    }
+  if (
+    platform === "facebook" &&
+    (!facebookConfig || typeof facebookConfig !== "object")
+  ) {
+    throw new SocialPublishingError(
+      "Invalid facebookConfig: must be an injected config object for Facebook publishing",
+      {
+        code: PUBLISHING_ERROR_CODES.INVALID_PUBLISH_INPUT
+      }
+    );
   }
 
-  if (platform === "instagram") {
-    if (!instagramConfig || typeof instagramConfig !== "object") {
-      throw new SocialPublishingError(
-        "Invalid instagramConfig: must be an injected config object for Instagram publishing",
-        { code: PUBLISHING_ERROR_CODES.INVALID_PUBLISH_INPUT }
-      );
-    }
+  if (
+    platform === "instagram" &&
+    (!instagramConfig || typeof instagramConfig !== "object")
+  ) {
+    throw new SocialPublishingError(
+      "Invalid instagramConfig: must be an injected config object for Instagram publishing",
+      {
+        code: PUBLISHING_ERROR_CODES.INVALID_PUBLISH_INPUT
+      }
+    );
   }
 }
-
 /**
  * Publishes daily social carousel content for a single platform.
  *
@@ -156,7 +181,6 @@ async function publishSocialPlatform({
   instagramMaxPollAttempts,
   instagramPollIntervalMs
 } = {}) {
-  // 1. Validate orchestration inputs
   validatePublishInputs({
     publishDate,
     platform,
@@ -169,11 +193,14 @@ async function publishSocialPlatform({
 
   const contentId = `social-${publishDate}`;
 
-  // 2. Preparation Precondition: require PREPARED state
   let prepState = null;
+
   try {
-    prepState = await getPreparationState({ redis, publishDate });
-  } catch (prepErr) {
+    prepState = await getPreparationState({
+      redis,
+      publishDate
+    });
+  } catch (_) {
     return {
       success: false,
       status: "BLOCKED",
@@ -199,11 +226,14 @@ async function publishSocialPlatform({
     };
   }
 
-  // 3. Manifest Precondition: require valid manifest with matching identity
   let manifest = null;
+
   try {
-    manifest = await getManifest({ redis, publishDate });
-  } catch (manErr) {
+    manifest = await getManifest({
+      redis,
+      publishDate
+    });
+  } catch (_) {
     return {
       success: false,
       status: "BLOCKED",
@@ -230,6 +260,7 @@ async function publishSocialPlatform({
   }
 
   const manifestValidation = validateManifest(manifest);
+
   if (!manifestValidation.valid) {
     return {
       success: false,
@@ -241,11 +272,14 @@ async function publishSocialPlatform({
     };
   }
 
-  // 4. Quality Gate Precondition: require exact PASS bound to manifest
   let qualityState = null;
+
   try {
-    qualityState = await getQualityGateState({ redis, publishDate });
-  } catch (qErr) {
+    qualityState = await getQualityGateState({
+      redis,
+      publishDate
+    });
+  } catch (_) {
     return {
       success: false,
       status: "BLOCKED",
@@ -257,8 +291,11 @@ async function publishSocialPlatform({
   }
 
   try {
-    assertQualityGatePass({ qualityState, manifest });
-  } catch (authErr) {
+    assertQualityGatePass({
+      qualityState,
+      manifest
+    });
+  } catch (_) {
     return {
       success: false,
       status: "BLOCKED",
@@ -269,8 +306,8 @@ async function publishSocialPlatform({
     };
   }
 
-  // 5. Claim publication lease for target platform
   let claimResult;
+
   try {
     claimResult = await claimPublication({
       redis,
@@ -279,10 +316,13 @@ async function publishSocialPlatform({
       platform,
       leaseId
     });
-  } catch (claimErr) {
+  } catch (err) {
     throw new SocialPublishingError(
-      `Failed to claim publication lease for date '${publishDate}', platform '${platform}': ${claimErr.message}`,
-      { code: PUBLISHING_ERROR_CODES.PUBLICATION_STATE_FAILURE, cause: claimErr }
+      `Failed to claim publication lease for date '${publishDate}', platform '${platform}': ${err.message}`,
+      {
+        code: PUBLISHING_ERROR_CODES.PUBLICATION_STATE_FAILURE,
+        cause: err
+      }
     );
   }
 
@@ -329,9 +369,9 @@ async function publishSocialPlatform({
   let leaseAcquired = true;
 
   try {
-    // 6. Invoke target provider adapter
     if (platform === "facebook") {
       let fbResult;
+
       try {
         fbResult = await publishFacebookCarousel({
           manifest,
@@ -339,7 +379,10 @@ async function publishSocialPlatform({
           config: facebookConfig
         });
       } catch (providerErr) {
-        if (providerErr.classification === FB_ERROR_CLASSIFICATION.AMBIGUOUS_FINAL_PUBLISH) {
+        if (
+          providerErr.classification ===
+          FB_ERROR_CLASSIFICATION.AMBIGUOUS_FINAL_PUBLISH
+        ) {
           await markPublicationReconciliationRequired({
             redis,
             publishDate,
@@ -347,7 +390,9 @@ async function publishSocialPlatform({
             platform,
             leaseId
           });
+
           leaseAcquired = false;
+
           return {
             success: false,
             status: "RECONCILIATION_REQUIRED",
@@ -357,7 +402,6 @@ async function publishSocialPlatform({
           };
         }
 
-        // Definitive failure
         await markPublicationFailed({
           redis,
           publishDate,
@@ -365,7 +409,9 @@ async function publishSocialPlatform({
           platform,
           leaseId
         });
+
         leaseAcquired = false;
+
         return {
           success: false,
           status: "FAILED",
@@ -391,7 +437,9 @@ async function publishSocialPlatform({
           platform,
           leaseId
         });
+
         leaseAcquired = false;
+
         return {
           success: false,
           status: "FAILED",
@@ -402,7 +450,6 @@ async function publishSocialPlatform({
         };
       }
 
-      // Mark publication as PUBLISHED
       await markPublicationPublished({
         redis,
         publishDate,
@@ -410,6 +457,7 @@ async function publishSocialPlatform({
         platform,
         leaseId
       });
+
       leaseAcquired = false;
 
       return {
@@ -421,9 +469,9 @@ async function publishSocialPlatform({
         providerId: fbResult.postId
       };
     }
-
-    if (platform === "instagram") {
+	    if (platform === "instagram") {
       let igResult;
+
       try {
         igResult = await publishInstagramCarousel({
           manifest,
@@ -434,7 +482,10 @@ async function publishSocialPlatform({
           pollIntervalMs: instagramPollIntervalMs
         });
       } catch (providerErr) {
-        if (providerErr.classification === IG_ERROR_CLASSIFICATION.AMBIGUOUS_FINAL_PUBLISH) {
+        if (
+          providerErr.classification ===
+          IG_ERROR_CLASSIFICATION.AMBIGUOUS_FINAL_PUBLISH
+        ) {
           await markPublicationReconciliationRequired({
             redis,
             publishDate,
@@ -442,7 +493,9 @@ async function publishSocialPlatform({
             platform,
             leaseId
           });
+
           leaseAcquired = false;
+
           return {
             success: false,
             status: "RECONCILIATION_REQUIRED",
@@ -452,7 +505,6 @@ async function publishSocialPlatform({
           };
         }
 
-        // Definitive failure
         await markPublicationFailed({
           redis,
           publishDate,
@@ -460,7 +512,9 @@ async function publishSocialPlatform({
           platform,
           leaseId
         });
+
         leaseAcquired = false;
+
         return {
           success: false,
           status: "FAILED",
@@ -486,7 +540,9 @@ async function publishSocialPlatform({
           platform,
           leaseId
         });
+
         leaseAcquired = false;
+
         return {
           success: false,
           status: "FAILED",
@@ -497,7 +553,6 @@ async function publishSocialPlatform({
         };
       }
 
-      // Mark publication as PUBLISHED
       await markPublicationPublished({
         redis,
         publishDate,
@@ -505,6 +560,7 @@ async function publishSocialPlatform({
         platform,
         leaseId
       });
+
       leaseAcquired = false;
 
       return {
@@ -519,7 +575,9 @@ async function publishSocialPlatform({
 
     throw new SocialPublishingError(
       `Unsupported platform '${platform}'`,
-      { code: PUBLISHING_ERROR_CODES.INVALID_PUBLISH_INPUT }
+      {
+        code: PUBLISHING_ERROR_CODES.INVALID_PUBLISH_INPUT
+      }
     );
   } catch (err) {
     if (leaseAcquired) {
