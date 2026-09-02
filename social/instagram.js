@@ -386,9 +386,10 @@ async function publishInstagramCarousel({
   for (let i = 0; i < manifest.media.length; i++) {
     const item = manifest.media[i];
     const childBody = new URLSearchParams({
-      image_url: item.url,
-      is_carousel_item: "true"
-    });
+  image_url: item.url,
+  media_type: "IMAGE",
+  is_carousel_item: "true"
+});
 
     const childData = await executeGraphRequest(fetchImpl, mediaEndpoint, {
       method: "POST",
