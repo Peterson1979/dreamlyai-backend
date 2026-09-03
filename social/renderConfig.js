@@ -8,8 +8,8 @@ const WIDTH = 1080;
 const HEIGHT = 1350;
 const FORMAT = "jpeg";
 
-const BRAND_NAME = "DreamlyAI";
-const CTA_BUTTON_TEXT = "Understand your dreams";
+const BRAND_NAME = "Dreamly AI";
+const CTA_BUTTON_TEXT = "Download Dreamly AI on Google Play";
 
 const THEME = Object.freeze({
   bgPrimary: "#070913",
@@ -31,24 +31,24 @@ const THEME = Object.freeze({
 });
 
 const TYPOGRAPHY = Object.freeze({
-  fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
+  fontFamily: "Inter",
   brandFontSize: 28,
   brandLetterSpacing: 4,
   slideNumberFontSize: 22,
   
   // Cover slide
-  coverHeadlineFontSize: 56,
+  coverHeadlineFontSize: 62,
   coverHeadlineLineHeight: 74,
-  coverSubheadlineFontSize: 32,
+  coverSubheadlineFontSize: 36,
   coverSubheadlineLineHeight: 48,
   coverMaxCharsPerLine: 28,
   coverMaxHeadlineLines: 4,
   coverMaxSubheadlineLines: 4,
   
   // Content slides
-  contentTitleFontSize: 50,
+  contentTitleFontSize: 56,
   contentTitleLineHeight: 66,
-  contentBodyFontSize: 32,
+  contentBodyFontSize: 36,
   contentBodyLineHeight: 50,
   contentMaxTitleCharsPerLine: 30,
   contentMaxBodyCharsPerLine: 44,
@@ -56,11 +56,11 @@ const TYPOGRAPHY = Object.freeze({
   contentMaxBodyLines: 8,
   
   // CTA slide
-  ctaHeadlineFontSize: 54,
+  ctaHeadlineFontSize: 58,
   ctaHeadlineLineHeight: 72,
-  ctaBodyFontSize: 32,
+  ctaBodyFontSize: 34,
   ctaBodyLineHeight: 50,
-  ctaButtonFontSize: 28,
+  ctaButtonFontSize: 24,
   ctaMaxHeadlineCharsPerLine: 28,
   ctaMaxBodyCharsPerLine: 42,
   ctaMaxHeadlineLines: 3,

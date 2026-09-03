@@ -119,7 +119,10 @@ module.exports = async function socialMediaHandler(req, res) {
   try {
     config = req._injectedR2Config || loadR2Config();
     client = req._injectedR2Client || createR2Client(config);
-
+console.log("R2_FETCH_DEBUG", {
+  bucket: config.bucketName,
+  key
+});
     const result = await client.send(new GetObjectCommand({
       Bucket: config.bucketName,
       Key: key

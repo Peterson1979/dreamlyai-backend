@@ -1,11 +1,19 @@
 /**
- * Deterministic Social Carousel Renderer for DreamlyAI
+ * Deterministic Social Carousel Renderer for Dreamly AI
  *
- * Renders validated social content envelopes into high-contrast 1080x1350 JPEG slide buffers
- * using in-memory SVG generation and Sharp.
+ * Renders validated social content envelopes into 1080x1350 JPEG slide buffers
+ * using fixed carousel background assets, in-memory SVG generation, and Sharp.
  */
 
+const path = require("path");
+const fs = require("fs");
+
+// This must happen before sharp is required so bundled fonts are available.
+const FONT_DIR = path.join(__dirname, "fonts");
+process.env.FONTCONFIG_PATH = FONT_DIR;
+
 const sharp = require("sharp");
+
 const {
   WIDTH,
   HEIGHT,
@@ -16,33 +24,32 @@ const {
   TYPOGRAPHY,
   LAYOUT
 } = require("./renderConfig");
+
 const { validatePreparedContent } = require("./contentSchema");
 
-// Deterministic celestial star coordinates
-const STAR_COORDINATES = Object.freeze([
-  { cx: 120, cy: 190, r: 2.0, o: 0.4 },
-  { cx: 280, cy: 140, r: 1.5, o: 0.3 },
-  { cx: 450, cy: 180, r: 2.5, o: 0.5 },
-  { cx: 620, cy: 130, r: 1.8, o: 0.35 },
-  { cx: 890, cy: 160, r: 2.2, o: 0.6 },
-  { cx: 960, cy: 260, r: 1.5, o: 0.25 },
-  { cx: 140, cy: 380, r: 1.8, o: 0.3 },
-  { cx: 980, cy: 490, r: 2.0, o: 0.45 },
-  { cx: 110, cy: 750, r: 1.5, o: 0.25 },
-  { cx: 990, cy: 820, r: 2.2, o: 0.4 },
-  { cx: 160, cy: 1100, r: 2.0, o: 0.35 },
-  { cx: 340, cy: 1220, r: 1.5, o: 0.3 },
-  { cx: 780, cy: 1200, r: 2.5, o: 0.5 },
-  { cx: 920, cy: 1140, r: 1.8, o: 0.4 }
-]);
+const CAROUSEL_BACKGROUND_DIR = path.join(
+  __dirname,
+  "assets",
+  "carousel-backgrounds"
+);
+
+const CAROUSEL_BACKGROUNDS = Object.freeze({
+  1: "cover.jpg",
+  2: "content-emotions.jpg",
+  3: "content-symbols.jpg",
+  4: "content-journal.jpg",
+  5: "cta.jpg"
+});
 
 /**
  * Escapes unsafe characters for valid SVG/XML output.
+ *
  * @param {string} unsafe
  * @returns {string}
  */
 function escapeXml(unsafe) {
   if (typeof unsafe !== "string") return "";
+
   return unsafe
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -52,7 +59,8 @@ function escapeXml(unsafe) {
 }
 
 /**
- * Deterministically wraps text on word boundaries and validates line limits.
+ * Deterministically wraps text on word boundaries.
+ *
  * @param {string} text
  * @param {number} maxCharsPerLine
  * @param {number} [maxLines]
@@ -60,7 +68,9 @@ function escapeXml(unsafe) {
  */
 function wrapText(text, maxCharsPerLine, maxLines) {
   if (typeof text !== "string") return [];
+
   const normalized = text.replace(/\s+/g, " ").trim();
+
   if (!normalized) return [];
 
   const words = normalized.split(" ");
@@ -70,20 +80,27 @@ function wrapText(text, maxCharsPerLine, maxLines) {
   for (const word of words) {
     if (!currentLine) {
       currentLine = word;
-    } else if (currentLine.length + 1 + word.length <= maxCharsPerLine) {
+    } else if (
+      currentLine.length + 1 + word.length <= maxCharsPerLine
+    ) {
       currentLine += " " + word;
     } else {
       lines.push(currentLine);
       currentLine = word;
     }
   }
+
   if (currentLine) {
     lines.push(currentLine);
   }
 
   if (maxLines && lines.length > maxLines) {
     throw new Error(
-      `Text layout overflow: content wrapped to ${lines.length} lines, exceeding maximum allowed limit of ${maxLines} lines.`
+      "Text layout overflow: content wrapped to " +
+        lines.length +
+        " lines, exceeding maximum allowed limit of " +
+        maxLines +
+        " lines."
     );
   }
 
@@ -92,6 +109,7 @@ function wrapText(text, maxCharsPerLine, maxLines) {
 
 /**
  * Renders SVG text element with tspans for multi-line layout.
+ *
  * @param {string[]} lines
  * @param {number} x
  * @param {number} startY
@@ -101,409 +119,589 @@ function wrapText(text, maxCharsPerLine, maxLines) {
  */
 function renderSvgText(lines, x, startY, lineHeight, options = {}) {
   const {
-    anchor = "start",
-    fill = THEME.primaryText,
     fontSize = 32,
-    fontWeight = "400",
-    letterSpacing = 0
+    fontWeight = 400,
+    fill = THEME.bodyText,
+    anchor = "start",
+    letterSpacing = 0,
+    opacity = 1
   } = options;
 
-  const letterSpacingAttr = letterSpacing ? ` letter-spacing="${letterSpacing}"` : "";
+  if (!Array.isArray(lines) || lines.length === 0) {
+    return "";
+  }
 
   const tspans = lines
-    .map(
-      (line, i) =>
-        `<tspan x="${x}" dy="${i === 0 ? 0 : lineHeight}">${escapeXml(line)}</tspan>`
-    )
+    .map((line, index) => {
+      const dy = index === 0 ? 0 : lineHeight;
+
+      return (
+        '<tspan x="' +
+        x +
+        '" dy="' +
+        dy +
+        '">' +
+        escapeXml(line) +
+        "</tspan>"
+      );
+    })
     .join("");
 
-  return `<text x="${x}" y="${startY}" font-family="${TYPOGRAPHY.fontFamily}" font-size="${fontSize}" font-weight="${fontWeight}" fill="${fill}" text-anchor="${anchor}"${letterSpacingAttr}>${tspans}</text>`;
+  return (
+    '<text x="' +
+    x +
+    '" y="' +
+    startY +
+    '" ' +
+    'font-family="' +
+    escapeXml(TYPOGRAPHY.fontFamily) +
+    '" ' +
+    'font-size="' +
+    fontSize +
+    '" ' +
+    'font-weight="' +
+    fontWeight +
+    '" ' +
+    'fill="' +
+    escapeXml(fill) +
+    '" ' +
+    'text-anchor="' +
+    anchor +
+    '" ' +
+    'letter-spacing="' +
+    letterSpacing +
+    '" ' +
+    'opacity="' +
+    opacity +
+    '">' +
+    tspans +
+    "</text>"
+  );
 }
 
 /**
- * Generates common SVG definitions and background.
- * @param {number} slideIndex 1-based index
+ * Returns the fixed background asset path for a slide.
+ *
+ * @param {number} slideIndex
+ * @returns {string}
+ */
+function getCarouselBackgroundPath(slideIndex) {
+  const filename = CAROUSEL_BACKGROUNDS[slideIndex];
+
+  if (!filename) {
+    throw new Error(
+      "No carousel background configured for slide " + slideIndex
+    );
+  }
+
+  const backgroundPath = path.join(
+    CAROUSEL_BACKGROUND_DIR,
+    filename
+  );
+
+  if (!fs.existsSync(backgroundPath)) {
+    throw new Error(
+      "Carousel background asset not found: " + backgroundPath
+    );
+  }
+
+  return backgroundPath;
+}
+
+/**
+ * Returns the fixed background image as a base64 data URI.
+ *
+ * @param {number} slideIndex
+ * @returns {string}
+ */
+function getCarouselBackgroundDataUri(slideIndex) {
+  const backgroundPath = getCarouselBackgroundPath(slideIndex);
+  const imageData = fs.readFileSync(backgroundPath).toString("base64");
+
+  return "data:image/jpeg;base64," + imageData;
+}
+
+/**
+ * Generates the common fixed background and header.
+ *
+ * @param {number} slideIndex
  * @returns {string}
  */
 function generateBackgroundSvg(slideIndex) {
-  const starsSvg = STAR_COORDINATES.map(
-    (star) =>
-      `<circle cx="${star.cx}" cy="${star.cy}" r="${star.r}" fill="#ffffff" opacity="${star.o}" />`
-  ).join("\n    ");
+  const backgroundDataUri =
+    getCarouselBackgroundDataUri(slideIndex);
 
-  return `
-  <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="${THEME.bgPrimary}" />
-      <stop offset="50%" stop-color="${THEME.bgNavy}" />
-      <stop offset="100%" stop-color="${THEME.bgIndigo}" />
-    </linearGradient>
+  const brand = escapeXml(BRAND_NAME);
 
-    <radialGradient id="celestialGlow" cx="50%" cy="25%" r="65%">
-      <stop offset="0%" stop-color="${THEME.accentIndigo}" stop-opacity="0.32" />
-      <stop offset="50%" stop-color="${THEME.accentPurple}" stop-opacity="0.12" />
-      <stop offset="100%" stop-color="${THEME.bgPrimary}" stop-opacity="0" />
-    </radialGradient>
-
-    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="${THEME.accentBlue}" />
-      <stop offset="100%" stop-color="${THEME.secondaryText}" />
-    </linearGradient>
-
-    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="${THEME.accentIndigo}" />
-      <stop offset="100%" stop-color="${THEME.accentPurple}" />
-    </linearGradient>
-
-    <linearGradient id="btnGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="${THEME.buttonGradStart}" />
-      <stop offset="100%" stop-color="${THEME.buttonGradEnd}" />
-    </linearGradient>
-  </defs>
-
-  <!-- Base background -->
-  <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#bgGrad)" />
-
-  <!-- Celestial ambient glow -->
-  <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#celestialGlow)" />
-
-  <!-- Celestial stars -->
-  <g id="stars">
-    ${starsSvg}
-  </g>
-
-  <!-- Header Branding -->
-  <g id="header">
-    <text x="${LAYOUT.marginX}" y="${LAYOUT.headerY}" font-family="${TYPOGRAPHY.fontFamily}" font-size="${TYPOGRAPHY.brandFontSize}" font-weight="800" fill="url(#brandGrad)" letter-spacing="${TYPOGRAPHY.brandLetterSpacing}">${BRAND_NAME.toUpperCase()}</text>
-    <text x="${WIDTH - LAYOUT.marginX}" y="${LAYOUT.headerY}" font-family="${TYPOGRAPHY.fontFamily}" font-size="${TYPOGRAPHY.slideNumberFontSize}" font-weight="600" fill="${THEME.mutedText}" text-anchor="end">${slideIndex} / 5</text>
-  </g>
-`;
+  return (
+    '<image href="' +
+    backgroundDataUri +
+    '" x="0" y="0" width="' +
+    WIDTH +
+    '" height="' +
+    HEIGHT +
+    '" preserveAspectRatio="none" />' +
+    '<rect x="0" y="0" width="' +
+    WIDTH +
+    '" height="180" fill="#000000" opacity="0.16" />' +
+    '<g id="header">' +
+    '<text x="' +
+    LAYOUT.marginX +
+    '" y="' +
+    LAYOUT.headerY +
+    '" ' +
+    'font-family="' +
+    escapeXml(TYPOGRAPHY.fontFamily) +
+    '" ' +
+    'font-size="' +
+    TYPOGRAPHY.brandFontSize +
+    '" ' +
+    'font-weight="700" ' +
+    'fill="' +
+    escapeXml(THEME.primaryText) +
+    '" ' +
+    'letter-spacing="' +
+    TYPOGRAPHY.brandLetterSpacing +
+    '">' +
+    brand +
+    "</text>" +
+    '<text x="' +
+    (WIDTH - LAYOUT.marginX) +
+    '" y="' +
+    LAYOUT.headerY +
+    '" ' +
+    'font-family="' +
+    escapeXml(TYPOGRAPHY.fontFamily) +
+    '" ' +
+    'font-size="' +
+    TYPOGRAPHY.slideNumberFontSize +
+    '" ' +
+    'font-weight="600" ' +
+    'fill="' +
+    escapeXml(THEME.primaryText) +
+    '" ' +
+    'text-anchor="end">' +
+    slideIndex +
+    " / 5" +
+    "</text>" +
+    "</g>"
+  );
 }
 
 /**
- * Generates SVG markup for Slide 1 (Cover).
+ * Generates cover slide SVG.
+ *
  * @param {object} slide
  * @returns {string}
  */
 function generateCoverSlideSvg(slide) {
-  const bg = generateBackgroundSvg(1);
-
   const headlineLines = wrapText(
-    slide.headline,
+    slide.headline || "",
     TYPOGRAPHY.coverMaxCharsPerLine,
     TYPOGRAPHY.coverMaxHeadlineLines
   );
+
   const subheadlineLines = wrapText(
-    slide.subheadline,
-    40,
+    slide.subheadline || "",
+    TYPOGRAPHY.coverMaxCharsPerLine + 8,
     TYPOGRAPHY.coverMaxSubheadlineLines
   );
 
-  const headlineSvg = renderSvgText(
-    headlineLines,
-    LAYOUT.marginX,
-    500,
-    TYPOGRAPHY.coverHeadlineLineHeight,
-    {
-      anchor: "start",
-      fill: THEME.primaryText,
-      fontSize: TYPOGRAPHY.coverHeadlineFontSize,
-      fontWeight: "800"
-    }
+  const headlineHeight =
+    Math.max(headlineLines.length - 1, 0) *
+    TYPOGRAPHY.coverHeadlineLineHeight;
+
+  const headlineStartY = 555;
+
+  const subheadlineStartY =
+    headlineStartY +
+    headlineHeight +
+    100;
+
+  const swipeY = 1190;
+
+  return (
+    generateBackgroundSvg(1) +
+    renderSvgText(
+      headlineLines,
+      WIDTH / 2,
+      headlineStartY,
+      TYPOGRAPHY.coverHeadlineLineHeight,
+      {
+        fontSize: TYPOGRAPHY.coverHeadlineFontSize,
+        fontWeight: 800,
+        fill: THEME.primaryText,
+        anchor: "middle",
+        letterSpacing: 0
+      }
+    ) +
+    renderSvgText(
+      subheadlineLines,
+      WIDTH / 2,
+      subheadlineStartY,
+      TYPOGRAPHY.coverSubheadlineLineHeight,
+      {
+        fontSize: TYPOGRAPHY.coverSubheadlineFontSize,
+        fontWeight: 500,
+        fill: THEME.secondaryText,
+        anchor: "middle",
+        letterSpacing: 0
+      }
+    ) +
+    '<text x="' +
+    WIDTH / 2 +
+    '" y="' +
+    swipeY +
+    '" ' +
+    'font-family="' +
+    escapeXml(TYPOGRAPHY.fontFamily) +
+    '" ' +
+    'font-size="24" ' +
+    'font-weight="600" ' +
+    'fill="' +
+    escapeXml(THEME.primaryText) +
+    '" ' +
+    'text-anchor="middle" ' +
+    'letter-spacing="0">' +
+    'Swipe to explore →' +
+    "</text>"
   );
-
-  const headlineHeight = (headlineLines.length - 1) * TYPOGRAPHY.coverHeadlineLineHeight;
-  const subheadlineStartY = 500 + headlineHeight + 80;
-
-  const subheadlineSvg = renderSvgText(
-    subheadlineLines,
-    LAYOUT.marginX,
-    subheadlineStartY,
-    TYPOGRAPHY.coverSubheadlineLineHeight,
-    {
-      anchor: "start",
-      fill: THEME.secondaryText,
-      fontSize: TYPOGRAPHY.coverSubheadlineFontSize,
-      fontWeight: "400"
-    }
-  );
-
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${WIDTH} ${HEIGHT}" width="${WIDTH}" height="${HEIGHT}">
-  ${bg}
-
-  <!-- Cover Celestial Artwork -->
-  <g transform="translate(180, 240)">
-    <circle cx="80" cy="80" r="70" fill="none" stroke="url(#accentGrad)" stroke-width="2.5" opacity="0.6" />
-    <path d="M 80 20 A 60 60 0 1 0 80 140 A 45 45 0 1 1 80 20" fill="url(#btnGrad)" opacity="0.85" />
-    <circle cx="210" cy="50" r="3.5" fill="${THEME.accentBlue}" opacity="0.8" />
-    <circle cx="250" cy="110" r="2.5" fill="${THEME.accentPurple}" opacity="0.6" />
-    <line x1="80" y1="80" x2="210" y2="50" stroke="${THEME.accentBlue}" stroke-width="1" stroke-dasharray="3,3" opacity="0.4" />
-    <line x1="210" y1="50" x2="250" y2="110" stroke="${THEME.accentPurple}" stroke-width="1" stroke-dasharray="3,3" opacity="0.4" />
-  </g>
-
-  <!-- Cover Copy -->
-  ${headlineSvg}
-  ${subheadlineSvg}
-
-  <!-- Footer swipe hint -->
-  <g id="footer">
-    <text x="${WIDTH / 2}" y="${LAYOUT.footerY}" font-family="${TYPOGRAPHY.fontFamily}" font-size="22" font-weight="600" fill="${THEME.mutedText}" text-anchor="middle" letter-spacing="1">Swipe to explore →</text>
-  </g>
-</svg>`;
 }
 
 /**
- * Generates SVG markup for Slides 2–4 (Content).
+ * Generates content slide SVG.
+ *
  * @param {object} slide
- * @param {number} slideIndex 1-based index (2, 3, or 4)
+ * @param {number} slideIndex
  * @returns {string}
  */
 function generateContentSlideSvg(slide, slideIndex) {
-  const bg = generateBackgroundSvg(slideIndex);
-
   const titleLines = wrapText(
-    slide.title,
+    slide.title || "",
     TYPOGRAPHY.contentMaxTitleCharsPerLine,
     TYPOGRAPHY.contentMaxTitleLines
   );
+
   const bodyLines = wrapText(
-    slide.body,
+    slide.body || "",
     TYPOGRAPHY.contentMaxBodyCharsPerLine,
     TYPOGRAPHY.contentMaxBodyLines
   );
 
-  const titleStartY = LAYOUT.cardY + 140;
-  const titleSvg = renderSvgText(
-    titleLines,
-    LAYOUT.cardX + 60,
-    titleStartY,
-    TYPOGRAPHY.contentTitleLineHeight,
-    {
-      anchor: "start",
-      fill: THEME.primaryText,
-      fontSize: TYPOGRAPHY.contentTitleFontSize,
-      fontWeight: "700"
-    }
+  const titleHeight =
+    Math.max(titleLines.length - 1, 0) *
+    TYPOGRAPHY.contentTitleLineHeight;
+
+  const titleStartY = 500;
+
+  const bodyStartY =
+    titleStartY +
+    titleHeight +
+    100;
+
+  const swipeY = 1190;
+
+  return (
+    generateBackgroundSvg(slideIndex) +
+    renderSvgText(
+      titleLines,
+      WIDTH / 2,
+      titleStartY,
+      TYPOGRAPHY.contentTitleLineHeight,
+      {
+        fontSize: TYPOGRAPHY.contentTitleFontSize,
+        fontWeight: 800,
+        fill: THEME.primaryText,
+        anchor: "middle",
+        letterSpacing: 0
+      }
+    ) +
+    renderSvgText(
+      bodyLines,
+      WIDTH / 2,
+      bodyStartY,
+      TYPOGRAPHY.contentBodyLineHeight,
+      {
+        fontSize: TYPOGRAPHY.contentBodyFontSize,
+        fontWeight: 500,
+        fill: THEME.bodyText,
+        anchor: "middle",
+        letterSpacing: 0
+      }
+    ) +
+    '<text x="' +
+    WIDTH / 2 +
+    '" y="' +
+    swipeY +
+    '" ' +
+    'font-family="' +
+    escapeXml(TYPOGRAPHY.fontFamily) +
+    '" ' +
+    'font-size="24" ' +
+    'font-weight="600" ' +
+    'fill="' +
+    escapeXml(THEME.primaryText) +
+    '" ' +
+    'text-anchor="middle" ' +
+    'letter-spacing="0">' +
+    'Swipe to explore →' +
+    "</text>"
   );
-
-  const titleHeight = (titleLines.length - 1) * TYPOGRAPHY.contentTitleLineHeight;
-  const dividerY = titleStartY + titleHeight + 50;
-  const bodyStartY = dividerY + 60;
-
-  const bodySvg = renderSvgText(
-    bodyLines,
-    LAYOUT.cardX + 60,
-    bodyStartY,
-    TYPOGRAPHY.contentBodyLineHeight,
-    {
-      anchor: "start",
-      fill: THEME.bodyText,
-      fontSize: TYPOGRAPHY.contentBodyFontSize,
-      fontWeight: "400"
-    }
-  );
-
-  // Restrained decorative motif determined solely by slide index
-  const accentOffset = (slideIndex - 2) * 40;
-  const motifX = LAYOUT.cardX + LAYOUT.cardWidth - 100;
-  const motifY = LAYOUT.cardY + LAYOUT.cardHeight - 90;
-
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${WIDTH} ${HEIGHT}" width="${WIDTH}" height="${HEIGHT}">
-  ${bg}
-
-  <!-- Content Glass Card -->
-  <rect x="${LAYOUT.cardX}" y="${LAYOUT.cardY}" width="${LAYOUT.cardWidth}" height="${LAYOUT.cardHeight}" rx="${LAYOUT.cardRadius}" fill="${THEME.cardBg}" stroke="${THEME.cardBorder}" stroke-width="1.5" />
-
-  <!-- Accent indicator bar -->
-  <rect x="${LAYOUT.cardX + 60}" y="${LAYOUT.cardY + 60}" width="50" height="5" rx="2.5" fill="url(#accentGrad)" />
-
-  <!-- Content Text -->
-  ${titleSvg}
-
-  <!-- Card Divider -->
-  <line x1="${LAYOUT.cardX + 60}" y1="${dividerY}" x2="${LAYOUT.cardX + LAYOUT.cardWidth - 60}" y2="${dividerY}" stroke="${THEME.cardBorder}" stroke-width="1.5" />
-
-  ${bodySvg}
-
-  <!-- Deterministic Decorative Corner Motif -->
-  <g transform="translate(${motifX}, ${motifY})">
-    <circle cx="0" cy="0" r="${18 + accentOffset * 0.1}" fill="none" stroke="${THEME.accentIndigo}" stroke-width="1.5" opacity="0.3" />
-    <circle cx="0" cy="0" r="3" fill="${THEME.accentBlue}" opacity="0.5" />
-  </g>
-
-  <!-- Footer Brand Accent -->
-  <g id="footer">
-    <text x="${LAYOUT.marginX}" y="${LAYOUT.footerY}" font-family="${TYPOGRAPHY.fontFamily}" font-size="20" font-weight="500" fill="${THEME.mutedText}">${BRAND_NAME} Reflections</text>
-  </g>
-</svg>`;
 }
 
 /**
- * Generates SVG markup for Slide 5 (CTA).
+ * Generates CTA slide SVG.
+ *
  * @param {object} slide
  * @returns {string}
  */
 function generateCtaSlideSvg(slide) {
-  const bg = generateBackgroundSvg(5);
-
   const headlineLines = wrapText(
-    slide.headline,
+    slide.headline || "",
     TYPOGRAPHY.ctaMaxHeadlineCharsPerLine,
     TYPOGRAPHY.ctaMaxHeadlineLines
   );
+
   const bodyLines = wrapText(
-    slide.body,
+    slide.body || "",
     TYPOGRAPHY.ctaMaxBodyCharsPerLine,
     TYPOGRAPHY.ctaMaxBodyLines
   );
 
-  const headlineStartY = LAYOUT.cardY + 170;
-  const headlineSvg = renderSvgText(
-    headlineLines,
-    WIDTH / 2,
-    headlineStartY,
-    TYPOGRAPHY.ctaHeadlineLineHeight,
-    {
-      anchor: "middle",
-      fill: THEME.primaryText,
-      fontSize: TYPOGRAPHY.ctaHeadlineFontSize,
-      fontWeight: "800"
-    }
+  const headlineHeight =
+    Math.max(headlineLines.length - 1, 0) *
+    TYPOGRAPHY.ctaHeadlineLineHeight;
+
+  const headlineStartY = 500;
+
+  const bodyStartY =
+    headlineStartY +
+    headlineHeight +
+    100;
+
+  const buttonY = 970;
+  const buttonX =
+    (WIDTH - LAYOUT.buttonWidth) / 2;
+
+  return (
+    generateBackgroundSvg(5) +
+    renderSvgText(
+      headlineLines,
+      WIDTH / 2,
+      headlineStartY,
+      TYPOGRAPHY.ctaHeadlineLineHeight,
+      {
+        fontSize: TYPOGRAPHY.ctaHeadlineFontSize,
+        fontWeight: 800,
+        fill: THEME.primaryText,
+        anchor: "middle",
+        letterSpacing: 0
+      }
+    ) +
+    renderSvgText(
+      bodyLines,
+      WIDTH / 2,
+      bodyStartY,
+      TYPOGRAPHY.ctaBodyLineHeight,
+      {
+        fontSize: TYPOGRAPHY.ctaBodyFontSize,
+        fontWeight: 500,
+        fill: THEME.bodyText,
+        anchor: "middle",
+        letterSpacing: 0
+      }
+    ) +
+    '<g id="cta-button">' +
+    '<rect x="' +
+    buttonX +
+    '" y="' +
+    buttonY +
+    '" width="' +
+    LAYOUT.buttonWidth +
+    '" height="' +
+    LAYOUT.buttonHeight +
+    '" rx="' +
+    LAYOUT.buttonRadius +
+    '" fill="' +
+    escapeXml(THEME.accentBlue) +
+    '" opacity="0.96" />' +
+    '<text x="' +
+    WIDTH / 2 +
+    '" y="' +
+    (buttonY + 57) +
+    '" ' +
+    'font-family="' +
+    escapeXml(TYPOGRAPHY.fontFamily) +
+    '" ' +
+    'font-size="' +
+    TYPOGRAPHY.ctaButtonFontSize +
+    '" ' +
+    'font-weight="800" ' +
+    'fill="#ffffff" ' +
+    'text-anchor="middle">' +
+    escapeXml(CTA_BUTTON_TEXT) +
+    "</text>" +
+    "</g>"
   );
-
-  const headlineHeight = (headlineLines.length - 1) * TYPOGRAPHY.ctaHeadlineLineHeight;
-  const bodyStartY = headlineStartY + headlineHeight + 70;
-
-  const bodySvg = renderSvgText(
-    bodyLines,
-    WIDTH / 2,
-    bodyStartY,
-    TYPOGRAPHY.ctaBodyLineHeight,
-    {
-      anchor: "middle",
-      fill: THEME.secondaryText,
-      fontSize: TYPOGRAPHY.ctaBodyFontSize,
-      fontWeight: "400"
-    }
-  );
-
-  const buttonX = (WIDTH - LAYOUT.buttonWidth) / 2;
-  const buttonY = LAYOUT.cardY + LAYOUT.cardHeight - 200;
-
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${WIDTH} ${HEIGHT}" width="${WIDTH}" height="${HEIGHT}">
-  ${bg}
-
-  <!-- CTA Glass Card -->
-  <rect x="${LAYOUT.cardX}" y="${LAYOUT.cardY}" width="${LAYOUT.cardWidth}" height="${LAYOUT.cardHeight}" rx="${LAYOUT.cardRadius}" fill="${THEME.cardBg}" stroke="${THEME.cardBorder}" stroke-width="1.5" />
-
-  <!-- CTA Top Celestial Motif -->
-  <g transform="translate(${WIDTH / 2}, ${LAYOUT.cardY + 70})">
-    <circle cx="0" cy="0" r="22" fill="none" stroke="url(#accentGrad)" stroke-width="1.5" opacity="0.7" />
-    <circle cx="0" cy="0" r="4" fill="${THEME.accentBlue}" opacity="0.9" />
-  </g>
-
-  <!-- CTA Text -->
-  ${headlineSvg}
-  ${bodySvg}
-
-  <!-- Deterministic Static CTA Button Pill -->
-  <g id="cta-button" transform="translate(${buttonX}, ${buttonY})">
-    <rect width="${LAYOUT.buttonWidth}" height="${LAYOUT.buttonHeight}" rx="${LAYOUT.buttonRadius}" fill="url(#btnGrad)" />
-    <text x="${LAYOUT.buttonWidth / 2}" y="${LAYOUT.buttonHeight / 2 + 10}" text-anchor="middle" font-family="${TYPOGRAPHY.fontFamily}" font-size="${TYPOGRAPHY.ctaButtonFontSize}" font-weight="700" fill="#ffffff" letter-spacing="1.5">${escapeXml(CTA_BUTTON_TEXT)}</text>
-  </g>
-
-  <!-- Footer -->
-  <g id="footer">
-    <text x="${WIDTH / 2}" y="${LAYOUT.footerY}" font-family="${TYPOGRAPHY.fontFamily}" font-size="20" font-weight="500" fill="${THEME.mutedText}" text-anchor="middle">DreamlyAI</text>
-  </g>
-</svg>`;
 }
 
 /**
- * Generates SVG string for a given slide by role and 1-based index.
+ * Generates one complete slide SVG.
+ *
  * @param {object} slide
- * @param {number} slideIndex 1-based index
+ * @param {number} slideIndex
  * @returns {string}
  */
 function generateSlideSvg(slide, slideIndex) {
-  if (slide.role === "cover") {
-    return generateCoverSlideSvg(slide);
+  let content;
+
+  if (slideIndex === 1) {
+    content = generateCoverSlideSvg(slide);
+  } else if (slideIndex === 5) {
+    content = generateCtaSlideSvg(slide);
+  } else {
+    content = generateContentSlideSvg(slide, slideIndex);
   }
-  if (slide.role === "content") {
-    return generateContentSlideSvg(slide, slideIndex);
-  }
-  if (slide.role === "cta") {
-    return generateCtaSlideSvg(slide);
-  }
-  throw new Error(`Unsupported slide role: '${slide.role}' at slide index ${slideIndex}`);
+
+  return (
+    '<svg xmlns="http://www.w3.org/2000/svg" ' +
+    'xmlns:xlink="http://www.w3.org/1999/xlink" ' +
+    'width="' +
+    WIDTH +
+    '" height="' +
+    HEIGHT +
+    '" viewBox="0 0 ' +
+    WIDTH +
+    ' ' +
+    HEIGHT +
+    '">' +
+    content +
+    "</svg>"
+  );
 }
 
 /**
- * Validates generated slide JPEG buffer against renderer integrity constraints.
+ * Validates the final rendered image buffer.
+ *
  * @param {Buffer} buffer
  * @param {number} slideIndex
+ * @returns {Promise<void>}
  */
 async function validateRenderedBuffer(buffer, slideIndex) {
   if (!Buffer.isBuffer(buffer)) {
-    throw new Error(`Slide ${slideIndex} output is not a Buffer`);
-  }
-
-  const meta = await sharp(buffer).metadata();
-
-  if (meta.format !== FORMAT) {
     throw new Error(
-      `Slide ${slideIndex} format mismatch: expected '${FORMAT}', received '${meta.format}'`
+      "Rendered slide " +
+        slideIndex +
+        " is not a Buffer."
     );
   }
 
-  if (meta.width !== WIDTH || meta.height !== HEIGHT) {
+  const metadata = await sharp(buffer).metadata();
+
+  if (metadata.format !== FORMAT) {
     throw new Error(
-      `Slide ${slideIndex} dimensions mismatch: expected ${WIDTH}x${HEIGHT}, received ${meta.width}x${meta.height}`
+      "Rendered slide " +
+        slideIndex +
+        " has format " +
+        metadata.format +
+        " instead of " +
+        FORMAT +
+        "."
     );
   }
 
-  if (buffer.length <= 10000) {
+  if (
+    metadata.width !== WIDTH ||
+    metadata.height !== HEIGHT
+  ) {
     throw new Error(
-      `Slide ${slideIndex} buffer byteLength (${buffer.length}) is too small (must be > 10000 bytes)`
+      "Rendered slide " +
+        slideIndex +
+        " has dimensions " +
+        metadata.width +
+        "x" +
+        metadata.height +
+        " instead of " +
+        WIDTH +
+        "x" +
+        HEIGHT +
+        "."
+    );
+  }
+
+  if (buffer.length === 0) {
+    throw new Error(
+      "Rendered slide " +
+        slideIndex +
+        " is empty."
     );
   }
 }
 
 /**
- * Renders a full deterministic carousel from prepared content into JPEG buffers.
- * @param {object} preparedContent Validated prepared content envelope
- * @returns {Promise<{ width: number, height: number, format: string, slideCount: number, slides: Array<{ index: number, role: string, buffer: Buffer, byteLength: number }> }>}
+ * Renders a validated five-slide carousel.
+ *
+ * No production files are written by this function.
+ *
+ * @param {object} preparedContent
+ * @returns {Promise<object>}
  */
 async function renderCarousel(preparedContent) {
-  const validation = validatePreparedContent(preparedContent);
-  if (!validation.valid) {
+  const validationResult =
+    validatePreparedContent(preparedContent);
+
+  if (
+    !validationResult ||
+    validationResult.valid !== true
+  ) {
+    const details =
+      validationResult &&
+      Array.isArray(validationResult.errors)
+        ? validationResult.errors.join("; ")
+        : "Unknown validation error";
+
     throw new Error(
-      `Invalid prepared content for rendering: ${validation.errors.join("; ")}`
+      "Invalid prepared content for rendering: " +
+        details
+    );
+  }
+
+  const slides = preparedContent.creative.slides;
+
+  if (!Array.isArray(slides) || slides.length !== 5) {
+    throw new Error(
+      "Invalid slideCount: expected 5 rendered slides, received " +
+        (Array.isArray(slides) ? slides.length : "non-array")
     );
   }
 
   const renderedSlides = [];
 
-  for (let i = 0; i < preparedContent.creative.slides.length; i++) {
-    const slide = preparedContent.creative.slides[i];
-    const slideIndex = i + 1; // 1-based index
+  for (let index = 0; index < slides.length; index += 1) {
+    const slideIndex = index + 1;
 
-    const svg = generateSlideSvg(slide, slideIndex);
+    const svg = generateSlideSvg(
+      slides[index],
+      slideIndex
+    );
 
-    const jpegBuffer = await sharp(Buffer.from(svg))
+    const buffer = await sharp(Buffer.from(svg))
       .jpeg({
         quality: 90,
         chromaSubsampling: "4:4:4"
       })
       .toBuffer();
 
-    await validateRenderedBuffer(jpegBuffer, slideIndex);
+    await validateRenderedBuffer(
+      buffer,
+      slideIndex
+    );
 
     renderedSlides.push({
       index: slideIndex,
-      role: slide.role,
-      buffer: jpegBuffer,
-      byteLength: jpegBuffer.length
+      role: slides[index].role,
+      buffer,
+      byteLength: buffer.length
     });
   }
 
@@ -519,7 +717,12 @@ async function renderCarousel(preparedContent) {
 module.exports = {
   renderCarousel,
   generateSlideSvg,
+  generateBackgroundSvg,
+  generateCoverSlideSvg,
+  generateContentSlideSvg,
+  generateCtaSlideSvg,
+  wrapText,
+  renderSvgText,
   validateRenderedBuffer,
-  escapeXml,
-  wrapText
+  getCarouselBackgroundPath
 };

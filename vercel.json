@@ -4,5 +4,10 @@
       "path": "/api/social-run",
       "schedule": "0 7 * * *"
     }
-  ]
+  ],
+  "functions": {
+    "api/**/*.js": {
+      "includeFiles": "social/fonts/**"
+    }
+  }
 }
