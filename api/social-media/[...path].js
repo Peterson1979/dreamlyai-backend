@@ -104,6 +104,12 @@ async function bodyToBuffer(body) {
 }
 
 module.exports = async function socialMediaHandler(req, res) {
+  console.log("SOCIAL MEDIA DEBUG", {
+    url: req.url,
+    query: req.query,
+    method: req.method
+  });
+
   if (req?.method !== "GET") {
     return res.status(405).json({
       success: false,
