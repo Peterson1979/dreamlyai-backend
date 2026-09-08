@@ -104,12 +104,6 @@ async function bodyToBuffer(body) {
 }
 
 module.exports = async function socialMediaHandler(req, res) {
-  console.log("SOCIAL MEDIA DEBUG", {
-    url: req.url,
-    query: req.query,
-    method: req.method
-  });
-
   if (req?.method !== "GET") {
     return res.status(405).json({
       success: false,
@@ -125,10 +119,6 @@ module.exports = async function socialMediaHandler(req, res) {
   try {
     config = req._injectedR2Config || loadR2Config();
     client = req._injectedR2Client || createR2Client(config);
-console.log("R2_FETCH_DEBUG", {
-  bucket: config.bucketName,
-  key
-});
     const result = await client.send(new GetObjectCommand({
       Bucket: config.bucketName,
       Key: key
