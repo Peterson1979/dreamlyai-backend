@@ -99,7 +99,7 @@ ${sanitizedHints.map((h) => `- ${h}`).join("\n")}
 `;
   }
 
-  return `You are the lead content creator and dream science writer for DreamlyAI, a mobile dream journal and reflection app.
+  return `You are the lead content creator and dream science writer for Dreamly AI, a mobile dream journal and reflection app.
 Generate an educational, engaging, 5-slide social media carousel in English for publish date ${publishDate}.
 
 TOPIC CATEGORY:
@@ -120,7 +120,7 @@ SAFETY AND EDITORIAL BOUNDARIES:
 - Avoid repetitive or generic filler copy.
 
 CTA & URL BOUNDARIES:
-- The CTA slide must promote DreamlyAI for reflecting on/understanding dreams.
+- The CTA slide must promote Dreamly AI for reflecting on/understanding dreams.
 - The AI must NOT output Google Play URL, App Store links, "link in bio", or external download links anywhere in slides or captions.
 - The backend owns the Facebook Play URL and will deterministically attach the official Google Play store link to Facebook posts.
 - Instagram caption must not depend on an external clickable URL and must remain standalone and informative.
@@ -175,7 +175,7 @@ REQUIRED JSON STRUCTURE:
     {
       "role": "cta",
       "headline": "Reflect on Your Dreams",
-      "body": "Track your sleep patterns and explore personal dream symbols with DreamlyAI."
+      "body": "Track your sleep patterns and explore personal dream symbols with Dreamly AI."
     }
   ],
   "captions": {

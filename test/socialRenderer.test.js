@@ -275,7 +275,7 @@ describe("Social Carousel Renderer", () => {
         {
           role: "cta",
           headline: "Découvrez vos rêves",
-          body: "Notez vos réflexions nocturnes avec DreamlyAI."
+          body: "Notez vos réflexions nocturnes avec Dreamly AI."
         }
       ]
     });
@@ -288,6 +288,63 @@ describe("Social Carousel Renderer", () => {
 
     const result = await renderCarousel(prepared);
     assert.equal(result.slides.length, 5);
+    for (const slide of result.slides) {
+      const meta = await sharp(slide.buffer).metadata();
+      assert.equal(meta.format, "jpeg");
+      assert.equal(meta.width, 1080);
+      assert.equal(meta.height, 1350);
+    }
+  });
+
+  it("12b. Hungarian, German, and Romanian accented Unicode characters render valid JPEG buffers", async () => {
+    const hungarianCreative = createValidCreativePayload({
+      topic: "Pszichológia és álomértelmezés",
+      slides: [
+        {
+          role: "cover",
+          headline: "Árvíztűrő tükörfúrógép",
+          subheadline: "Á É Í Ó Ö Ő Ú Ü Ű á é í ó ö ő ú ü ű"
+        },
+        {
+          role: "content",
+          title: "Ä Ö Ü ä ö ü ß (German)",
+          body: "Nächtliche Träume spiegeln oft unbewusste Gefühle wider."
+        },
+        {
+          role: "content",
+          title: "Și Ți Ă Â Î (Romanian)",
+          body: "Înțelegerea viselor aduce claritate emoțională și liniște sufletească."
+        },
+        {
+          role: "content",
+          title: "ñ ç à è ì ò ù â ê î ô û ã õ",
+          body: "Exploración de símbolos y reflexiones profundas en español e italiano."
+        },
+        {
+          role: "cta",
+          headline: "Értsd meg az álmaidat",
+          body: "Kövesd nyomon és elemezd álmaidat a Dreamly AI segítségével."
+        }
+      ]
+    });
+
+    const prepared = buildPreparedContent({
+      publishDate: "2026-09-08",
+      category: "dream_symbols",
+      creative: hungarianCreative
+    });
+
+    const result = await renderCarousel(prepared);
+    assert.equal(result.slideCount, 5);
+    assert.equal(result.slides.length, 5);
+    for (const slide of result.slides) {
+      assert.equal(Buffer.isBuffer(slide.buffer), true);
+      assert.equal(slide.buffer.length > 10000, true);
+      const meta = await sharp(slide.buffer).metadata();
+      assert.equal(meta.format, "jpeg");
+      assert.equal(meta.width, 1080);
+      assert.equal(meta.height, 1350);
+    }
   });
 
   it("13. repeated rendering of the same input produces identical JPEG buffers within the same runtime", async () => {

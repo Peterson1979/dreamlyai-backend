@@ -120,7 +120,7 @@ describe("Social Quality Gate & Final Captions", () => {
     it("2. Facebook gets deterministic Google Play CTA", async () => {
       const { manifest } = await buildFullArtifact();
       const captions = buildPlatformCaptions(manifest);
-      assert.equal(captions.facebook.includes("Download DreamlyAI:\n" + GOOGLE_PLAY_URL), true);
+      assert.equal(captions.facebook.includes("Download Dreamly AI on Google Play:\n" + GOOGLE_PLAY_URL), true);
     });
 
     it("3. Facebook exact Play URL appears exactly once", async () => {

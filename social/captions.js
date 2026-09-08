@@ -34,7 +34,7 @@ function buildPlatformCaptions(manifest) {
     // If the exact official URL already appears, do not duplicate
     facebook = baseFacebook;
   } else {
-    facebook = `${baseFacebook}\n\nDownload DreamlyAI:\n${GOOGLE_PLAY_URL}`;
+    facebook = `${baseFacebook}\n\nDownload Dreamly AI on Google Play:\n${GOOGLE_PLAY_URL}`;
   }
 
   if (facebook.length > FACEBOOK_FINAL_CAPTION_MAX) {

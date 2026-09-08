@@ -11,6 +11,7 @@ const fs = require("fs");
 // This must happen before sharp is required so bundled fonts are available.
 const FONT_DIR = path.join(__dirname, "fonts");
 process.env.FONTCONFIG_PATH = FONT_DIR;
+process.env.FONTCONFIG_FILE = path.join(FONT_DIR, "fonts.conf");
 
 const sharp = require("sharp");
 
@@ -241,9 +242,6 @@ function generateBackgroundSvg(slideIndex) {
     '" height="' +
     HEIGHT +
     '" preserveAspectRatio="none" />' +
-    '<rect x="0" y="0" width="' +
-    WIDTH +
-    '" height="180" fill="#000000" opacity="0.16" />' +
     '<g id="header">' +
     '<text x="' +
     LAYOUT.marginX +
@@ -303,7 +301,7 @@ function generateCoverSlideSvg(slide) {
 
   const subheadlineLines = wrapText(
     slide.subheadline || "",
-    TYPOGRAPHY.coverMaxCharsPerLine + 8,
+    30,
     TYPOGRAPHY.coverMaxSubheadlineLines
   );
 
@@ -311,7 +309,7 @@ function generateCoverSlideSvg(slide) {
     Math.max(headlineLines.length - 1, 0) *
     TYPOGRAPHY.coverHeadlineLineHeight;
 
-  const headlineStartY = 555;
+  const headlineStartY = 500;
 
   const subheadlineStartY =
     headlineStartY +

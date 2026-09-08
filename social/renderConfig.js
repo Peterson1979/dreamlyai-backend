@@ -37,11 +37,11 @@ const TYPOGRAPHY = Object.freeze({
   slideNumberFontSize: 22,
   
   // Cover slide
-  coverHeadlineFontSize: 62,
-  coverHeadlineLineHeight: 74,
-  coverSubheadlineFontSize: 36,
+  coverHeadlineFontSize: 56,
+  coverHeadlineLineHeight: 68,
+  coverSubheadlineFontSize: 34,
   coverSubheadlineLineHeight: 48,
-  coverMaxCharsPerLine: 28,
+  coverMaxCharsPerLine: 20,
   coverMaxHeadlineLines: 4,
   coverMaxSubheadlineLines: 4,
   

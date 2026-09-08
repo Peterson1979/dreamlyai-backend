@@ -433,6 +433,98 @@ describe("DreamlyAI Social Production HTTP Endpoint", () => {
       assert.equal(res._json.publishing.instagram.status, "SKIPPED");
     });
 
+    it("11b. QUALITY_FAILED outcome returns 200 status with QUALITY_FAILED classification", async () => {
+      // Return creative with empty slides which fails schema validation / quality gate
+      mockGenerator = async () =>
+        JSON.stringify({
+          topic: "Invalid Empty",
+          slides: [
+            { role: "cover", headline: "A", subheadline: "B" }
+            // missing 4 slides
+          ],
+          captions: { instagram: "IG", facebook: "FB" }
+        });
+
+      const { req, res } = createMockReqRes({
+        method: "POST",
+        headers: { authorization: `Bearer ${TEST_CRON_SECRET}` },
+        body: { publishDate: "2026-08-28" },
+        injected: {
+          ...getValidInjections(),
+          _injectedGenerateText: mockGenerator
+        }
+      });
+
+      await socialRunHandler(req, res);
+
+      assert.equal(res.statusCode, 200);
+      assert.equal(res._json.success, false);
+      assert.equal(res._json.status, "PREPARATION_FAILED");
+      assert.equal(res._json.preparation.status, "FAILED");
+      assert.equal(res._json.publishing.facebook.status, "SKIPPED");
+      assert.equal(res._json.publishing.instagram.status, "SKIPPED");
+    });
+
+    it("11c. PARTIAL_SUCCESS outcome (Facebook OK, Instagram failed) returns 200 status with PARTIAL_SUCCESS classification", async () => {
+      // Custom fetch where Facebook succeeds but Instagram fails
+      const partialFetch = async (url, options = {}) => {
+        const urlStr = String(url);
+        const method = options.method || "GET";
+
+        if (urlStr.includes("graph.facebook.com/v25.0/me") && method === "GET") {
+          return {
+            ok: true,
+            status: 200,
+            json: async () => ({ id: "100123456789", name: "Dreamly AI Official" })
+          };
+        }
+        if (urlStr.includes("/100123456789/photos") && method === "POST") {
+          return { ok: true, status: 200, json: async () => ({ id: "fb_photo_1" }) };
+        }
+        if (urlStr.includes("/100123456789/feed") && method === "POST") {
+          return { ok: true, status: 200, json: async () => ({ id: "fb_feed_post_1" }) };
+        }
+        if (urlStr.includes("/100123456789?fields=id,name,instagram_business_account") && method === "GET") {
+          return {
+            ok: true,
+            status: 200,
+            json: async () => ({
+              id: "100123456789",
+              name: "Dreamly AI",
+              instagram_business_account: { id: "200987654321" }
+            })
+          };
+        }
+        // Instagram creation endpoint fails with 500
+        if (urlStr.endsWith("/200987654321/media") && method === "POST") {
+          return {
+            ok: false,
+            status: 500,
+            json: async () => ({ error: { message: "Instagram upstream server error", type: "OAuthException", code: 2 } })
+          };
+        }
+        throw new Error(`Unhandled URL: ${urlStr}`);
+      };
+
+      const { req, res } = createMockReqRes({
+        method: "POST",
+        headers: { authorization: `Bearer ${TEST_CRON_SECRET}` },
+        body: { publishDate: "2026-08-28" },
+        injected: {
+          ...getValidInjections(),
+          _injectedFetchImpl: partialFetch
+        }
+      });
+
+      await socialRunHandler(req, res);
+
+      assert.equal(res.statusCode, 200);
+      assert.equal(res._json.success, false);
+      assert.equal(res._json.status, "PARTIAL_SUCCESS");
+      assert.equal(res._json.publishing.facebook.status, "PUBLISHED");
+      assert.equal(res._json.publishing.instagram.status, "FAILED");
+    });
+
     it("12. Unexpected exception in handler returns sanitized 500 without stack trace", async () => {
       // Create a corrupted req object that causes JSON serialization / execution to throw in handler
       const throwingReq = {
