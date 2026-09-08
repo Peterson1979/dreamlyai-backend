@@ -742,5 +742,84 @@ describe("DreamlyAI Daily Social Pipeline Runner", () => {
       assert.equal(runDailySocialRun, runDailySocialPipeline);
       assert.equal(executeDailySocialRun, runDailySocialPipeline);
     });
+
+    it("15. Publication retry with updated R2_PUBLIC_BASE_URL reconciles manifest and publishes successfully", async () => {
+      const publishDate = "2026-08-28";
+      let aiCallCount = 0;
+      const fakeGen = async () => {
+        aiCallCount++;
+        return JSON.stringify(createValidCreativeFixture());
+      };
+
+      // Run 1: Preparation succeeded with old proxy URL, but Meta publishing failed
+      const run1 = await runDailySocialPipeline({
+        publishDate,
+        redis: mockRedis,
+        generateText: fakeGen,
+        r2Client: mockR2Client,
+        r2Config: {
+          ...mockR2Config,
+          publicBaseUrl: "https://dreamlyai-backend.vercel.app/api/social-media"
+        },
+        fetchImpl: async (url) => {
+          // Simulate failure when fetching old proxy URLs
+          return {
+            status: 400,
+            ok: false,
+            json: async () => ({ error: { message: "Invalid image URL" } })
+          };
+        },
+        facebookConfig: mockFbConfig,
+        instagramConfig: mockIgConfig,
+        sleepImpl: async () => {}
+      });
+
+      assert.equal(run1.success, false);
+      assert.equal(run1.publishing.facebook.status, "FAILED");
+      assert.equal(run1.publishing.instagram.status, "FAILED");
+      assert.equal(aiCallCount, 1);
+
+      // Verify old URLs stored in manifest
+      const oldManifest = await getManifest({ redis: mockRedis, publishDate });
+      assert.ok(oldManifest.media[0].url.startsWith("https://dreamlyai-backend.vercel.app/api/social-media"));
+
+      // Run 2: Retry with updated correct R2 public base URL and working fetch
+      const recordedUrls = [];
+      const workingFetch = createMockFetch({
+        onUrl: (url) => recordedUrls.push(url)
+      });
+
+      const run2 = await runDailySocialPipeline({
+        publishDate,
+        redis: mockRedis,
+        generateText: fakeGen,
+        r2Client: mockR2Client,
+        r2Config: {
+          ...mockR2Config,
+          publicBaseUrl: "https://pub-r2.dreamly.ai"
+        },
+        fetchImpl: workingFetch,
+        facebookConfig: mockFbConfig,
+        instagramConfig: mockIgConfig,
+        sleepImpl: async () => {}
+      });
+
+      assert.equal(run2.success, true);
+      assert.equal(run2.status, DAILY_RUN_STATUS.COMPLETED);
+      assert.equal(run2.publishing.facebook.status, "PUBLISHED");
+      assert.equal(run2.publishing.instagram.status, "PUBLISHED");
+      assert.equal(aiCallCount, 1); // Content was NOT regenerated
+
+      // Verify manifest now has correct direct R2 URLs
+      const newManifest = await getManifest({ redis: mockRedis, publishDate });
+      assert.ok(newManifest.media[0].url.startsWith("https://pub-r2.dreamly.ai"));
+
+      // Verify publication states in Redis
+      const fbState = await getPublicationState({ redis: mockRedis, publishDate, platform: "facebook" });
+      assert.equal(fbState.status, PUBLICATION_STATUS.PUBLISHED);
+
+      const igState = await getPublicationState({ redis: mockRedis, publishDate, platform: "instagram" });
+      assert.equal(igState.status, PUBLICATION_STATUS.PUBLISHED);
+    });
   });
 });

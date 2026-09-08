@@ -4,6 +4,7 @@ const assert = require("node:assert/strict");
 
 const {
   prepareDailySocialContent,
+  reconcileManifestPublicUrls,
   SocialPreparationError,
   PREPARATION_ERROR_CODES
 } = require("../social/preparation");
@@ -26,6 +27,7 @@ const {
   getHistoryRecord,
   saveQualityGateResult,
   evaluateQualityGate,
+  assertQualityGatePass,
   QUALITY_STATUS
 } = require("../social/qualityGate");
 const { MockRedis } = require("./helpers/mockRedis");
@@ -1277,6 +1279,123 @@ describe("DreamlyAI Social Content Preparation Orchestrator", () => {
     it("50. zero real network/provider calls occur", async () => {
       // Confirmed via pure in-memory test mocks
       assert.ok(true);
+    });
+  });
+
+  describe("Manifest Public URL Reconciliation & Retry", () => {
+    it("51. reconcileManifestPublicUrls updates manifest URLs and re-binds Quality Gate digest cryptographically", async () => {
+      // Setup initial prepared state with proxy URL
+      const prepRes = await prepareDailySocialContent({
+        publishDate: "2026-08-28",
+        leaseId: "worker-prep-051",
+        redis,
+        generateText: async () => JSON.stringify(createValidCreativeFixture()),
+        r2Client,
+        r2Config: {
+          ...r2Config,
+          publicBaseUrl: "https://dreamlyai-backend.vercel.app/api/social-media"
+        }
+      });
+      assert.equal(prepRes.status, "PREPARED");
+
+      const initialManifest = await getManifest({ redis, publishDate: "2026-08-28" });
+      assert.equal(
+        initialManifest.media[0].url,
+        "https://dreamlyai-backend.vercel.app/api/social-media/social/2026/08/28/slide-01.jpg"
+      );
+
+      const initialQuality = await getQualityGateState({ redis, publishDate: "2026-08-28" });
+      assert.equal(assertQualityGatePass({ qualityState: initialQuality, manifest: initialManifest }), true);
+
+      // Reconcile with direct R2 public URL
+      const recRes = await reconcileManifestPublicUrls({
+        redis,
+        publishDate: "2026-08-28",
+        publicBaseUrl: "https://pub-r2.dreamly.ai"
+      });
+      assert.equal(recRes.reconciled, true);
+
+      const updatedManifest = await getManifest({ redis, publishDate: "2026-08-28" });
+      assert.equal(
+        updatedManifest.media[0].url,
+        "https://pub-r2.dreamly.ai/social/2026/08/28/slide-01.jpg"
+      );
+
+      const updatedQuality = await getQualityGateState({ redis, publishDate: "2026-08-28" });
+      assert.notEqual(updatedQuality.manifestDigest, initialQuality.manifestDigest);
+      assert.equal(assertQualityGatePass({ qualityState: updatedQuality, manifest: updatedManifest }), true);
+
+      const updatedHistory = await getHistoryRecord({ redis, publishDate: "2026-08-28" });
+      assert.equal(updatedHistory.manifestDigest, updatedQuality.manifestDigest);
+    });
+
+    it("52. reconcileManifestPublicUrls is idempotent when URLs already match", async () => {
+      await prepareDailySocialContent({
+        publishDate: "2026-08-28",
+        leaseId: "worker-prep-052",
+        redis,
+        generateText: async () => JSON.stringify(createValidCreativeFixture()),
+        r2Client,
+        r2Config: {
+          ...r2Config,
+          publicBaseUrl: "https://pub-r2.dreamly.ai"
+        }
+      });
+
+      const recRes = await reconcileManifestPublicUrls({
+        redis,
+        publishDate: "2026-08-28",
+        publicBaseUrl: "https://pub-r2.dreamly.ai"
+      });
+      assert.equal(recRes.reconciled, false);
+      assert.equal(recRes.reason, "ALREADY_UP_TO_DATE");
+    });
+
+    it("53. ALREADY_PREPARED automatically reconciles manifest URLs when r2Config.publicBaseUrl changes", async () => {
+      let aiCallCount = 0;
+      const fakeGen = async () => {
+        aiCallCount++;
+        return JSON.stringify(createValidCreativeFixture());
+      };
+
+      // Initial run with old base URL
+      await prepareDailySocialContent({
+        publishDate: "2026-08-28",
+        leaseId: "worker-prep-053a",
+        redis,
+        generateText: fakeGen,
+        r2Client,
+        r2Config: {
+          ...r2Config,
+          publicBaseUrl: "https://old-proxy.vercel.app/api/social-media"
+        }
+      });
+      assert.equal(aiCallCount, 1);
+
+      // Second invocation with updated R2 public base URL
+      const res2 = await prepareDailySocialContent({
+        publishDate: "2026-08-28",
+        leaseId: "worker-prep-053b",
+        redis,
+        generateText: fakeGen,
+        r2Client,
+        r2Config: {
+          ...r2Config,
+          publicBaseUrl: "https://new-direct-r2.dreamly.ai"
+        }
+      });
+
+      assert.equal(res2.status, "ALREADY_PREPARED");
+      assert.equal(aiCallCount, 1); // Zero new AI calls
+
+      const manifest = await getManifest({ redis, publishDate: "2026-08-28" });
+      assert.equal(
+        manifest.media[0].url,
+        "https://new-direct-r2.dreamly.ai/social/2026/08/28/slide-01.jpg"
+      );
+
+      const qualityState = await getQualityGateState({ redis, publishDate: "2026-08-28" });
+      assert.equal(assertQualityGatePass({ qualityState, manifest }), true);
     });
   });
 });

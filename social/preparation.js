@@ -13,6 +13,7 @@ const { renderCarousel } = require("./renderer");
 const { uploadRenderedCarousel } = require("./storage");
 const { buildManifest, validateManifest } = require("./manifest");
 const {
+  buildManifestKey,
   claimPreparation,
   completePreparation,
   failPreparation,
@@ -24,9 +25,14 @@ const {
   evaluateQualityGate,
   saveQualityGateResult,
   getQualityGateState,
+  getHistoryRecord,
   assertQualityGatePass,
+  computeManifestDigest,
+  buildQualityKey,
+  buildHistoryKey,
   QUALITY_STATUS
 } = require("./qualityGate");
+const { buildPublicMediaUrl } = require("./storageConfig");
 
 const PREPARATION_ERROR_CODES = Object.freeze({
   INVALID_PREPARATION_INPUT: "INVALID_PREPARATION_INPUT",
@@ -173,6 +179,14 @@ async function prepareDailySocialContent({
 
   if (!claimResult.acquired) {
     if (claimResult.reason === "ALREADY_PREPARED") {
+      if (r2Config && typeof r2Config.publicBaseUrl === "string" && r2Config.publicBaseUrl.trim().length > 0) {
+        await reconcileManifestPublicUrls({
+          redis,
+          publishDate,
+          publicBaseUrl: r2Config.publicBaseUrl
+        });
+      }
+
       return {
         success: true,
         status: "ALREADY_PREPARED",
@@ -254,6 +268,14 @@ async function prepareDailySocialContent({
         }
 
         if (isMatchingPass) {
+          if (r2Config && typeof r2Config.publicBaseUrl === "string" && r2Config.publicBaseUrl.trim().length > 0) {
+            await reconcileManifestPublicUrls({
+              redis,
+              publishDate,
+              publicBaseUrl: r2Config.publicBaseUrl
+            });
+          }
+
           // Case B: Recoverable interrupted finalization
           await completePreparation({ redis, publishDate, contentId, leaseId });
           leaseAcquired = false;
@@ -521,8 +543,107 @@ async function prepareDailySocialContent({
   }
 }
 
+/**
+ * Reconciles stored manifest media URLs with current R2 public base URL,
+ * re-validating the manifest and cryptographically re-binding the Quality Gate PASS state.
+ *
+ * @param {object} params
+ * @param {object} params.redis
+ * @param {string} params.publishDate
+ * @param {string} params.publicBaseUrl
+ * @returns {Promise<{ reconciled: boolean, reason?: string, manifest?: object, qualityState?: object }>}
+ */
+async function reconcileManifestPublicUrls({ redis, publishDate, publicBaseUrl } = {}) {
+  if (!isValidDateString(publishDate)) {
+    throw new Error(`Invalid publishDate for URL reconciliation: '${publishDate}'`);
+  }
+  if (typeof publicBaseUrl !== "string" || publicBaseUrl.trim().length === 0) {
+    throw new Error("Invalid publicBaseUrl for URL reconciliation: must be a non-empty string");
+  }
+
+  const existingManifest = await getManifest({ redis, publishDate });
+  if (!existingManifest) {
+    return { reconciled: false, reason: "NO_MANIFEST" };
+  }
+
+  const qualityState = await getQualityGateState({ redis, publishDate });
+  if (!qualityState || qualityState.status !== QUALITY_STATUS.PASS) {
+    return { reconciled: false, reason: "QUALITY_NOT_PASS" };
+  }
+
+  // Verify existing quality state was valid and bound to the existing manifest
+  assertQualityGatePass({ qualityState, manifest: existingManifest });
+
+  let needsUpdate = false;
+  const updatedMedia = existingManifest.media.map((item) => {
+    const expectedUrl = buildPublicMediaUrl(publicBaseUrl, item.key);
+    if (item.url !== expectedUrl) {
+      needsUpdate = true;
+    }
+    return {
+      ...item,
+      url: expectedUrl
+    };
+  });
+
+  if (!needsUpdate) {
+    return {
+      reconciled: false,
+      reason: "ALREADY_UP_TO_DATE",
+      manifest: existingManifest,
+      qualityState
+    };
+  }
+
+  const updatedManifest = {
+    ...existingManifest,
+    media: updatedMedia
+  };
+
+  const validation = validateManifest(updatedManifest);
+  if (!validation.valid) {
+    throw new Error(`Reconciled manifest failed validation: ${validation.errors.join("; ")}`);
+  }
+
+  const newManifestDigest = computeManifestDigest(updatedManifest);
+
+  const updatedQualityState = {
+    ...qualityState,
+    manifestDigest: newManifestDigest
+  };
+
+  // Re-verify cryptographically
+  assertQualityGatePass({ qualityState: updatedQualityState, manifest: updatedManifest });
+
+  const historyRecord = await getHistoryRecord({ redis, publishDate });
+  let updatedHistoryRecord = null;
+  if (historyRecord) {
+    updatedHistoryRecord = {
+      ...historyRecord,
+      manifestDigest: newManifestDigest
+    };
+  }
+
+  const manifestKey = buildManifestKey(publishDate);
+  const qualityKey = buildQualityKey(publishDate);
+
+  await redis.set(manifestKey, JSON.stringify(updatedManifest));
+  await redis.set(qualityKey, JSON.stringify(updatedQualityState));
+  if (updatedHistoryRecord) {
+    const historyKey = buildHistoryKey(publishDate);
+    await redis.set(historyKey, JSON.stringify(updatedHistoryRecord));
+  }
+
+  return {
+    reconciled: true,
+    manifest: updatedManifest,
+    qualityState: updatedQualityState
+  };
+}
+
 module.exports = {
   PREPARATION_ERROR_CODES,
   SocialPreparationError,
-  prepareDailySocialContent
+  prepareDailySocialContent,
+  reconcileManifestPublicUrls
 };
