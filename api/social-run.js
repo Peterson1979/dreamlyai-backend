@@ -70,11 +70,11 @@ function verifyCronAuthorization(req) {
  */
 module.exports = async function socialRunHandler(req, res) {
   try {
-    // 1. Method restriction (POST only)
-    if (req.method !== "POST") {
+    // 1. Method restriction (POST and GET accepted for Vercel Cron compatibility)
+    if (req.method !== "POST" && req.method !== "GET") {
       return res.status(405).json({
         success: false,
-        error: `Method ${req.method} not allowed. Only POST is accepted.`
+        error: `Method ${req.method} not allowed. Only POST and GET are accepted.`
       });
     }
 
@@ -89,15 +89,20 @@ module.exports = async function socialRunHandler(req, res) {
 
     // 3. Date derivation
     let publishDate;
-    if (req.body && typeof req.body.publishDate === "string" && req.body.publishDate.trim().length > 0) {
-      const candidateDate = req.body.publishDate.trim();
-      if (!isValidDateString(candidateDate)) {
+    const rawDate = (req.body && typeof req.body.publishDate === "string" && req.body.publishDate.trim().length > 0)
+      ? req.body.publishDate.trim()
+      : (req.query && typeof req.query.publishDate === "string" && req.query.publishDate.trim().length > 0)
+        ? req.query.publishDate.trim()
+        : null;
+
+    if (rawDate) {
+      if (!isValidDateString(rawDate)) {
         return res.status(400).json({
           success: false,
           error: "Invalid publishDate in request body: expected strict YYYY-MM-DD format."
         });
       }
-      publishDate = candidateDate;
+      publishDate = rawDate;
     } else {
       publishDate = getUtcPublishDate();
     }

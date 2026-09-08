@@ -255,20 +255,22 @@ describe("DreamlyAI Social Production HTTP Endpoint", () => {
   }
 
   describe("HTTP Method Restriction", () => {
-    it("1. GET request is rejected with 405 Method Not Allowed", async () => {
+    it("1. GET request is accepted and processes successfully for Vercel Cron compatibility", async () => {
       const { req, res } = createMockReqRes({
         method: "GET",
-        headers: { authorization: `Bearer ${TEST_CRON_SECRET}` }
+        headers: { authorization: `Bearer ${TEST_CRON_SECRET}` },
+        query: { publishDate: "2026-08-28" },
+        injected: getValidInjections()
       });
 
       await socialRunHandler(req, res);
 
-      assert.equal(res.statusCode, 405);
-      assert.equal(res._json.success, false);
-      assert.equal(res._json.error.includes("Only POST is accepted"), true);
+      assert.equal(res.statusCode, 200);
+      assert.equal(res._json.success, true);
+      assert.equal(res._json.status, "COMPLETED");
     });
 
-    it("2. Other unsupported HTTP methods (PUT, DELETE, PATCH) are rejected with 405", async () => {
+    it("2. Other unsupported HTTP methods (PUT, DELETE, PATCH, HEAD, OPTIONS) are rejected with 405", async () => {
       for (const badMethod of ["PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"]) {
         const { req, res } = createMockReqRes({
           method: badMethod,
