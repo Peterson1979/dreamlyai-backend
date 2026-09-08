@@ -145,30 +145,50 @@ module.exports = async function socialRunHandler(req, res) {
       }
 
       try {
-        const res2 = await fetch(`${config.graphBaseUrl}/${config.pageId}?fields=id,name`, {
+        const res2 = await fetch(`${config.graphBaseUrl}/${config.pageId}?fields=id,name,access_token`, {
           headers: { Authorization: `Bearer ${config.pageAccessToken}` }
         });
-        results.page = { status: res2.status, data: await res2.json() };
+        const d2 = await res2.json();
+        results.page = {
+          status: res2.status,
+          hasPageAccessToken: Boolean(d2.access_token),
+          data: { id: d2.id, name: d2.name }
+        };
+        if (d2.access_token) {
+          // Test photo upload with the Page Access Token
+          const photoBody = new URLSearchParams({
+            url: "https://pub-f7295eaef2044c31b84934859c031ef9.r2.dev/social/2026/09/08/slide-01.jpg",
+            published: "false"
+          });
+          const resPhoto = await fetch(`${config.graphBaseUrl}/${config.pageId}/photos`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${d2.access_token}`,
+              "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: photoBody.toString()
+          });
+          results.photoUploadWithPageToken = {
+            status: resPhoto.status,
+            data: await resPhoto.json()
+          };
+        }
       } catch (e) {
         results.page = { error: e.message };
       }
 
       try {
-        const photoBody = new URLSearchParams({
-          url: "https://pub-f7295eaef2044c31b84934859c031ef9.r2.dev/social/2026/09/08/slide-01.jpg",
-          published: "false"
+        const resAcc = await fetch(`${config.graphBaseUrl}/me/accounts?fields=id,name,access_token`, {
+          headers: { Authorization: `Bearer ${config.pageAccessToken}` }
         });
-        const res3 = await fetch(`${config.graphBaseUrl}/${config.pageId}/photos`, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${config.pageAccessToken}`,
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          body: photoBody.toString()
-        });
-        results.photos = { status: res3.status, data: await res3.json() };
+        const accData = await resAcc.json();
+        results.meAccounts = {
+          status: resAcc.status,
+          accountsCount: accData.data ? accData.data.length : 0,
+          accounts: accData.data ? accData.data.map(a => ({ id: a.id, name: a.name, hasToken: Boolean(a.access_token) })) : accData
+        };
       } catch (e) {
-        results.photos = { error: e.message };
+        results.meAccounts = { error: e.message };
       }
 
       return res.status(200).json({
