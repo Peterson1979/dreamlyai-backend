@@ -26,7 +26,12 @@ function getUtcPublishDate(now = new Date()) {
  */
 function verifyCronAuthorization(req) {
   const cronSecret = process.env.CRON_SECRET;
-  if (!cronSecret || typeof cronSecret !== "string" || cronSecret.trim().length === 0) {
+  const tokenStatusSecret = process.env.TOKEN_STATUS_SECRET;
+
+  if (
+    (!cronSecret || typeof cronSecret !== "string" || cronSecret.trim().length === 0) &&
+    (!tokenStatusSecret || typeof tokenStatusSecret !== "string" || tokenStatusSecret.trim().length === 0)
+  ) {
     return {
       ok: false,
       status: 401,
@@ -44,15 +49,33 @@ function verifyCronAuthorization(req) {
   }
 
   const trimmedHeader = authHeader.trim();
-  const expectedHeader = `Bearer ${cronSecret.trim()}`;
-
-  const expectedBuf = Buffer.from(expectedHeader, "utf8");
   const actualBuf = Buffer.from(trimmedHeader, "utf8");
 
-  if (
-    expectedBuf.length !== actualBuf.length ||
-    !crypto.timingSafeEqual(expectedBuf, actualBuf)
-  ) {
+  let authorized = false;
+
+  if (cronSecret && typeof cronSecret === "string" && cronSecret.trim().length > 0) {
+    const expectedHeader = `Bearer ${cronSecret.trim()}`;
+    const expectedBuf = Buffer.from(expectedHeader, "utf8");
+    if (
+      expectedBuf.length === actualBuf.length &&
+      crypto.timingSafeEqual(expectedBuf, actualBuf)
+    ) {
+      authorized = true;
+    }
+  }
+
+  if (!authorized && tokenStatusSecret && typeof tokenStatusSecret === "string" && tokenStatusSecret.trim().length > 0) {
+    const expectedHeader = `Bearer ${tokenStatusSecret.trim()}`;
+    const expectedBuf = Buffer.from(expectedHeader, "utf8");
+    if (
+      expectedBuf.length === actualBuf.length &&
+      crypto.timingSafeEqual(expectedBuf, actualBuf)
+    ) {
+      authorized = true;
+    }
+  }
+
+  if (!authorized) {
     return {
       ok: false,
       status: 401,
