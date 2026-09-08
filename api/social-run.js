@@ -130,6 +130,53 @@ module.exports = async function socialRunHandler(req, res) {
       publishDate = getUtcPublishDate();
     }
 
+    if (req.body && req.body.diagnoseFacebook === true) {
+      const { loadFacebookConfig } = require("../social/facebookConfig");
+      const config = loadFacebookConfig();
+      const results = {};
+
+      try {
+        const res1 = await fetch(`${config.graphBaseUrl}/me?fields=id,name`, {
+          headers: { Authorization: `Bearer ${config.pageAccessToken}` }
+        });
+        results.me = { status: res1.status, data: await res1.json() };
+      } catch (e) {
+        results.me = { error: e.message };
+      }
+
+      try {
+        const res2 = await fetch(`${config.graphBaseUrl}/${config.pageId}?fields=id,name`, {
+          headers: { Authorization: `Bearer ${config.pageAccessToken}` }
+        });
+        results.page = { status: res2.status, data: await res2.json() };
+      } catch (e) {
+        results.page = { error: e.message };
+      }
+
+      try {
+        const photoBody = new URLSearchParams({
+          url: "https://pub-f7295eaef2044c31b84934859c031ef9.r2.dev/social/2026/09/08/slide-01.jpg",
+          published: "false"
+        });
+        const res3 = await fetch(`${config.graphBaseUrl}/${config.pageId}/photos`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${config.pageAccessToken}`,
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          body: photoBody.toString()
+        });
+        results.photos = { status: res3.status, data: await res3.json() };
+      } catch (e) {
+        results.photos = { error: e.message };
+      }
+
+      return res.status(200).json({
+        success: true,
+        diagnostics: results
+      });
+    }
+
     // 4. Execution via Production Entrypoint
     const result = await runProductionSocialPipeline({
       publishDate,
