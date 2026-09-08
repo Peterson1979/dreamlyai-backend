@@ -98,7 +98,7 @@ function createMockFetch() {
     const urlStr = String(url);
     const method = options.method || "GET";
 
-    if (urlStr.includes("graph.facebook.com/v25.0/me") && method === "GET") {
+    if ((urlStr.includes("graph.facebook.com/v25.0/me") || urlStr.includes("/100123456789?fields=id,name,access_token") || urlStr.includes("/100123456789?fields=id,name")) && !urlStr.includes("instagram_business_account") && method === "GET") {
       return {
         ok: true,
         status: 200,

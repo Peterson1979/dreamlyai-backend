@@ -153,10 +153,16 @@ async function verifyFacebookPageIdentity({
     );
   }
 
+  const pageToken =
+    typeof data.access_token === "string" && data.access_token.trim().length > 0
+      ? data.access_token.trim()
+      : config.pageAccessToken;
+
   return {
     verified: true,
     pageId: config.pageId,
-    pageName: data.name
+    pageName: data.name,
+    pageToken
   };
 }
 
@@ -219,8 +225,9 @@ async function publishFacebookCarousel({
     }
   }
 
-  // 2. Verify Page token identity before ANY photo writes
-  await verifyFacebookPageIdentity({ fetchImpl, config });
+  // 2. Verify Page token identity before ANY photo writes and resolve active page token
+  const identity = await verifyFacebookPageIdentity({ fetchImpl, config });
+  const activePageToken = identity.pageToken || config.pageAccessToken;
 
   // 3. Step 1 — Upload 5 unpublished photos in order
   const photoIds = [];
@@ -235,7 +242,7 @@ async function publishFacebookCarousel({
     const photoData = await executeGraphRequest(fetchImpl, photoEndpoint, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${config.pageAccessToken}`,
+        Authorization: `Bearer ${activePageToken}`,
         "Content-Type": "application/x-www-form-urlencoded"
       },
       body: photoBody.toString()
@@ -270,7 +277,7 @@ async function publishFacebookCarousel({
     feedResponse = await fetchImpl(feedEndpoint, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${config.pageAccessToken}`,
+        Authorization: `Bearer ${activePageToken}`,
         "Content-Type": "application/x-www-form-urlencoded"
       },
       body: feedBody.toString()

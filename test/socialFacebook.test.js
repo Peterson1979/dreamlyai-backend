@@ -101,13 +101,16 @@ function createMockFetch(handlers = {}) {
       if (customResponse) return customResponse;
     }
 
-    if (url.includes("/me?fields=id,name")) {
+    if (url.includes("?fields=id,name,access_token") || url.includes("?fields=id,name")) {
       if (handlers.meError) throw handlers.meError;
       if (handlers.meResponse) return handlers.meResponse;
       return {
         ok: true,
         status: 200,
-        json: async () => ({ id: "100123456789", name: "DreamlyAI Official" })
+        json: async () => ({
+          id: "100123456789",
+          name: "DreamlyAI Official"
+        })
       };
     }
 
@@ -202,27 +205,33 @@ describe("Facebook Multi-Image Publishing Adapter", () => {
       );
     });
 
-    it("5. Graph API version is exactly v25.0", () => {
-      assert.equal(META_GRAPH_API_VERSION, "v25.0");
+    it("5. whitespace in env vars is trimmed", () => {
+      const env = {
+        FACEBOOK_PAGE_ID: "  100123456789  ",
+        FACEBOOK_PAGE_ACCESS_TOKEN: "  EAAX_TOKEN_XYZ  "
+      };
+      const config = loadFacebookConfig(env);
+      assert.equal(config.pageId, "100123456789");
+      assert.equal(config.pageAccessToken, "EAAX_TOKEN_XYZ");
     });
 
-    it("6. Graph base URL is versioned", () => {
+    it("6. graphBaseUrl uses v25.0", () => {
       const config = createMockConfig();
       assert.equal(config.graphBaseUrl, "https://graph.facebook.com/v25.0");
     });
 
-    it("7. identity request does not put token in URL", () => {
+    it("7. identity request does not put token in URL and queries pageId with access_token field", () => {
       const config = createMockConfig();
       const req = buildFacebookPageIdentityRequest(config);
       assert.equal(req.method, "GET");
-      assert.equal(req.url, "https://graph.facebook.com/v25.0/me?fields=id,name");
+      assert.equal(req.url, "https://graph.facebook.com/v25.0/100123456789?fields=id,name,access_token");
       assert.equal(req.url.includes(config.pageAccessToken), false);
       assert.equal(req.headers.Authorization, `Bearer ${config.pageAccessToken}`);
     });
   });
 
   describe("Page Identity Verification", () => {
-    it("8. valid /me identity matching PAGE_ID succeeds", async () => {
+    it("8. valid identity matching PAGE_ID succeeds", async () => {
       const config = createMockConfig();
       const mockFetch = createMockFetch();
       const identity = await verifyFacebookPageIdentity({
@@ -233,8 +242,9 @@ describe("Facebook Multi-Image Publishing Adapter", () => {
       assert.equal(identity.verified, true);
       assert.equal(identity.pageId, "100123456789");
       assert.equal(identity.pageName, "DreamlyAI Official");
+      assert.equal(identity.pageToken, config.pageAccessToken);
       assert.equal(mockFetch.calls.length, 1);
-      assert.equal(mockFetch.calls[0].url, "https://graph.facebook.com/v25.0/me?fields=id,name");
+      assert.equal(mockFetch.calls[0].url, "https://graph.facebook.com/v25.0/100123456789?fields=id,name,access_token");
       assert.equal(
         mockFetch.calls[0].options.headers.Authorization,
         `Bearer ${config.pageAccessToken}`
@@ -345,9 +355,9 @@ describe("Facebook Multi-Image Publishing Adapter", () => {
         /Permissions error/i
       );
 
-      // Only /me was called, zero /photos calls
+      // Only identity was called, zero /photos calls
       assert.equal(mockFetch.calls.length, 1);
-      assert.equal(mockFetch.calls[0].url.includes("/me"), true);
+      assert.equal(mockFetch.calls[0].url.includes("?fields=id,name"), true);
     });
   });
 
@@ -380,7 +390,10 @@ describe("Facebook Multi-Image Publishing Adapter", () => {
       assert.equal(mockFetch.calls.length, 7);
 
       // 14. First call is identity GET
-      assert.equal(mockFetch.calls[0].url, "https://graph.facebook.com/v25.0/me?fields=id,name");
+      assert.equal(
+        mockFetch.calls[0].url,
+        "https://graph.facebook.com/v25.0/100123456789?fields=id,name,access_token"
+      );
 
       // 15-19. Next 5 calls are /photos POSTs
       for (let i = 0; i < 5; i++) {
@@ -752,6 +765,69 @@ describe("Facebook Multi-Image Publishing Adapter", () => {
       };
       const config = loadFacebookConfig(env);
       assert.equal("pinterest" in config, false);
+    });
+
+    it("48. resolved pageToken is used for photo uploads and feed post", async () => {
+      const manifest = createValidManifest();
+      const config = createMockConfig();
+      const mockFetch = createMockFetch({
+        meResponse: {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            id: "100123456789",
+            name: "DreamlyAI Official",
+            access_token: "EAAX_RESOLVED_PAGE_ACCESS_TOKEN_999"
+          })
+        }
+      });
+
+      const result = await publishFacebookCarousel({
+        manifest,
+        fetchImpl: mockFetch,
+        config
+      });
+
+      assert.equal(result.success, true);
+      assert.equal(result.status, "PUBLISHED");
+      assert.equal(result.postId, "100123456789_post_999888777");
+
+      // Verify photo calls used the resolved page token
+      const photoCalls = mockFetch.calls.filter((c) => c.url.includes("/photos"));
+      assert.equal(photoCalls.length, 5);
+      for (const call of photoCalls) {
+        assert.equal(
+          call.options.headers.Authorization,
+          "Bearer EAAX_RESOLVED_PAGE_ACCESS_TOKEN_999"
+        );
+      }
+
+      // Verify feed call used the resolved page token
+      const feedCall = mockFetch.calls.find((c) => c.url.includes("/feed"));
+      assert.ok(feedCall);
+      assert.equal(
+        feedCall.options.headers.Authorization,
+        "Bearer EAAX_RESOLVED_PAGE_ACCESS_TOKEN_999"
+      );
+    });
+
+    it("49. direct page token without access_token field falls back to config.pageAccessToken", async () => {
+      const config = createMockConfig();
+      const mockFetch = createMockFetch({
+        meResponse: {
+          ok: true,
+          status: 200,
+          json: async () => ({ id: "100123456789", name: "DreamlyAI Direct Page" })
+        }
+      });
+
+      const identity = await verifyFacebookPageIdentity({
+        fetchImpl: mockFetch,
+        config
+      });
+
+      assert.equal(identity.verified, true);
+      assert.equal(identity.pageToken, config.pageAccessToken);
     });
   });
 });

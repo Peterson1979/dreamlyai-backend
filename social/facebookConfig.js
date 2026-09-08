@@ -55,9 +55,11 @@ function buildFacebookPageIdentityRequest(config) {
     throw new Error("Invalid config passed to buildFacebookPageIdentityRequest");
   }
 
+  const targetPath = config.pageId ? config.pageId.trim() : "me";
+
   return {
     method: "GET",
-    url: `${config.graphBaseUrl}/me?fields=id,name`,
+    url: `${config.graphBaseUrl}/${targetPath}?fields=id,name,access_token`,
     headers: {
       Authorization: `Bearer ${config.pageAccessToken}`
     }

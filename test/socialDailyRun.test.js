@@ -114,8 +114,8 @@ function createMockFetch({
     const urlStr = String(url);
     const method = options.method || "GET";
 
-    // Facebook /me identity check
-    if (urlStr.includes("graph.facebook.com/v25.0/me") && method === "GET") {
+    // Facebook identity check
+    if ((urlStr.includes("graph.facebook.com/v25.0/me") || urlStr.includes("/100123456789?fields=id,name,access_token") || urlStr.includes("/100123456789?fields=id,name")) && !urlStr.includes("instagram_business_account") && method === "GET") {
       if (facebookBehavior === "identity_error") {
         return {
           ok: false,

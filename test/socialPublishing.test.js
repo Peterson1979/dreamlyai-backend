@@ -119,7 +119,7 @@ function createSuccessfulFacebookFetch(handlers = {}) {
       if (customResponse) return customResponse;
     }
 
-    if (url.includes("/me?fields=id,name")) {
+    if (url.includes("fields=id,name") && !url.includes("instagram_business_account")) {
       return {
         ok: true,
         status: 200,
