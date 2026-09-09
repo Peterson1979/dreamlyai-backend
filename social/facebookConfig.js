@@ -66,9 +66,73 @@ function buildFacebookPageIdentityRequest(config) {
   };
 }
 
+/**
+ * Checks whether secondary Facebook Page publishing is configured in environment.
+ * @param {object} [env=process.env]
+ * @returns {boolean}
+ */
+function isFacebookSecondaryConfigured(env = process.env) {
+  if (!env || typeof env !== "object") return false;
+  const val = env.FACEBOOK_SECONDARY_PAGE_ID;
+  return typeof val === "string" && val.trim().length > 0;
+}
+
+/**
+ * Loads and validates secondary Facebook Page publishing configuration from environment.
+ * If FACEBOOK_SECONDARY_PAGE_ACCESS_TOKEN is not provided, dynamically falls back to FACEBOOK_PAGE_ACCESS_TOKEN.
+ * Returns null if secondary Facebook Page is not configured.
+ * @param {object} [env=process.env]
+ * @returns {{ pageId: string, pageAccessToken: string, graphApiVersion: string, graphBaseUrl: string } | null}
+ */
+function loadFacebookSecondaryConfig(env = process.env) {
+  if (!env || typeof env !== "object") {
+    throw new Error("Invalid environment: expected an environment object");
+  }
+
+  if (!isFacebookSecondaryConfigured(env)) {
+    return null;
+  }
+
+  const pageId = env.FACEBOOK_SECONDARY_PAGE_ID.trim();
+  if (!/^\d+$/.test(pageId)) {
+    throw new Error("Invalid FACEBOOK_SECONDARY_PAGE_ID: must contain digits only");
+  }
+
+  const secondaryToken =
+    typeof env.FACEBOOK_SECONDARY_PAGE_ACCESS_TOKEN === "string" &&
+    env.FACEBOOK_SECONDARY_PAGE_ACCESS_TOKEN.trim().length > 0
+      ? env.FACEBOOK_SECONDARY_PAGE_ACCESS_TOKEN.trim()
+      : null;
+
+  const primaryToken =
+    typeof env.FACEBOOK_PAGE_ACCESS_TOKEN === "string" &&
+    env.FACEBOOK_PAGE_ACCESS_TOKEN.trim().length > 0
+      ? env.FACEBOOK_PAGE_ACCESS_TOKEN.trim()
+      : null;
+
+  const pageAccessToken = secondaryToken || primaryToken;
+  if (!pageAccessToken) {
+    throw new Error(
+      "Missing secondary Facebook page access token: neither FACEBOOK_SECONDARY_PAGE_ACCESS_TOKEN nor FACEBOOK_PAGE_ACCESS_TOKEN is configured"
+    );
+  }
+
+  const graphBaseUrl = `https://graph.facebook.com/${META_GRAPH_API_VERSION}`;
+
+  return {
+    pageId,
+    pageAccessToken,
+    graphApiVersion: META_GRAPH_API_VERSION,
+    graphBaseUrl
+  };
+}
+
 module.exports = {
   META_GRAPH_API_VERSION,
   REQUIRED_FACEBOOK_ENV_VARS,
   loadFacebookConfig,
+  isFacebookSecondaryConfigured,
+  loadFacebookSecondaryConfig,
   buildFacebookPageIdentityRequest
 };
+

@@ -140,7 +140,9 @@ module.exports = async function socialRunHandler(req, res) {
       r2Config: req._injectedR2Config,
       fetchImpl: req._injectedFetchImpl,
       facebookConfig: req._injectedFacebookConfig,
+      facebookSecondaryConfig: req._injectedFacebookSecondaryConfig,
       instagramConfig: req._injectedInstagramConfig,
+      instagramSecondaryConfig: req._injectedInstagramSecondaryConfig,
       sleepImpl: req._injectedSleepImpl
     });
 

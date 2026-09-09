@@ -16,11 +16,40 @@ const { generateSocialAiText, sanitizeErrorMessage } = require("./aiProvider");
 const { getRedisClient } = require("../utils/redisClient");
 const { loadR2Config } = require("./storageConfig");
 const { createR2Client } = require("./storage");
-const { loadFacebookConfig } = require("./facebookConfig");
-const { loadInstagramConfig } = require("./instagramConfig");
+const {
+  loadFacebookConfig,
+  loadFacebookSecondaryConfig
+} = require("./facebookConfig");
+const {
+  loadInstagramConfig,
+  loadInstagramSecondaryConfig
+} = require("./instagramConfig");
 
 /**
- * Executes the complete daily social pipeline with production dependency wiring.
+ * Builds skipped publishing response for early production failure exits.
+ * @param {string} reason
+ * @returns {object}
+ */
+function buildSkippedProductionPublishing(reason) {
+  const output = {
+    facebook_primary: { success: false, status: "SKIPPED", reason },
+    facebook_secondary: { success: false, status: "SKIPPED", reason },
+    instagram_primary: { success: false, status: "SKIPPED", reason },
+    instagram_secondary: { success: false, status: "SKIPPED", reason }
+  };
+  Object.defineProperty(output, "facebook", {
+    get() { return this.facebook_primary; },
+    enumerable: true
+  });
+  Object.defineProperty(output, "instagram", {
+    get() { return this.instagram_primary; },
+    enumerable: true
+  });
+  return output;
+}
+
+/**
+ * Executes the complete daily social pipeline with production dependency wiring across all configured destinations.
  *
  * @param {object} params
  * @param {string} params.publishDate Strict YYYY-MM-DD (required)
@@ -30,8 +59,10 @@ const { loadInstagramConfig } = require("./instagramConfig");
  * @param {object} [params.r2Client] Optional injected R2 client
  * @param {object} [params.r2Config] Optional injected R2 config
  * @param {Function} [params.fetchImpl] Optional injected fetch implementation
- * @param {object} [params.facebookConfig] Optional injected Facebook config
- * @param {object} [params.instagramConfig] Optional injected Instagram config
+ * @param {object} [params.facebookConfig] Optional injected primary Facebook config
+ * @param {object} [params.facebookSecondaryConfig] Optional injected secondary Facebook config
+ * @param {object} [params.instagramConfig] Optional injected primary Instagram config
+ * @param {object} [params.instagramSecondaryConfig] Optional injected secondary Instagram config
  * @param {Function} [params.sleepImpl] Optional injected sleep implementation
  * @param {number} [params.instagramMaxPollAttempts] Optional max Instagram poll attempts
  * @param {number} [params.instagramPollIntervalMs] Optional Instagram poll interval ms
@@ -48,7 +79,9 @@ async function runProductionSocialPipeline(params = {}) {
     r2Config,
     fetchImpl,
     facebookConfig,
+    facebookSecondaryConfig,
     instagramConfig,
+    instagramSecondaryConfig,
     sleepImpl,
     instagramMaxPollAttempts,
     instagramPollIntervalMs,
@@ -68,10 +101,7 @@ async function runProductionSocialPipeline(params = {}) {
         status: "FAILED",
         errorCode: "INVALID_DATE"
       },
-      publishing: {
-        facebook: { success: false, status: "SKIPPED", reason: "INVALID_DATE" },
-        instagram: { success: false, status: "SKIPPED", reason: "INVALID_DATE" }
-      }
+      publishing: buildSkippedProductionPublishing("INVALID_DATE")
     };
   }
 
@@ -96,10 +126,7 @@ async function runProductionSocialPipeline(params = {}) {
         status: "FAILED",
         errorCode: "REDIS_UNAVAILABLE"
       },
-      publishing: {
-        facebook: { success: false, status: "SKIPPED", reason: "REDIS_UNAVAILABLE" },
-        instagram: { success: false, status: "SKIPPED", reason: "REDIS_UNAVAILABLE" }
-      }
+      publishing: buildSkippedProductionPublishing("REDIS_UNAVAILABLE")
     };
   }
 
@@ -125,14 +152,11 @@ async function runProductionSocialPipeline(params = {}) {
         status: "FAILED",
         errorCode: "R2_CONFIG_ERROR"
       },
-      publishing: {
-        facebook: { success: false, status: "SKIPPED", reason: "PREPARATION_FAILED" },
-        instagram: { success: false, status: "SKIPPED", reason: "PREPARATION_FAILED" }
-      }
+      publishing: buildSkippedProductionPublishing("PREPARATION_FAILED")
     };
   }
 
-  // 5. Resolve Facebook configuration
+  // 5. Resolve Facebook configurations
   let resolvedFacebookConfig;
   try {
     resolvedFacebookConfig = facebookConfig || loadFacebookConfig();
@@ -148,14 +172,22 @@ async function runProductionSocialPipeline(params = {}) {
         status: "FAILED",
         errorCode: "FACEBOOK_CONFIG_ERROR"
       },
-      publishing: {
-        facebook: { success: false, status: "SKIPPED", reason: "CONFIGURATION_ERROR" },
-        instagram: { success: false, status: "SKIPPED", reason: "CONFIGURATION_ERROR" }
-      }
+      publishing: buildSkippedProductionPublishing("CONFIGURATION_ERROR")
     };
   }
 
-  // 6. Resolve Instagram configuration
+  let resolvedFacebookSecondaryConfig = null;
+  if (facebookSecondaryConfig !== undefined) {
+    resolvedFacebookSecondaryConfig = facebookSecondaryConfig;
+  } else {
+    try {
+      resolvedFacebookSecondaryConfig = loadFacebookSecondaryConfig();
+    } catch (_) {
+      resolvedFacebookSecondaryConfig = null;
+    }
+  }
+
+  // 6. Resolve Instagram configurations
   let resolvedInstagramConfig;
   try {
     resolvedInstagramConfig = instagramConfig || loadInstagramConfig();
@@ -171,11 +203,19 @@ async function runProductionSocialPipeline(params = {}) {
         status: "FAILED",
         errorCode: "INSTAGRAM_CONFIG_ERROR"
       },
-      publishing: {
-        facebook: { success: false, status: "SKIPPED", reason: "CONFIGURATION_ERROR" },
-        instagram: { success: false, status: "SKIPPED", reason: "CONFIGURATION_ERROR" }
-      }
+      publishing: buildSkippedProductionPublishing("CONFIGURATION_ERROR")
     };
+  }
+
+  let resolvedInstagramSecondaryConfig = null;
+  if (instagramSecondaryConfig !== undefined) {
+    resolvedInstagramSecondaryConfig = instagramSecondaryConfig;
+  } else {
+    try {
+      resolvedInstagramSecondaryConfig = loadInstagramSecondaryConfig();
+    } catch (_) {
+      resolvedInstagramSecondaryConfig = null;
+    }
   }
 
   // 7. Resolve fetch implementation
@@ -197,7 +237,9 @@ async function runProductionSocialPipeline(params = {}) {
     r2Config: resolvedR2Config,
     fetchImpl: resolvedFetch,
     facebookConfig: resolvedFacebookConfig,
+    facebookSecondaryConfig: resolvedFacebookSecondaryConfig,
     instagramConfig: resolvedInstagramConfig,
+    instagramSecondaryConfig: resolvedInstagramSecondaryConfig,
     sleepImpl,
     instagramMaxPollAttempts,
     instagramPollIntervalMs,
@@ -209,3 +251,4 @@ module.exports = {
   runProductionSocialPipeline,
   runProductionPipeline: runProductionSocialPipeline
 };
+

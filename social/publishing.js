@@ -31,10 +31,16 @@ const {
   publishInstagramCarousel
 } = require("./instagram");
 
-const SUPPORTED_PUBLISH_PLATFORMS = Object.freeze([
+const SUPPORTED_PUBLISH_DESTINATIONS = Object.freeze([
+  "facebook_primary",
+  "facebook_secondary",
+  "instagram_primary",
+  "instagram_secondary",
   "facebook",
   "instagram"
 ]);
+
+const SUPPORTED_PUBLISH_PLATFORMS = SUPPORTED_PUBLISH_DESTINATIONS;
 
 const PUBLISHING_ERROR_CODES = Object.freeze({
   INVALID_PUBLISH_INPUT: "INVALID_PUBLISH_INPUT",
@@ -45,6 +51,28 @@ const PUBLISHING_ERROR_CODES = Object.freeze({
   PROVIDER_AMBIGUOUS: "PROVIDER_AMBIGUOUS",
   PUBLICATION_STATE_FAILURE: "PUBLICATION_STATE_FAILURE"
 });
+
+/**
+ * Resolves provider family ('facebook' | 'instagram') and canonical destination identifier.
+ * @param {string} target
+ * @returns {{ family: "facebook" | "instagram", destination: string } | null}
+ */
+function resolveDestinationInfo(target) {
+  if (typeof target !== "string") return null;
+  if (target === "facebook" || target === "facebook_primary") {
+    return { family: "facebook", destination: target };
+  }
+  if (target === "facebook_secondary") {
+    return { family: "facebook", destination: "facebook_secondary" };
+  }
+  if (target === "instagram" || target === "instagram_primary") {
+    return { family: "instagram", destination: target };
+  }
+  if (target === "instagram_secondary") {
+    return { family: "instagram", destination: "instagram_secondary" };
+  }
+  return null;
+}
 
 /**
  * Custom error class for social publishing orchestration failures.
@@ -72,6 +100,7 @@ class SocialPublishingError extends Error {
 function validatePublishInputs({
   publishDate,
   platform,
+  destination,
   leaseId,
   redis,
   fetchImpl,
@@ -87,12 +116,12 @@ function validatePublishInputs({
     );
   }
 
-  if (
-    typeof platform !== "string" ||
-    !SUPPORTED_PUBLISH_PLATFORMS.includes(platform)
-  ) {
+  const target = destination || platform;
+  const destInfo = resolveDestinationInfo(target);
+
+  if (!destInfo || !SUPPORTED_PUBLISH_DESTINATIONS.includes(target)) {
     throw new SocialPublishingError(
-      `Invalid platform: '${platform}'. Must be one of: ${SUPPORTED_PUBLISH_PLATFORMS.join(", ")}`,
+      `Invalid platform/destination: '${target}'. Must be one of: ${SUPPORTED_PUBLISH_DESTINATIONS.join(", ")}`,
       {
         code: PUBLISHING_ERROR_CODES.INVALID_PUBLISH_INPUT
       }
@@ -130,7 +159,7 @@ function validatePublishInputs({
   }
 
   if (
-    platform === "facebook" &&
+    destInfo.family === "facebook" &&
     (!facebookConfig || typeof facebookConfig !== "object")
   ) {
     throw new SocialPublishingError(
@@ -142,7 +171,7 @@ function validatePublishInputs({
   }
 
   if (
-    platform === "instagram" &&
+    destInfo.family === "instagram" &&
     (!instagramConfig || typeof instagramConfig !== "object")
   ) {
     throw new SocialPublishingError(
@@ -153,12 +182,14 @@ function validatePublishInputs({
     );
   }
 }
+
 /**
- * Publishes daily social carousel content for a single platform.
+ * Publishes daily social carousel content for a single destination/platform.
  *
  * @param {object} params
  * @param {string} params.publishDate Strict YYYY-MM-DD
- * @param {string} params.platform "facebook" | "instagram"
+ * @param {string} [params.platform] "facebook" | "instagram" | destination identifier
+ * @param {string} [params.destination] "facebook_primary" | "facebook_secondary" | "instagram_primary" | "instagram_secondary"
  * @param {string} params.leaseId Caller-provided lease identifier
  * @param {object} params.redis Injected Redis client
  * @param {Function} params.fetchImpl Injected fetch implementation
@@ -172,6 +203,7 @@ function validatePublishInputs({
 async function publishSocialPlatform({
   publishDate,
   platform,
+  destination,
   leaseId,
   redis,
   fetchImpl,
@@ -184,6 +216,7 @@ async function publishSocialPlatform({
   validatePublishInputs({
     publishDate,
     platform,
+    destination,
     leaseId,
     redis,
     fetchImpl,
@@ -191,6 +224,9 @@ async function publishSocialPlatform({
     instagramConfig
   });
 
+  const targetKey = destination || platform;
+  const destInfo = resolveDestinationInfo(targetKey);
+  const family = destInfo.family;
   const contentId = `social-${publishDate}`;
 
   let prepState = null;
@@ -204,7 +240,8 @@ async function publishSocialPlatform({
     return {
       success: false,
       status: "BLOCKED",
-      platform,
+      platform: family,
+      destination: targetKey,
       publishDate,
       contentId,
       errorCode: "PREPARATION_NOT_PREPARED"
@@ -219,7 +256,8 @@ async function publishSocialPlatform({
     return {
       success: false,
       status: "BLOCKED",
-      platform,
+      platform: family,
+      destination: targetKey,
       publishDate,
       contentId,
       errorCode: "PREPARATION_NOT_PREPARED"
@@ -237,7 +275,8 @@ async function publishSocialPlatform({
     return {
       success: false,
       status: "BLOCKED",
-      platform,
+      platform: family,
+      destination: targetKey,
       publishDate,
       contentId,
       errorCode: "MANIFEST_INVALID_OR_MISSING"
@@ -252,7 +291,8 @@ async function publishSocialPlatform({
     return {
       success: false,
       status: "BLOCKED",
-      platform,
+      platform: family,
+      destination: targetKey,
       publishDate,
       contentId,
       errorCode: "MANIFEST_INVALID_OR_MISSING"
@@ -265,7 +305,8 @@ async function publishSocialPlatform({
     return {
       success: false,
       status: "BLOCKED",
-      platform,
+      platform: family,
+      destination: targetKey,
       publishDate,
       contentId,
       errorCode: "MANIFEST_INVALID_OR_MISSING"
@@ -283,7 +324,8 @@ async function publishSocialPlatform({
     return {
       success: false,
       status: "BLOCKED",
-      platform,
+      platform: family,
+      destination: targetKey,
       publishDate,
       contentId,
       errorCode: "QUALITY_GATE_NOT_AUTHORIZED"
@@ -299,7 +341,8 @@ async function publishSocialPlatform({
     return {
       success: false,
       status: "BLOCKED",
-      platform,
+      platform: family,
+      destination: targetKey,
       publishDate,
       contentId,
       errorCode: "QUALITY_GATE_NOT_AUTHORIZED"
@@ -313,12 +356,12 @@ async function publishSocialPlatform({
       redis,
       publishDate,
       contentId,
-      platform,
+      platform: targetKey,
       leaseId
     });
   } catch (err) {
     throw new SocialPublishingError(
-      `Failed to claim publication lease for date '${publishDate}', platform '${platform}': ${err.message}`,
+      `Failed to claim publication lease for date '${publishDate}', destination '${targetKey}': ${err.message}`,
       {
         code: PUBLISHING_ERROR_CODES.PUBLICATION_STATE_FAILURE,
         cause: err
@@ -331,7 +374,8 @@ async function publishSocialPlatform({
       return {
         success: true,
         status: "ALREADY_PUBLISHED",
-        platform,
+        platform: family,
+        destination: targetKey,
         publishDate,
         contentId
       };
@@ -341,7 +385,8 @@ async function publishSocialPlatform({
       return {
         success: false,
         status: "RECONCILIATION_REQUIRED",
-        platform,
+        platform: family,
+        destination: targetKey,
         publishDate,
         contentId
       };
@@ -351,7 +396,8 @@ async function publishSocialPlatform({
       return {
         success: false,
         status: "LEASE_HELD",
-        platform,
+        platform: family,
+        destination: targetKey,
         publishDate,
         contentId
       };
@@ -360,7 +406,8 @@ async function publishSocialPlatform({
     return {
       success: false,
       status: claimResult.reason || "BLOCKED",
-      platform,
+      platform: family,
+      destination: targetKey,
       publishDate,
       contentId
     };
@@ -369,7 +416,7 @@ async function publishSocialPlatform({
   let leaseAcquired = true;
 
   try {
-    if (platform === "facebook") {
+    if (family === "facebook") {
       let fbResult;
 
       try {
@@ -387,7 +434,7 @@ async function publishSocialPlatform({
             redis,
             publishDate,
             contentId,
-            platform,
+            platform: targetKey,
             leaseId
           });
 
@@ -396,7 +443,8 @@ async function publishSocialPlatform({
           return {
             success: false,
             status: "RECONCILIATION_REQUIRED",
-            platform,
+            platform: "facebook",
+            destination: targetKey,
             publishDate,
             contentId
           };
@@ -406,7 +454,7 @@ async function publishSocialPlatform({
           redis,
           publishDate,
           contentId,
-          platform,
+          platform: targetKey,
           leaseId
         });
 
@@ -415,7 +463,8 @@ async function publishSocialPlatform({
         return {
           success: false,
           status: "FAILED",
-          platform,
+          platform: "facebook",
+          destination: targetKey,
           publishDate,
           contentId,
           errorCode: "PROVIDER_DEFINITIVE_FAILURE"
@@ -434,7 +483,7 @@ async function publishSocialPlatform({
           redis,
           publishDate,
           contentId,
-          platform,
+          platform: targetKey,
           leaseId
         });
 
@@ -443,7 +492,8 @@ async function publishSocialPlatform({
         return {
           success: false,
           status: "FAILED",
-          platform,
+          platform: "facebook",
+          destination: targetKey,
           publishDate,
           contentId,
           errorCode: "PROVIDER_DEFINITIVE_FAILURE"
@@ -454,7 +504,7 @@ async function publishSocialPlatform({
         redis,
         publishDate,
         contentId,
-        platform,
+        platform: targetKey,
         leaseId
       });
 
@@ -464,12 +514,14 @@ async function publishSocialPlatform({
         success: true,
         status: "PUBLISHED",
         platform: "facebook",
+        destination: targetKey,
         publishDate,
         contentId,
         providerId: fbResult.postId
       };
     }
-	    if (platform === "instagram") {
+
+    if (family === "instagram") {
       let igResult;
 
       try {
@@ -490,7 +542,7 @@ async function publishSocialPlatform({
             redis,
             publishDate,
             contentId,
-            platform,
+            platform: targetKey,
             leaseId
           });
 
@@ -499,7 +551,8 @@ async function publishSocialPlatform({
           return {
             success: false,
             status: "RECONCILIATION_REQUIRED",
-            platform,
+            platform: "instagram",
+            destination: targetKey,
             publishDate,
             contentId
           };
@@ -509,7 +562,7 @@ async function publishSocialPlatform({
           redis,
           publishDate,
           contentId,
-          platform,
+          platform: targetKey,
           leaseId
         });
 
@@ -518,7 +571,8 @@ async function publishSocialPlatform({
         return {
           success: false,
           status: "FAILED",
-          platform,
+          platform: "instagram",
+          destination: targetKey,
           publishDate,
           contentId,
           errorCode: "PROVIDER_DEFINITIVE_FAILURE"
@@ -537,7 +591,7 @@ async function publishSocialPlatform({
           redis,
           publishDate,
           contentId,
-          platform,
+          platform: targetKey,
           leaseId
         });
 
@@ -546,7 +600,8 @@ async function publishSocialPlatform({
         return {
           success: false,
           status: "FAILED",
-          platform,
+          platform: "instagram",
+          destination: targetKey,
           publishDate,
           contentId,
           errorCode: "PROVIDER_DEFINITIVE_FAILURE"
@@ -557,7 +612,7 @@ async function publishSocialPlatform({
         redis,
         publishDate,
         contentId,
-        platform,
+        platform: targetKey,
         leaseId
       });
 
@@ -567,6 +622,7 @@ async function publishSocialPlatform({
         success: true,
         status: "PUBLISHED",
         platform: "instagram",
+        destination: targetKey,
         publishDate,
         contentId,
         providerId: igResult.mediaId
@@ -574,7 +630,7 @@ async function publishSocialPlatform({
     }
 
     throw new SocialPublishingError(
-      `Unsupported platform '${platform}'`,
+      `Unsupported platform/destination '${targetKey}'`,
       {
         code: PUBLISHING_ERROR_CODES.INVALID_PUBLISH_INPUT
       }
@@ -586,7 +642,7 @@ async function publishSocialPlatform({
           redis,
           publishDate,
           contentId,
-          platform,
+          platform: targetKey,
           leaseId
         });
       } catch (_) {
@@ -599,7 +655,7 @@ async function publishSocialPlatform({
     }
 
     throw new SocialPublishingError(
-      `Publication orchestration failed for platform '${platform}': ${err.message}`,
+      `Publication orchestration failed for destination '${targetKey}': ${err.message}`,
       {
         code: PUBLISHING_ERROR_CODES.PUBLICATION_STATE_FAILURE,
         cause: err
@@ -610,6 +666,7 @@ async function publishSocialPlatform({
 
 module.exports = {
   SUPPORTED_PUBLISH_PLATFORMS,
+  SUPPORTED_PUBLISH_DESTINATIONS,
   PUBLISHING_ERROR_CODES,
   SocialPublishingError,
   publishSocialPlatform

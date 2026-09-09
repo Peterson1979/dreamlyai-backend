@@ -24,8 +24,14 @@ const { generateSocialAiText, sanitizeErrorMessage } = require("./aiProvider");
 const { getRedisClient } = require("../utils/redisClient");
 const { loadR2Config } = require("./storageConfig");
 const { createR2Client } = require("./storage");
-const { loadFacebookConfig } = require("./facebookConfig");
-const { loadInstagramConfig } = require("./instagramConfig");
+const {
+  loadFacebookConfig,
+  loadFacebookSecondaryConfig
+} = require("./facebookConfig");
+const {
+  loadInstagramConfig,
+  loadInstagramSecondaryConfig
+} = require("./instagramConfig");
 
 const DAILY_RUN_STATUS = Object.freeze({
   COMPLETED: "COMPLETED",
@@ -40,7 +46,51 @@ const DAILY_RUN_STATUS = Object.freeze({
 });
 
 /**
- * Runs the daily social pipeline end-to-end for a given publishDate.
+ * Builds publishing response object with explicit destination fields and backward-compatible aliases.
+ * @param {object} destinations
+ * @returns {object}
+ */
+function buildPublishingOutput(destinations) {
+  const output = {
+    facebook_primary: destinations.facebook_primary,
+    facebook_secondary: destinations.facebook_secondary,
+    instagram_primary: destinations.instagram_primary,
+    instagram_secondary: destinations.instagram_secondary
+  };
+
+  Object.defineProperty(output, "facebook", {
+    get() {
+      return this.facebook_primary;
+    },
+    enumerable: true
+  });
+
+  Object.defineProperty(output, "instagram", {
+    get() {
+      return this.instagram_primary;
+    },
+    enumerable: true
+  });
+
+  return output;
+}
+
+/**
+ * Builds skipped publishing object for early-exit failure conditions.
+ * @param {string} reason
+ * @returns {object}
+ */
+function buildSkippedPublishing(reason) {
+  return buildPublishingOutput({
+    facebook_primary: { success: false, status: "SKIPPED", reason },
+    facebook_secondary: { success: false, status: "SKIPPED", reason },
+    instagram_primary: { success: false, status: "SKIPPED", reason },
+    instagram_secondary: { success: false, status: "SKIPPED", reason }
+  });
+}
+
+/**
+ * Runs the daily social pipeline end-to-end for a given publishDate across all configured destinations.
  *
  * @param {object} params
  * @param {string} params.publishDate Strict YYYY-MM-DD
@@ -50,8 +100,10 @@ const DAILY_RUN_STATUS = Object.freeze({
  * @param {object} [params.r2Client] Injected R2 / S3 client
  * @param {object} [params.r2Config] Injected R2 config
  * @param {Function} [params.fetchImpl] Injected fetch implementation
- * @param {object} [params.facebookConfig] Injected Facebook config
- * @param {object} [params.instagramConfig] Injected Instagram config
+ * @param {object} [params.facebookConfig] Injected primary Facebook config
+ * @param {object} [params.facebookSecondaryConfig] Injected secondary Facebook config (or null if unconfigured)
+ * @param {object} [params.instagramConfig] Injected primary Instagram config
+ * @param {object} [params.instagramSecondaryConfig] Injected secondary Instagram config (or null if unconfigured)
  * @param {Function} [params.sleepImpl] Injected sleep function for Instagram polling
  * @param {number} [params.instagramMaxPollAttempts] Max Instagram polling attempts
  * @param {number} [params.instagramPollIntervalMs] Instagram polling interval in ms
@@ -68,7 +120,9 @@ async function runDailySocialPipeline(params = {}) {
     r2Config,
     fetchImpl,
     facebookConfig,
+    facebookSecondaryConfig,
     instagramConfig,
+    instagramSecondaryConfig,
     sleepImpl,
     instagramMaxPollAttempts,
     instagramPollIntervalMs,
@@ -88,10 +142,7 @@ async function runDailySocialPipeline(params = {}) {
         status: "FAILED",
         errorCode: "INVALID_DATE"
       },
-      publishing: {
-        facebook: { success: false, status: "SKIPPED", reason: "INVALID_DATE" },
-        instagram: { success: false, status: "SKIPPED", reason: "INVALID_DATE" }
-      }
+      publishing: buildSkippedPublishing("INVALID_DATE")
     };
   }
 
@@ -120,10 +171,7 @@ async function runDailySocialPipeline(params = {}) {
         status: "FAILED",
         errorCode: "REDIS_UNAVAILABLE"
       },
-      publishing: {
-        facebook: { success: false, status: "SKIPPED", reason: "REDIS_UNAVAILABLE" },
-        instagram: { success: false, status: "SKIPPED", reason: "REDIS_UNAVAILABLE" }
-      }
+      publishing: buildSkippedPublishing("REDIS_UNAVAILABLE")
     };
   }
 
@@ -149,14 +197,11 @@ async function runDailySocialPipeline(params = {}) {
         status: "FAILED",
         errorCode: "DEPENDENCY_ERROR"
       },
-      publishing: {
-        facebook: { success: false, status: "SKIPPED", reason: "PREPARATION_FAILED" },
-        instagram: { success: false, status: "SKIPPED", reason: "PREPARATION_FAILED" }
-      }
+      publishing: buildSkippedPublishing("PREPARATION_FAILED")
     };
   }
 
-  // 4. Phase A: Preparation
+  // 4. Phase A: Preparation (Single Generation, Quality Gate, Render, Storage)
   let prepResult;
   try {
     prepResult = await prepareDailySocialContent({
@@ -180,10 +225,7 @@ async function runDailySocialPipeline(params = {}) {
         status: "FAILED",
         errorCode: prepErr.code || "PREPARATION_FAILED"
       },
-      publishing: {
-        facebook: { success: false, status: "SKIPPED", reason: "PREPARATION_FAILED" },
-        instagram: { success: false, status: "SKIPPED", reason: "PREPARATION_FAILED" }
-      }
+      publishing: buildSkippedPublishing("PREPARATION_FAILED")
     };
   }
 
@@ -216,43 +258,74 @@ async function runDailySocialPipeline(params = {}) {
         errorCode: prepResult?.errorCode,
         errorCodes: prepResult?.errorCodes
       },
-      publishing: {
-        facebook: {
-          success: false,
-          status: "SKIPPED",
-          reason: prepResult?.status || "PREPARATION_FAILED"
-        },
-        instagram: {
-          success: false,
-          status: "SKIPPED",
-          reason: prepResult?.status || "PREPARATION_FAILED"
-        }
-      }
+      publishing: buildSkippedPublishing(prepResult?.status || "PREPARATION_FAILED")
     };
   }
 
-  // 5. Phase B: Publishing
+  // 5. Phase B: Publishing — Independent publishing across all 4 destinations
   const resolvedFetch = typeof fetchImpl === "function" ? fetchImpl : globalThis.fetch;
 
-  // Execute Facebook publishing
-  let facebookResult;
-  try {
-    let resolvedFbConfig = facebookConfig;
-    if (!resolvedFbConfig) {
-      resolvedFbConfig = loadFacebookConfig();
+  // Resolve Facebook Configurations
+  let resolvedFbPrimaryConfig = facebookConfig;
+  if (!resolvedFbPrimaryConfig) {
+    try {
+      resolvedFbPrimaryConfig = loadFacebookConfig();
+    } catch (_) {
+      resolvedFbPrimaryConfig = null;
     }
-    facebookResult = await publishSocialPlatform({
+  }
+
+  let resolvedFbSecondaryConfig =
+    facebookSecondaryConfig !== undefined
+      ? facebookSecondaryConfig
+      : (() => {
+          try {
+            return loadFacebookSecondaryConfig();
+          } catch (_) {
+            return null;
+          }
+        })();
+
+  // Resolve Instagram Configurations
+  let resolvedIgPrimaryConfig = instagramConfig;
+  if (!resolvedIgPrimaryConfig) {
+    try {
+      resolvedIgPrimaryConfig = loadInstagramConfig();
+    } catch (_) {
+      resolvedIgPrimaryConfig = null;
+    }
+  }
+
+  let resolvedIgSecondaryConfig =
+    instagramSecondaryConfig !== undefined
+      ? instagramSecondaryConfig
+      : (() => {
+          try {
+            return loadInstagramSecondaryConfig();
+          } catch (_) {
+            return null;
+          }
+        })();
+
+  // Destination 1: facebook_primary
+  let facebookPrimaryResult;
+  try {
+    if (!resolvedFbPrimaryConfig) {
+      resolvedFbPrimaryConfig = loadFacebookConfig();
+    }
+    facebookPrimaryResult = await publishSocialPlatform({
       publishDate,
-      platform: "facebook",
+      destination: "facebook_primary",
       leaseId: runnerLeaseId,
       redis: resolvedRedis,
       fetchImpl: resolvedFetch,
-      facebookConfig: resolvedFbConfig
+      facebookConfig: resolvedFbPrimaryConfig
     });
   } catch (fbErr) {
-    facebookResult = {
+    facebookPrimaryResult = {
       success: false,
       status: "FAILED",
+      destination: "facebook_primary",
       platform: "facebook",
       publishDate,
       contentId,
@@ -261,28 +334,62 @@ async function runDailySocialPipeline(params = {}) {
     };
   }
 
-  // Execute Instagram publishing independently
-  let instagramResult;
-  try {
-    let resolvedIgConfig = instagramConfig;
-    if (!resolvedIgConfig) {
-      resolvedIgConfig = loadInstagramConfig();
+  // Destination 2: facebook_secondary
+  let facebookSecondaryResult;
+  if (resolvedFbSecondaryConfig === null) {
+    facebookSecondaryResult = {
+      success: false,
+      status: "SKIPPED",
+      destination: "facebook_secondary",
+      platform: "facebook",
+      reason: "NOT_CONFIGURED"
+    };
+  } else {
+    try {
+      facebookSecondaryResult = await publishSocialPlatform({
+        publishDate,
+        destination: "facebook_secondary",
+        leaseId: runnerLeaseId,
+        redis: resolvedRedis,
+        fetchImpl: resolvedFetch,
+        facebookConfig: resolvedFbSecondaryConfig
+      });
+    } catch (fbSecErr) {
+      facebookSecondaryResult = {
+        success: false,
+        status: "FAILED",
+        destination: "facebook_secondary",
+        platform: "facebook",
+        publishDate,
+        contentId,
+        errorCode: fbSecErr.code || "FACEBOOK_PUBLISH_FAILED",
+        error: sanitizeErrorMessage(fbSecErr.message)
+      };
     }
-    instagramResult = await publishSocialPlatform({
+  }
+
+  // Destination 3: instagram_primary
+  let instagramPrimaryResult;
+  try {
+    if (!resolvedIgPrimaryConfig) {
+      resolvedIgPrimaryConfig = loadInstagramConfig();
+    }
+    instagramPrimaryResult = await publishSocialPlatform({
       publishDate,
-      platform: "instagram",
+      destination: "instagram_primary",
       leaseId: runnerLeaseId,
       redis: resolvedRedis,
       fetchImpl: resolvedFetch,
-      instagramConfig: resolvedIgConfig,
+      instagramConfig: resolvedIgPrimaryConfig,
       sleepImpl,
       instagramMaxPollAttempts,
       instagramPollIntervalMs
     });
   } catch (igErr) {
-    instagramResult = {
+    instagramPrimaryResult = {
       success: false,
       status: "FAILED",
+      destination: "instagram_primary",
       platform: "instagram",
       publishDate,
       contentId,
@@ -291,23 +398,70 @@ async function runDailySocialPipeline(params = {}) {
     };
   }
 
-  // 6. Compute overall status
-  const fbOk =
-    facebookResult &&
-    facebookResult.success === true &&
-    (facebookResult.status === "PUBLISHED" || facebookResult.status === "ALREADY_PUBLISHED");
-  const igOk =
-    instagramResult &&
-    instagramResult.success === true &&
-    (instagramResult.status === "PUBLISHED" || instagramResult.status === "ALREADY_PUBLISHED");
+  // Destination 4: instagram_secondary
+  let instagramSecondaryResult;
+  if (resolvedIgSecondaryConfig === null) {
+    instagramSecondaryResult = {
+      success: false,
+      status: "SKIPPED",
+      destination: "instagram_secondary",
+      platform: "instagram",
+      reason: "NOT_CONFIGURED"
+    };
+  } else {
+    try {
+      instagramSecondaryResult = await publishSocialPlatform({
+        publishDate,
+        destination: "instagram_secondary",
+        leaseId: runnerLeaseId,
+        redis: resolvedRedis,
+        fetchImpl: resolvedFetch,
+        instagramConfig: resolvedIgSecondaryConfig,
+        sleepImpl,
+        instagramMaxPollAttempts,
+        instagramPollIntervalMs
+      });
+    } catch (igSecErr) {
+      instagramSecondaryResult = {
+        success: false,
+        status: "FAILED",
+        destination: "instagram_secondary",
+        platform: "instagram",
+        publishDate,
+        contentId,
+        errorCode: igSecErr.code || "INSTAGRAM_PUBLISH_FAILED",
+        error: sanitizeErrorMessage(igSecErr.message)
+      };
+    }
+  }
+
+  // 6. Compute overall status across all configured destinations
+  const checkDestOk = (res) =>
+    res &&
+    res.success === true &&
+    (res.status === "PUBLISHED" || res.status === "ALREADY_PUBLISHED");
+
+  const checkDestConfigured = (res) =>
+    !(res && res.status === "SKIPPED" && res.reason === "NOT_CONFIGURED");
+
+  const allDestResults = [
+    facebookPrimaryResult,
+    facebookSecondaryResult,
+    instagramPrimaryResult,
+    instagramSecondaryResult
+  ];
+
+  const configuredDestResults = allDestResults.filter(checkDestConfigured);
+  const okCount = configuredDestResults.filter(checkDestOk).length;
+  const totalConfigured = configuredDestResults.length;
 
   let overallStatus;
   let overallSuccess;
 
-  if (fbOk && igOk) {
+  if (totalConfigured > 0 && okCount === totalConfigured) {
     overallSuccess = true;
     overallStatus = DAILY_RUN_STATUS.COMPLETED;
-  } else if (fbOk || igOk) {
+  } else if (okCount > 0) {
     overallSuccess = false;
     overallStatus = DAILY_RUN_STATUS.PARTIAL_SUCCESS;
   } else {
@@ -327,20 +481,34 @@ async function runDailySocialPipeline(params = {}) {
       category: prepResult.category,
       slideCount: prepResult.slideCount
     },
-    publishing: {
-      facebook: {
-        success: facebookResult.success,
-        status: facebookResult.status,
-        providerId: facebookResult.providerId,
-        errorCode: facebookResult.errorCode
+    publishing: buildPublishingOutput({
+      facebook_primary: {
+        success: facebookPrimaryResult.success,
+        status: facebookPrimaryResult.status,
+        providerId: facebookPrimaryResult.providerId,
+        errorCode: facebookPrimaryResult.errorCode
       },
-      instagram: {
-        success: instagramResult.success,
-        status: instagramResult.status,
-        providerId: instagramResult.providerId,
-        errorCode: instagramResult.errorCode
+      facebook_secondary: {
+        success: facebookSecondaryResult.success,
+        status: facebookSecondaryResult.status,
+        providerId: facebookSecondaryResult.providerId,
+        errorCode: facebookSecondaryResult.errorCode,
+        reason: facebookSecondaryResult.reason
+      },
+      instagram_primary: {
+        success: instagramPrimaryResult.success,
+        status: instagramPrimaryResult.status,
+        providerId: instagramPrimaryResult.providerId,
+        errorCode: instagramPrimaryResult.errorCode
+      },
+      instagram_secondary: {
+        success: instagramSecondaryResult.success,
+        status: instagramSecondaryResult.status,
+        providerId: instagramSecondaryResult.providerId,
+        errorCode: instagramSecondaryResult.errorCode,
+        reason: instagramSecondaryResult.reason
       }
-    }
+    })
   };
 }
 
@@ -350,3 +518,4 @@ module.exports = {
   runDailySocialRun: runDailySocialPipeline,
   executeDailySocialRun: runDailySocialPipeline
 };
+

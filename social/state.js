@@ -24,7 +24,16 @@ const PUBLICATION_STATUS = Object.freeze({
   RECONCILIATION_REQUIRED: "RECONCILIATION_REQUIRED"
 });
 
-const SUPPORTED_PLATFORMS = Object.freeze(["facebook", "instagram"]);
+const SUPPORTED_PUBLISH_DESTINATIONS = Object.freeze([
+  "facebook_primary",
+  "facebook_secondary",
+  "instagram_primary",
+  "instagram_secondary",
+  "facebook",
+  "instagram"
+]);
+
+const SUPPORTED_PLATFORMS = SUPPORTED_PUBLISH_DESTINATIONS;
 
 const RELEASE_LEASE_LUA = `
 if redis.call("get", KEYS[1]) == ARGV[1] then
@@ -44,7 +53,7 @@ function isPlainObject(val) {
 }
 
 /**
- * Validates a platform name against supported social platforms.
+ * Validates a platform/destination name against supported social platforms/destinations.
  * @param {string} platform
  */
 function validatePlatform(platform) {
@@ -54,6 +63,7 @@ function validatePlatform(platform) {
     );
   }
 }
+
 
 /**
  * Resolves Redis client (injected instance or default).
@@ -432,8 +442,16 @@ async function failPreparation({ redis, publishDate, contentId, leaseId } = {}) 
  */
 async function getPublicationState({ redis, publishDate, platform } = {}) {
   const r = resolveRedis(redis);
-  const key = buildPublishStateKey(publishDate, platform);
-  const raw = await r.get(key);
+  let key = buildPublishStateKey(publishDate, platform);
+  let raw = await r.get(key);
+  if (!raw && platform === "facebook") {
+    key = buildPublishStateKey(publishDate, "facebook_primary");
+    raw = await r.get(key);
+  }
+  if (!raw && platform === "instagram") {
+    key = buildPublishStateKey(publishDate, "instagram_primary");
+    raw = await r.get(key);
+  }
   if (!raw) return null;
 
   let parsed;
@@ -445,12 +463,18 @@ async function getPublicationState({ redis, publishDate, platform } = {}) {
     );
   }
 
+  const isPlatformMatch =
+    parsed.platform === platform ||
+    parsed.destination === platform ||
+    (platform === "facebook" && (parsed.platform === "facebook_primary" || parsed.destination === "facebook_primary")) ||
+    (platform === "instagram" && (parsed.platform === "instagram_primary" || parsed.destination === "instagram_primary"));
+
   if (
     !isPlainObject(parsed) ||
     parsed.stateVersion !== SOCIAL_STATE_VERSION ||
     parsed.publishDate !== publishDate ||
     parsed.contentId !== `social-${publishDate}` ||
-    parsed.platform !== platform ||
+    !isPlatformMatch ||
     !Object.values(PUBLICATION_STATUS).includes(parsed.status)
   ) {
     throw new Error(`Invalid stored publication state for date '${publishDate}', platform '${platform}'`);
@@ -740,6 +764,7 @@ module.exports = {
   PREPARATION_STATUS,
   PUBLICATION_STATUS,
   SUPPORTED_PLATFORMS,
+  SUPPORTED_PUBLISH_DESTINATIONS,
   buildManifestKey,
   buildPrepareStateKey,
   buildPrepareLeaseKey,

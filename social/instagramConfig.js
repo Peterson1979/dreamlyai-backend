@@ -96,10 +96,90 @@ function buildContainerStatusRequest({ config, containerId } = {}) {
   };
 }
 
+/**
+ * Checks whether secondary Instagram Business publishing is configured in environment.
+ * @param {object} [env=process.env]
+ * @returns {boolean}
+ */
+function isInstagramSecondaryConfigured(env = process.env) {
+  if (!env || typeof env !== "object") return false;
+  const val = env.INSTAGRAM_SECONDARY_BUSINESS_ACCOUNT_ID;
+  return typeof val === "string" && val.trim().length > 0;
+}
+
+/**
+ * Loads and validates secondary Instagram publishing configuration from environment.
+ * Resolves linked Page ID and Page Access Token from secondary-specific vars with fallback to secondary Facebook / primary Facebook credentials.
+ * Returns null if secondary Instagram account is not configured.
+ * @param {object} [env=process.env]
+ * @returns {{ pageId: string, pageAccessToken: string, instagramBusinessAccountId: string, graphApiVersion: string, graphBaseUrl: string } | null}
+ */
+function loadInstagramSecondaryConfig(env = process.env) {
+  if (!env || typeof env !== "object") {
+    throw new Error("Invalid environment: expected an environment object");
+  }
+
+  if (!isInstagramSecondaryConfigured(env)) {
+    return null;
+  }
+
+  const instagramBusinessAccountId = env.INSTAGRAM_SECONDARY_BUSINESS_ACCOUNT_ID.trim();
+  if (!/^\d+$/.test(instagramBusinessAccountId)) {
+    throw new Error("Invalid INSTAGRAM_SECONDARY_BUSINESS_ACCOUNT_ID: must contain digits only");
+  }
+
+  const pageId =
+    (typeof env.INSTAGRAM_SECONDARY_PAGE_ID === "string" && env.INSTAGRAM_SECONDARY_PAGE_ID.trim().length > 0
+      ? env.INSTAGRAM_SECONDARY_PAGE_ID.trim()
+      : null) ||
+    (typeof env.FACEBOOK_SECONDARY_PAGE_ID === "string" && env.FACEBOOK_SECONDARY_PAGE_ID.trim().length > 0
+      ? env.FACEBOOK_SECONDARY_PAGE_ID.trim()
+      : null) ||
+    (typeof env.FACEBOOK_PAGE_ID === "string" && env.FACEBOOK_PAGE_ID.trim().length > 0
+      ? env.FACEBOOK_PAGE_ID.trim()
+      : null);
+
+  if (!pageId || !/^\d+$/.test(pageId)) {
+    throw new Error(
+      "Missing or invalid Facebook Page ID for secondary Instagram account: configure INSTAGRAM_SECONDARY_PAGE_ID, FACEBOOK_SECONDARY_PAGE_ID, or FACEBOOK_PAGE_ID"
+    );
+  }
+
+  const pageAccessToken =
+    (typeof env.INSTAGRAM_SECONDARY_ACCESS_TOKEN === "string" && env.INSTAGRAM_SECONDARY_ACCESS_TOKEN.trim().length > 0
+      ? env.INSTAGRAM_SECONDARY_ACCESS_TOKEN.trim()
+      : null) ||
+    (typeof env.FACEBOOK_SECONDARY_PAGE_ACCESS_TOKEN === "string" && env.FACEBOOK_SECONDARY_PAGE_ACCESS_TOKEN.trim().length > 0
+      ? env.FACEBOOK_SECONDARY_PAGE_ACCESS_TOKEN.trim()
+      : null) ||
+    (typeof env.FACEBOOK_PAGE_ACCESS_TOKEN === "string" && env.FACEBOOK_PAGE_ACCESS_TOKEN.trim().length > 0
+      ? env.FACEBOOK_PAGE_ACCESS_TOKEN.trim()
+      : null);
+
+  if (!pageAccessToken) {
+    throw new Error(
+      "Missing access token for secondary Instagram account: configure INSTAGRAM_SECONDARY_ACCESS_TOKEN, FACEBOOK_SECONDARY_PAGE_ACCESS_TOKEN, or FACEBOOK_PAGE_ACCESS_TOKEN"
+    );
+  }
+
+  const graphBaseUrl = `https://graph.facebook.com/${META_GRAPH_API_VERSION}`;
+
+  return {
+    pageId,
+    pageAccessToken,
+    instagramBusinessAccountId,
+    graphApiVersion: META_GRAPH_API_VERSION,
+    graphBaseUrl
+  };
+}
+
 module.exports = {
   META_GRAPH_API_VERSION,
   REQUIRED_INSTAGRAM_ENV_VARS,
   loadInstagramConfig,
+  isInstagramSecondaryConfigured,
+  loadInstagramSecondaryConfig,
   buildInstagramIdentityRequest,
   buildContainerStatusRequest
 };
+
