@@ -1,4 +1,16 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/privacy-policy",
+      "destination": "/api/privacy-policy"
+    },
+    {
+      "source": "/privacy-policy/",
+      "destination": "/api/privacy-policy"
+    }
+  ],
   "crons": [
     {
       "path": "/api/social-run",

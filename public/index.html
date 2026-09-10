@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dreamly AI — Mobile AI Dream Interpretation &amp; Journal</title>
+  <meta name="description" content="Dreamly AI is a mobile dream interpretation and journaling app providing structured AI analysis, symbol insights, emotion tracking, recurring pattern discovery, and multilingual support.">
+  <link rel="canonical" href="https://dreamlyai-backend.vercel.app/">
+
+  <!-- Open Graph / Social Media Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dreamlyai-backend.vercel.app/">
+  <meta property="og:title" content="Dreamly AI — Mobile AI Dream Interpretation &amp; Journal">
+  <meta property="og:description" content="Explore thoughtful AI dream interpretations, symbol analysis, emotion tracking, and recurring dream patterns with Dreamly AI for Android.">
+  <meta property="og:site_name" content="Dreamly AI">
+
+  <style>
+    :root {
+      --bg-color: #0b0d17;
+      --card-bg: #131627;
+      --card-border: #232842;
+      --card-hover-border: #6366f1;
+      --text-color: #e2e8f0;
+      --heading-color: #f8fafc;
+      --muted-color: #94a3b8;
+      --accent-color: #6366f1;
+      --accent-light: #818cf8;
+      --accent-gradient: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #38bdf8 100%);
+      --btn-bg: #4f46e5;
+      --btn-hover: #4338ca;
+      --btn-text: #ffffff;
+      --border-color: #1e243d;
+      --link-color: #818cf8;
+      --link-hover: #a5b4fc;
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg-color: #f8fafc;
+        --card-bg: #ffffff;
+        --card-border: #e2e8f0;
+        --card-hover-border: #6366f1;
+        --text-color: #334155;
+        --heading-color: #0f172a;
+        --muted-color: #64748b;
+        --accent-color: #4f46e5;
+        --accent-light: #6366f1;
+        --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #0284c7 100%);
+        --btn-bg: #4f46e5;
+        --btn-hover: #3730a3;
+        --btn-text: #ffffff;
+        --border-color: #e2e8f0;
+        --link-color: #4f46e5;
+        --link-hover: #3730a3;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.65;
+      padding: 0;
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Navigation */
+    header {
+      border-bottom: 1px solid var(--border-color);
+      background-color: var(--bg-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--heading-color);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-icon {
+      width: 28px;
+      height: 28px;
+      fill: var(--accent-light);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted-color);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--heading-color);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 4.5rem 0 3rem;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--accent-light);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 800;
+      color: var(--heading-color);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 .gradient-text {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--muted-color);
+      max-width: 680px;
+      margin: 0 auto 2.25rem;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.85rem 1.6rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: var(--btn-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-icon {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    /* Features Section */
+    .section {
+      padding: 4rem 0;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 3rem;
+    }
+
+    .section-header h2 {
+      font-size: 2rem;
+      color: var(--heading-color);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-header p {
+      color: var(--muted-color);
+      font-size: 1.05rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .feature-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .feature-card:hover {
+      border-color: var(--card-hover-border);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon-wrapper {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: rgba(99, 102, 241, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .feature-icon {
+      width: 22px;
+      height: 22px;
+      fill: var(--accent-light);
+    }
+
+    .feature-card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--heading-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-card p {
+      color: var(--muted-color);
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    /* Privacy & Architecture Highlight */
+    .highlight-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 2.25rem;
+      margin: 1rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .highlight-card h3 {
+      font-size: 1.35rem;
+      color: var(--heading-color);
+      font-weight: 600;
+    }
+
+    .highlight-card p {
+      color: var(--muted-color);
+      font-size: 0.98rem;
+    }
+
+    .highlight-points {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 0.75rem;
+      margin: 0.5rem 0;
+    }
+
+    .highlight-points li {
+      color: var(--text-color);
+      font-size: 0.92rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .highlight-points li::before {
+      content: "✓";
+      color: var(--accent-light);
+      font-weight: 700;
+    }
+
+    /* CTA Banner */
+    .cta-banner {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 3rem 2rem;
+      text-align: center;
+      margin: 3rem 0;
+      box-shadow: var(--shadow);
+    }
+
+    .cta-banner h2 {
+      font-size: 1.85rem;
+      color: var(--heading-color);
+      margin-bottom: 0.75rem;
+    }
+
+    .cta-banner p {
+      color: var(--muted-color);
+      max-width: 540px;
+      margin: 0 auto 1.75rem;
+      font-size: 1rem;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 2.5rem 0;
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--muted-color);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--link-color);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: var(--link-hover);
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding: 3rem 0 2rem;
+      }
+      .nav-links {
+        gap: 0.85rem;
+      }
+      .highlight-card {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <a href="/" class="brand">
+          <svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-5.4-5.4c0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
+          </svg>
+          <span>Dreamly AI</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="/privacy-policy">Privacy Policy</a></li>
+          <li><a href="https://play.google.com/store/apps/details?id=com.oberon.dreamlyai" target="_blank" rel="noopener noreferrer">Get App</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container">
+        <div class="badge">
+          <span>🌙 Mobile AI Dream Interpretation &amp; Journaling</span>
+        </div>
+        <h1>Understand Your Dreams with <span class="gradient-text">Dreamly AI</span></h1>
+        <p>
+          Dreamly AI is a mobile dream interpretation and journaling application designed to bring thoughtful insight to your nighttime memories. Record journal entries, track recurring themes, and receive structured AI reflections directly on your Android device.
+        </p>
+        <div class="hero-actions">
+          <a href="https://play.google.com/store/apps/details?id=com.oberon.dreamlyai" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.609 1.814L13.792 12 3.61 22.186a2.38 2.38 0 0 1-.61-.735V2.55c.18-.286.39-.536.61-.736zm11.24 11.24l2.58 2.58-12.04 6.95 9.46-9.53zm0-2.108L5.39 1.417l12.04 6.95-2.58 2.58zM18.8 11.21l3.18 1.83a1.59 1.59 0 0 1 0 2.76l-3.18 1.83-2.11-2.11 2.11-2.31z"/>
+            </svg>
+            <span>Get on Google Play</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-header">
+          <h2>Core Application Features</h2>
+          <p>Explore the comprehensive dream interpretation and journaling capabilities built into Dreamly AI.</p>
+        </div>
+
+        <div class="features-grid">
+          <!-- 1. Structured AI Interpretations -->
+          <article class="feature-card">
+            <div class="feature-icon-wrapper">
+              <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2L14.3 8.7L21 11L14.3 13.3L12 20L9.7 13.3L3 11L9.7 8.7L12 2Z"/>
+              </svg>
+            </div>
+            <h3>Structured AI Interpretations</h3>
+            <p>Receive balanced 6-part dream interpretations covering Summary, Detailed Analysis, Symbolic Meaning, Emotional Tone, Event Sequence, and Open-Ended Reflection.</p>
+          </article>
+
+          <!-- 2. 32-Language Support -->
+          <article class="feature-card">
+            <div class="feature-icon-wrapper">
+              <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+              </svg>
+            </div>
+            <h3>Global Multilingual Support</h3>
+            <p>Full localization and native-language interpretations across 32 world languages, including English, Spanish, German, French, Portuguese, Chinese, Japanese, and Korean.</p>
+          </article>
+
+          <!-- 3. Private Dream Journal -->
+          <article class="feature-card">
+            <div class="feature-icon-wrapper">
+              <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+              </svg>
+            </div>
+            <h3>Personal Dream Journal</h3>
+            <p>Log your dreams immediately upon waking. Categorize entries by dream type (Vivid, Lucid, Nightmare, Recurring, Flying, Falling) and assign vividness ratings.</p>
+          </article>
+
+          <!-- 4. Mood & Emotion Tracking -->
+          <article class="feature-card">
+            <div class="feature-icon-wrapper">
+              <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </div>
+            <h3>Mood &amp; Emotion Tagging</h3>
+            <p>Tag the dominant feelings experienced in your dreams—joy, peace, anxiety, wonder, or intensity—to track your emotional journey over time.</p>
+          </article>
+
+          <!-- 5. Calendar & Patterns -->
+          <article class="feature-card">
+            <div class="feature-icon-wrapper">
+              <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/>
+              </svg>
+            </div>
+            <h3>Calendar &amp; Recurring Patterns</h3>
+            <p>Explore your dream history through a calendar view and discover recurring symbols, common themes, lucid dream rates, and overall dream frequency.</p>
+          </article>
+
+          <!-- 6. On-Device Voice Notes -->
+          <article class="feature-card">
+            <div class="feature-icon-wrapper">
+              <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5-3c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+              </svg>
+            </div>
+            <h3>On-Device Voice Notes</h3>
+            <p>Record quick audio voice notes to capture dreams before morning memories fade. Voice recordings remain stored securely on your local device.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Privacy & Local Data Architecture -->
+    <section class="section">
+      <div class="container">
+        <div class="highlight-card">
+          <h3>On-Device Privacy &amp; Data Protection</h3>
+          <p>
+            Dreamly AI is designed with user privacy, local storage, and data minimization as foundational principles:
+          </p>
+          <ul class="highlight-points">
+            <li>Journal entries and voice notes are stored locally on your Android device</li>
+            <li>No cloud user account or mandatory sign-up required</li>
+            <li>Secure HTTPS / TLS encryption for all AI interpretation requests</li>
+            <li>Full control to edit, export, or erase your dream records at any time</li>
+          </ul>
+          <div>
+            <a href="/privacy-policy" style="color: var(--link-color); font-weight: 600; text-decoration: underline;">
+              Read the complete Dreamly AI Privacy Policy &rarr;
+            </a>
+          </div>
+        </div>
+
+        <!-- CTA Callout -->
+        <div class="cta-banner">
+          <h2>Experience Dreamly AI on Android</h2>
+          <p>Download the official mobile application on Google Play and start exploring your personal dream reflections today.</p>
+          <a href="https://play.google.com/store/apps/details?id=com.oberon.dreamlyai" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.609 1.814L13.792 12 3.61 22.186a2.38 2.38 0 0 1-.61-.735V2.55c.18-.286.39-.536.61-.736zm11.24 11.24l2.58 2.58-12.04 6.95 9.46-9.53zm0-2.108L5.39 1.417l12.04 6.95-2.58 2.58zM18.8 11.21l3.18 1.83a1.59 1.59 0 0 1 0 2.76l-3.18 1.83-2.11-2.11 2.11-2.31z"/>
+            </svg>
+            <span>Download on Google Play</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <ul class="footer-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/privacy-policy">Privacy Policy</a></li>
+        <li><a href="https://play.google.com/store/apps/details?id=com.oberon.dreamlyai" target="_blank" rel="noopener noreferrer">Google Play Store</a></li>
+      </ul>
+      <p>&copy; 2026 Dreamly AI. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
