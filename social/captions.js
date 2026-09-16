@@ -7,6 +7,7 @@
 
 const { GOOGLE_PLAY_URL } = require("./config");
 const { validateManifest } = require("./manifest");
+const { buildAttributedPlayStoreUrl } = require("./urlBuilder");
 
 const FACEBOOK_FINAL_CAPTION_MAX = 2000;
 
@@ -26,7 +27,7 @@ function buildPlatformCaptions(manifest) {
   // Instagram caption remains verbatim AI base caption
   const instagram = manifest.captions.instagram;
 
-  // Facebook caption deterministically appends official Google Play URL
+  // Facebook caption deterministically appends attributed Google Play URL
   const baseFacebook = manifest.captions.facebook;
   let facebook;
 
@@ -34,7 +35,13 @@ function buildPlatformCaptions(manifest) {
     // If the exact official URL already appears, do not duplicate
     facebook = baseFacebook;
   } else {
-    facebook = `${baseFacebook}\n\nDownload Dreamly AI on Google Play:\n${GOOGLE_PLAY_URL}`;
+    const attributedUrl = buildAttributedPlayStoreUrl({
+      platform: "facebook",
+      medium: "social",
+      campaign: manifest.topicId || "daily_social",
+      contentId: manifest.contentId || "general"
+    });
+    facebook = `${baseFacebook}\n\nDownload Dreamly AI on Google Play:\n${attributedUrl}`;
   }
 
   if (facebook.length > FACEBOOK_FINAL_CAPTION_MAX) {

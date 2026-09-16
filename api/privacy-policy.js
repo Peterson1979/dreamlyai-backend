@@ -276,12 +276,28 @@ const PRIVACY_POLICY_HTML = `<!DOCTYPE html>
       </section>
 
       <section>
-        <h2>6. Analytics &amp; Tracking SDK Disclosures</h2>
+        <h2>6. Analytics &amp; Product Measurement Disclosures</h2>
         <p>
-          The Dreamly AI mobile application does not integrate standalone third-party analytics, crash tracking, or behavioral profiling SDKs such as Firebase Analytics, Google Analytics, Firebase Crashlytics, Meta/Facebook SDK, AppsFlyer, Adjust, Branch, Mixpanel, Amplitude, or Segment.
+          To evaluate product stability, understand feature engagement, and measure organic acquisition, Dreamly AI utilizes <strong>Google Analytics for Firebase</strong> (within the Android mobile application) and lightweight <strong>Google Analytics</strong> (on our website).
+        </p>
+        <p><strong>A. Measurement Purposes:</strong></p>
+        <ul>
+          <li>Measuring product lifecycle milestones and activation (such as first open, initiating dream entry, and successfully receiving an interpretation).</li>
+          <li>Understanding feature engagement (such as viewing the dream journal, calendar patterns, saving favorites, and sharing).</li>
+          <li>Measuring organic acquisition and installation attribution via the Google Play Install Referrer (evaluating campaign sources without personal profiling).</li>
+        </ul>
+        <p><strong>B. Data Categories &amp; Strict Content Safeguards:</strong></p>
+        <ul>
+          <li><strong>Aggregated Behavioral &amp; Technical Events:</strong> Standard interaction timestamps, app version, general device/OS specifications, screen views, and event counters.</li>
+          <li><strong>Pseudonymous Identifiers:</strong> Standard Firebase installation identifiers and Google Play install referrer campaign tokens.</li>
+          <li><strong>Strict Privacy Protection — No Dream Content:</strong> We strictly enforce the complete exclusion of dream narratives, interpretation texts, voice recordings, emotions, symbols, and personal user notes from analytics collection. Analytics measures aggregate product actions, never dream content.</li>
+        </ul>
+        <p><strong>C. Data Control &amp; Third-Party Networks:</strong></p>
+        <p>
+          Google Analytics operates under Google's Privacy Policy (<a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">https://policies.google.com/privacy</a>). Users can manage ad identifiers and device personalization through Android Settings (Google &gt; Ads).
         </p>
         <p>
-          Advertising-related data processing is conducted independently by Google AdMob as described in Section 5.
+          We do not sell user data, nor do we integrate Mobile Measurement Partners (MMPs such as AppsFlyer, Adjust, or Singular), third-party data brokers, or social network tracking pixels. Advertising-related data processing is conducted independently by Google AdMob as described in Section 5.
         </p>
       </section>
 

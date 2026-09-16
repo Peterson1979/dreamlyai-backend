@@ -564,5 +564,122 @@
       <p>&copy; 2026 Dreamly AI. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- Acquisition Measurement & UTM Preservation -->
+  <script id="measurement-foundation">
+    (function() {
+      var storageKey = 'dreamly_utm_attribution';
+      function getStoredUtm() {
+        try {
+          var raw = sessionStorage.getItem(storageKey);
+          return raw ? JSON.parse(raw) : null;
+        } catch (_) {
+          return null;
+        }
+      }
+
+      function storeUtm(data) {
+        try {
+          sessionStorage.setItem(storageKey, JSON.stringify(data));
+        } catch (_) {}
+      }
+
+      function extractUtm() {
+        var params = new URLSearchParams(window.location.search);
+        var source = params.get('utm_source');
+        var medium = params.get('utm_medium');
+        var campaign = params.get('utm_campaign');
+        var content = params.get('utm_content');
+        var term = params.get('utm_term');
+
+        if (source || campaign) {
+          return {
+            source: source || 'unknown',
+            medium: medium || 'referral',
+            campaign: campaign || 'website_visit',
+            content: content || 'direct_landing',
+            term: term || ''
+          };
+        }
+
+        var ref = document.referrer || '';
+        if (ref) {
+          try {
+            var refHost = new URL(ref).hostname.toLowerCase();
+            if (refHost.includes('google.')) {
+              return { source: 'google', medium: 'organic', campaign: 'web_search', content: 'seo' };
+            } else if (refHost.includes('instagram.')) {
+              return { source: 'instagram', medium: 'social', campaign: 'profile_bio', content: 'web_referral' };
+            } else if (refHost.includes('facebook.')) {
+              return { source: 'facebook', medium: 'social', campaign: 'page_post', content: 'web_referral' };
+            } else if (refHost.includes('pinterest.')) {
+              return { source: 'pinterest', medium: 'social', campaign: 'pin_share', content: 'web_referral' };
+            } else if (refHost.includes('t.co') || refHost.includes('twitter.') || refHost.includes('x.com')) {
+              return { source: 'twitter', medium: 'social', campaign: 'tweet_link', content: 'web_referral' };
+            }
+          } catch (_) {}
+        }
+
+        return { source: 'website', medium: 'direct', campaign: 'landing_page', content: 'organic' };
+      }
+
+      var currentUtm = getStoredUtm();
+      if (!currentUtm) {
+        currentUtm = extractUtm();
+        storeUtm(currentUtm);
+      }
+
+      function updatePlayStoreLinks() {
+        var playBase = 'https://play.google.com/store/apps/details?id=com.oberon.dreamlyai';
+        var rawReferrer = 'utm_source=' + encodeURIComponent(currentUtm.source || 'website') +
+                          '&utm_medium=' + encodeURIComponent(currentUtm.medium || 'direct') +
+                          '&utm_campaign=' + encodeURIComponent(currentUtm.campaign || 'landing_page') +
+                          '&utm_content=' + encodeURIComponent(currentUtm.content || 'organic');
+        var attributedUrl = playBase + '&referrer=' + encodeURIComponent(rawReferrer);
+
+        var links = document.querySelectorAll('a[href^="https://play.google.com/store/apps/details?id=com.oberon.dreamlyai"]');
+        links.forEach(function(link, index) {
+          link.href = attributedUrl;
+          link.setAttribute('data-attribution-source', currentUtm.source);
+
+          link.addEventListener('click', function() {
+            if (typeof window.gtag === 'function') {
+              window.gtag('event', 'play_store_click', {
+                link_id: link.id || ('cta_' + (index + 1)),
+                utm_source: currentUtm.source,
+                utm_medium: currentUtm.medium,
+                utm_campaign: currentUtm.campaign,
+                utm_content: currentUtm.content,
+                destination_url: attributedUrl
+              });
+            }
+          });
+        });
+      }
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+
+      var gaId = window.GA_MEASUREMENT_ID;
+      if (gaId) {
+        gtag('config', gaId, {
+          page_title: document.title,
+          page_location: window.location.href
+        });
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+        document.head.appendChild(script);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', updatePlayStoreLinks);
+      } else {
+        updatePlayStoreLinks();
+      }
+    })();
+  </script>
 </body>
 </html>

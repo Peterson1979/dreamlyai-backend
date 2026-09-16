@@ -36,7 +36,12 @@ describe("Landing Page & Privacy Policy Verification", () => {
     assert.ok(!html.toLowerCase().includes("developer"), "Landing page must NOT contain the word 'developer'");
     assert.ok(!html.includes("Forray"), "Landing page must NOT contain developer name");
     assert.ok(!html.includes("Gyöngyi"), "Landing page must NOT contain developer name");
-    assert.ok(!html.includes("<script"), "Landing page must NOT contain external or inline JavaScript scripts");
+    assert.ok(!html.includes("connect.facebook.net"), "Landing page must NOT contain Meta/Facebook pixel");
+    assert.ok(!html.includes("mixpanel"), "Landing page must NOT contain Mixpanel");
+    assert.ok(!html.includes("amplitude"), "Landing page must NOT contain Amplitude");
+    assert.ok(!html.includes("appsflyer"), "Landing page must NOT contain AppsFlyer");
+    assert.ok(html.includes("utm_source"), "Landing page script must handle UTM preservation");
+    assert.ok(html.includes("play_store_click"), "Landing page script must track play_store_click");
   });
 
   it("Privacy policy static files exist and contain required substantive disclosures", () => {
@@ -56,6 +61,8 @@ describe("Landing Page & Privacy Policy Verification", () => {
     assert.ok(html.includes("Groq"), "Must disclose Groq AI inference");
     assert.ok(html.includes("Upstash Redis"), "Must disclose Upstash Redis caching/rate limiting");
     assert.ok(html.includes("RECORD_AUDIO"), "Must disclose RECORD_AUDIO microphone permission");
+    assert.ok(html.includes("Google Analytics for Firebase"), "Must disclose Google Analytics for Firebase");
+    assert.ok(html.includes("Google Play Install Referrer"), "Must disclose Google Play Install Referrer");
   });
 
   it("api/privacy-policy.js serverless route responds with HTTP 200 and text/html", async () => {
