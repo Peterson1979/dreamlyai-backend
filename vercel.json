@@ -9,6 +9,26 @@
     {
       "source": "/privacy-policy/",
       "destination": "/api/privacy-policy"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
+    },
+    {
+      "source": "/dreams",
+      "destination": "/api/dreams/index"
+    },
+    {
+      "source": "/dreams/",
+      "destination": "/api/dreams/index"
+    },
+    {
+      "source": "/dreams/:topic",
+      "destination": "/api/dreams/[topic]?topic=:topic"
+    },
+    {
+      "source": "/dreams/:topic/",
+      "destination": "/api/dreams/[topic]?topic=:topic"
     }
   ],
   "crons": [
