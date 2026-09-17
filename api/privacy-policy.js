@@ -1,6 +1,7 @@
 // api/privacy-policy.js
 const fs = require("fs");
 const path = require("path");
+const { getGoogleTagHeadScript } = require("../utils/analytics");
 
 const PRIVACY_POLICY_HTML = `<!DOCTYPE html>
 <html lang="en">
@@ -19,6 +20,8 @@ const PRIVACY_POLICY_HTML = `<!DOCTYPE html>
   <meta property="og:url" content="https://dreamlyai.life/privacy-policy">
   <meta property="og:site_name" content="Dreamly AI">
   <meta property="og:image" content="https://dreamlyai.life/assets/ic_interpret1.png">
+
+${getGoogleTagHeadScript()}
 
   <style>
     :root {

@@ -8,6 +8,7 @@
 
 const { getAllTopics } = require("../../content/topics/registry");
 const { buildAttributedPlayStoreUrl } = require("../../social/urlBuilder");
+const { getGoogleTagHeadScript } = require("../../utils/analytics");
 
 const CATEGORY_ORDER = Object.freeze([
   "common_dreams",
@@ -128,6 +129,8 @@ function renderDirectoryHtml(topics) {
   <meta property="og:url" content="${escapeHtml(canonicalUrl)}">
   <meta property="og:site_name" content="Dreamly AI">
   <meta property="og:image" content="https://dreamlyai.life/assets/ic_interpret1.png">
+
+${getGoogleTagHeadScript()}
 
   <!-- Structured Data JSON-LD -->
   <script type="application/ld+json">

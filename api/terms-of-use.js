@@ -1,6 +1,7 @@
 // api/terms-of-use.js
 const fs = require("fs");
 const path = require("path");
+const { getGoogleTagHeadScript } = require("../utils/analytics");
 
 const TERMS_OF_USE_HTML = `<!DOCTYPE html>
 <html lang="en">
@@ -19,6 +20,8 @@ const TERMS_OF_USE_HTML = `<!DOCTYPE html>
   <meta property="og:url" content="https://dreamlyai.life/terms-of-use">
   <meta property="og:site_name" content="Dreamly AI">
   <meta property="og:image" content="https://dreamlyai.life/assets/ic_interpret1.png">
+
+${getGoogleTagHeadScript()}
 
   <style>
     :root {

@@ -1,6 +1,7 @@
 // api/ai-disclaimer.js
 const fs = require("fs");
 const path = require("path");
+const { getGoogleTagHeadScript } = require("../utils/analytics");
 
 const AI_DISCLAIMER_HTML = `<!DOCTYPE html>
 <html lang="en">
@@ -19,6 +20,8 @@ const AI_DISCLAIMER_HTML = `<!DOCTYPE html>
   <meta property="og:url" content="https://dreamlyai.life/ai-disclaimer">
   <meta property="og:site_name" content="Dreamly AI">
   <meta property="og:image" content="https://dreamlyai.life/assets/ic_interpret1.png">
+
+${getGoogleTagHeadScript()}
 
   <style>
     :root {

@@ -32,6 +32,20 @@ describe("Landing Page & Privacy Policy Verification", () => {
     // Navigation & Privacy link
     assert.ok(html.includes('href="/privacy-policy"'), "Must contain Privacy Policy link");
 
+    // Background & Visual Assets
+    assert.ok(html.includes("ic_background.jpg"), "Must reference continuous atmospheric background");
+    assert.ok(html.includes("body::before"), "Must implement page-level continuous background layer");
+    assert.ok(html.includes("ic_interpret1.png"), "Must reference interpretation hero logo");
+    assert.ok(html.includes("hero-app-icon"), "Must style hero app icon");
+    assert.ok(html.includes("ic_edu.png"), "Must reference ic_edu.png visual icon for Encyclopedia");
+
+    // Mobile Navigation & Accessibility
+    assert.ok(html.includes('id="mobile-nav-toggle"'), "Must include mobile nav toggle button");
+    assert.ok(html.includes('aria-label="Toggle navigation menu"'), "Must include aria-label on mobile nav toggle");
+    assert.ok(html.includes('aria-expanded="false"'), "Must include initial aria-expanded state");
+    assert.ok(html.includes('id="primary-nav-menu"'), "Must include primary-nav-menu id");
+    assert.ok(html.includes("Escape"), "Must handle Escape key for keyboard accessibility");
+
     // Negative constraints on landing page
     assert.ok(!html.toLowerCase().includes("developer"), "Landing page must NOT contain the word 'developer'");
     assert.ok(!html.includes("Forray"), "Landing page must NOT contain developer name");

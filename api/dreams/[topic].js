@@ -9,6 +9,7 @@
 
 const { getTopicById, getTopicsByCategory } = require("../../content/topics/registry");
 const { buildAttributedPlayStoreUrl } = require("../../social/urlBuilder");
+const { getGoogleTagHeadScript } = require("../../utils/analytics");
 
 const CATEGORY_LABELS = Object.freeze({
   dream_symbols: "Dream Symbols & Archetypes",
@@ -55,6 +56,9 @@ function renderNotFoundHtml() {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Topic Not Found — Dreamly AI</title>
   <meta name="robots" content="noindex, follow">
+
+${getGoogleTagHeadScript()}
+
   <style>
     :root {
       --bg-color: #0b0d17;
@@ -183,6 +187,8 @@ function renderTopicHtml(topic) {
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="${escapeHtml(topic.title)}">
   <meta name="twitter:description" content="${escapeHtml(topic.searchIntent)}">
+
+${getGoogleTagHeadScript()}
 
   <!-- Structured Data JSON-LD -->
   <script type="application/ld+json">
