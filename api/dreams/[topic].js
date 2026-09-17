@@ -9,7 +9,7 @@
 
 const { getTopicById, getTopicsByCategory } = require("../../content/topics/registry");
 const { buildAttributedPlayStoreUrl } = require("../../social/urlBuilder");
-const { getGoogleTagHeadScript } = require("../../utils/analytics");
+const { getGoogleTagHeadScript, getMeasurementFoundationScript } = require("../../utils/analytics");
 
 const CATEGORY_LABELS = Object.freeze({
   dream_symbols: "Dream Symbols & Archetypes",
@@ -108,6 +108,7 @@ ${getGoogleTagHeadScript()}
     <p>The dream symbol or topic you are searching for is not available or may have been moved.</p>
     <a href="/dreams" class="btn">Explore All Dream Topics &rarr;</a>
   </div>
+${getMeasurementFoundationScript()}
 </body>
 </html>`;
 }
@@ -957,6 +958,7 @@ ${JSON.stringify(breadcrumbJsonLd, null, 2)}
       });
     })();
   </script>
+${getMeasurementFoundationScript({ topicId: topic.id })}
 </body>
 </html>`;
 }

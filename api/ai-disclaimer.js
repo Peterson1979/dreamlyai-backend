@@ -1,7 +1,7 @@
 // api/ai-disclaimer.js
 const fs = require("fs");
 const path = require("path");
-const { getGoogleTagHeadScript } = require("../utils/analytics");
+const { getGoogleTagHeadScript, getMeasurementFoundationScript } = require("../utils/analytics");
 
 const AI_DISCLAIMER_HTML = `<!DOCTYPE html>
 <html lang="en">
@@ -569,6 +569,7 @@ ${getGoogleTagHeadScript()}
       });
     })();
   </script>
+${getMeasurementFoundationScript()}
 </body>
 </html>`;
 

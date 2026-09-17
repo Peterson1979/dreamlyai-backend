@@ -8,7 +8,7 @@
 
 const { getAllTopics } = require("../../content/topics/registry");
 const { buildAttributedPlayStoreUrl } = require("../../social/urlBuilder");
-const { getGoogleTagHeadScript } = require("../../utils/analytics");
+const { getGoogleTagHeadScript, getMeasurementFoundationScript } = require("../../utils/analytics");
 
 const CATEGORY_ORDER = Object.freeze([
   "common_dreams",
@@ -845,6 +845,7 @@ ${JSON.stringify(breadcrumbJsonLd, null, 2)}
       });
     })();
   </script>
+${getMeasurementFoundationScript()}
 </body>
 </html>`;
 }
