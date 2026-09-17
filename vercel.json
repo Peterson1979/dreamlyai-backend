@@ -11,6 +11,22 @@
       "destination": "/api/privacy-policy"
     },
     {
+      "source": "/terms-of-use",
+      "destination": "/api/terms-of-use"
+    },
+    {
+      "source": "/terms-of-use/",
+      "destination": "/api/terms-of-use"
+    },
+    {
+      "source": "/ai-disclaimer",
+      "destination": "/api/ai-disclaimer"
+    },
+    {
+      "source": "/ai-disclaimer/",
+      "destination": "/api/ai-disclaimer"
+    },
+    {
       "source": "/sitemap.xml",
       "destination": "/api/sitemap"
     },

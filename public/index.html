@@ -3,58 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dreamly AI — Mobile AI Dream Interpretation &amp; Journal</title>
-  <meta name="description" content="Dreamly AI is a mobile dream interpretation and journaling app providing structured AI analysis, symbol insights, emotion tracking, recurring pattern discovery, and multilingual support.">
+  <title>Dreamly AI — Understand Your Dreams &amp; Personal Dream Journal</title>
+  <meta name="description" content="Understand your dreams. Build your personal dream journal. Discover patterns over time with Dreamly AI — a calm, privacy-first mobile dream interpretation and journaling app for Android with voice notes, emotional tracking, and pattern discovery.">
   <link rel="canonical" href="https://dreamlyai-backend.vercel.app/">
+  <link rel="icon" type="image/png" href="/assets/ic_interpret1.png">
 
   <!-- Open Graph / Social Media Meta -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://dreamlyai-backend.vercel.app/">
-  <meta property="og:title" content="Dreamly AI — Mobile AI Dream Interpretation &amp; Journal">
-  <meta property="og:description" content="Explore thoughtful AI dream interpretations, symbol analysis, emotion tracking, and recurring dream patterns with Dreamly AI for Android.">
+  <meta property="og:title" content="Dreamly AI — Understand Your Dreams &amp; Personal Dream Journal">
+  <meta property="og:description" content="Understand your dreams. Build your personal dream journal. Discover patterns over time with structured AI dream interpretation, voice notes, and pattern discovery.">
   <meta property="og:site_name" content="Dreamly AI">
+  <meta property="og:image" content="https://dreamlyai-backend.vercel.app/assets/ic_interpret1.png">
+
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Dreamly AI",
+    "operatingSystem": "Android",
+    "applicationCategory": "LifestyleApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Understand your dreams. Build your personal dream journal. Discover patterns over time with Dreamly AI.",
+    "url": "https://dreamlyai-backend.vercel.app/",
+    "downloadUrl": "https://play.google.com/store/apps/details?id=com.oberon.dreamlyai"
+  }
+  </script>
 
   <style>
     :root {
-      --bg-color: #0b0d17;
-      --card-bg: #131627;
-      --card-border: #232842;
-      --card-hover-border: #6366f1;
-      --text-color: #e2e8f0;
-      --heading-color: #f8fafc;
-      --muted-color: #94a3b8;
-      --accent-color: #6366f1;
-      --accent-light: #818cf8;
-      --accent-gradient: linear-gradient(135deg, #818cf8 0%, #c084fc 50%, #38bdf8 100%);
-      --btn-bg: #4f46e5;
-      --btn-hover: #4338ca;
+      --bg-deep: #070913;
+      --bg-surface: #0e1224;
+      --bg-surface-elevated: #151b34;
+      --card-border: rgba(165, 180, 252, 0.12);
+      --card-border-hover: rgba(165, 180, 252, 0.35);
+      --text-main: #f1f5f9;
+      --text-body: #cbd5e1;
+      --text-muted: #8e9bb4;
+      --accent-soft: #818cf8;
+      --accent-light: #a5b4fc;
+      --accent-glow: rgba(129, 140, 248, 0.25);
+      --accent-moon: #c7d2fe;
+      --accent-gold: #fbbf24;
+      --accent-emerald: #34d399;
+      --accent-cyan: #38bdf8;
+      --btn-primary-bg: #4338ca;
+      --btn-primary-hover: #3730a3;
       --btn-text: #ffffff;
-      --border-color: #1e243d;
-      --link-color: #818cf8;
-      --link-hover: #a5b4fc;
-      --shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
-    }
-
-    @media (prefers-color-scheme: light) {
-      :root {
-        --bg-color: #f8fafc;
-        --card-bg: #ffffff;
-        --card-border: #e2e8f0;
-        --card-hover-border: #6366f1;
-        --text-color: #334155;
-        --heading-color: #0f172a;
-        --muted-color: #64748b;
-        --accent-color: #4f46e5;
-        --accent-light: #6366f1;
-        --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #0284c7 100%);
-        --btn-bg: #4f46e5;
-        --btn-hover: #3730a3;
-        --btn-text: #ffffff;
-        --border-color: #e2e8f0;
-        --link-color: #4f46e5;
-        --link-hover: #3730a3;
-        --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-      }
+      --nav-border: rgba(148, 163, 184, 0.1);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --shadow-elevated: 0 12px 36px rgba(0, 0, 0, 0.55);
     }
 
     * {
@@ -63,113 +69,264 @@
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
+      position: relative;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-deep);
+      color: var(--text-body);
       line-height: 1.65;
-      padding: 0;
       margin: 0;
+      padding: 0;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(99, 102, 241, 0.12), transparent 70%),
+        linear-gradient(180deg, rgba(7, 9, 19, 0.2) 0%, rgba(7, 9, 19, 0.4) 35%, rgba(7, 9, 19, 0.55) 70%, rgba(5, 7, 14, 0.72) 100%),
+        url('/assets/ic_background.jpg') center top / cover no-repeat;
+      pointer-events: none;
     }
 
     .container {
-      max-width: 1040px;
+      max-width: 1080px;
       margin: 0 auto;
       padding: 0 1.5rem;
     }
 
     /* Navigation */
     header {
-      border-bottom: 1px solid var(--border-color);
-      background-color: var(--bg-color);
       position: sticky;
       top: 0;
       z-index: 100;
-      backdrop-filter: blur(8px);
+      background: rgba(7, 9, 19, 0.75);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--nav-border);
     }
 
     nav {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1rem 0;
+      padding: 0.9rem 0;
+      white-space: nowrap;
+      position: relative;
     }
 
     .brand {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-main);
       font-size: 1.25rem;
       font-weight: 700;
-      color: var(--heading-color);
-      text-decoration: none;
       letter-spacing: -0.02em;
+      z-index: 101;
     }
 
-    .brand-icon {
-      width: 28px;
-      height: 28px;
-      fill: var(--accent-light);
+    .brand-logo-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 0 12px var(--accent-glow);
     }
 
-    .nav-links {
+    .nav-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      padding: 0.5rem;
+      width: 42px;
+      height: 42px;
+      position: relative;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 5px;
+      transition: all 0.2s ease;
+      z-index: 101;
+    }
+
+    .nav-toggle:hover,
+    .nav-toggle:focus-visible {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--card-border-hover);
+      outline: 2px solid var(--accent-soft);
+      outline-offset: 2px;
+    }
+
+    .nav-toggle-bar {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background-color: var(--text-main);
+      border-radius: 2px;
+      transition: transform 0.25s ease, opacity 0.2s ease;
+    }
+
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) {
+      opacity: 0;
+    }
+    .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .nav-menu {
       display: flex;
       align-items: center;
-      gap: 1.25rem;
+      gap: 2rem;
       list-style: none;
     }
 
-    .nav-links a {
-      color: var(--muted-color);
+    .nav-menu a {
+      color: var(--text-muted);
       text-decoration: none;
       font-size: 0.95rem;
       font-weight: 500;
       transition: color 0.2s ease;
     }
 
-    .nav-links a:hover {
-      color: var(--heading-color);
+    .nav-menu a:hover {
+      color: var(--accent-moon);
     }
 
-    /* Hero Section */
+    .nav-cta {
+      padding: 0.5rem 1.15rem;
+      font-size: 0.9rem;
+      border-radius: var(--radius-sm);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      padding: 0.85rem 1.65rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.98rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.22s ease;
+      cursor: pointer;
+      border: 1px solid transparent;
+      line-height: 1.2;
+    }
+
+    .btn-primary {
+      background: var(--btn-primary-bg);
+      color: var(--btn-text);
+      box-shadow: 0 4px 16px rgba(67, 56, 202, 0.45);
+    }
+
+    .btn-primary:hover {
+      background: var(--btn-primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(67, 56, 202, 0.6);
+    }
+
+    .btn-secondary {
+      background: rgba(21, 27, 52, 0.75);
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(30, 38, 70, 0.85);
+      border-color: var(--card-border-hover);
+      transform: translateY(-2px);
+    }
+
+    .btn-icon {
+      width: 19px;
+      height: 19px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    /* Hero Section with Night-Sky Atmosphere */
     .hero {
-      padding: 4.5rem 0 3rem;
+      position: relative;
+      padding: 4.5rem 0 4rem;
       text-align: center;
+      background: transparent;
+      border-bottom: 1px solid var(--nav-border);
+    }
+
+    .hero-app-identity {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-app-icon {
+      width: clamp(130px, 20vw, 152px);
+      height: clamp(130px, 20vw, 152px);
+      border-radius: clamp(26px, 4vw, 32px);
+      object-fit: cover;
+      box-shadow: 0 14px 38px rgba(0, 0, 0, 0.65), 0 0 32px rgba(129, 140, 248, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      margin-bottom: 1.25rem;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      padding: 0.35rem 0.85rem;
+      gap: 0.45rem;
+      padding: 0.35rem 0.95rem;
       border-radius: 9999px;
-      background-color: var(--card-bg);
-      border: 1px solid var(--card-border);
+      background: rgba(129, 140, 248, 0.12);
+      border: 1px solid rgba(165, 180, 252, 0.22);
       color: var(--accent-light);
       font-size: 0.85rem;
       font-weight: 600;
-      margin-bottom: 1.5rem;
+      letter-spacing: 0.02em;
     }
 
     .hero h1 {
       font-size: clamp(2.2rem, 5vw, 3.4rem);
       font-weight: 800;
-      color: var(--heading-color);
-      line-height: 1.15;
+      color: var(--text-main);
+      line-height: 1.18;
       letter-spacing: -0.03em;
       margin-bottom: 1.25rem;
+      max-width: 860px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    .hero h1 .gradient-text {
-      background: var(--accent-gradient);
+    .gradient-text {
+      background: linear-gradient(135deg, #c7d2fe 0%, #a5b4fc 50%, #7dd3fc 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .hero p {
+    .hero-lead {
       font-size: 1.15rem;
-      color: var(--muted-color);
+      color: var(--text-muted);
       max-width: 680px;
       margin: 0 auto 2.25rem;
       line-height: 1.7;
@@ -181,369 +338,957 @@
       align-items: center;
       gap: 1rem;
       flex-wrap: wrap;
+      margin-bottom: 3.5rem;
     }
 
-    /* Buttons */
-    .btn {
-      display: inline-flex;
+    /* Hero App UI Preview Mockup */
+    .hero-preview {
+      max-width: 720px;
+      margin: 0 auto;
+      background: rgba(14, 18, 36, 0.85);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 1.6rem;
+      box-shadow: var(--shadow-elevated);
+      text-align: left;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--nav-border);
+      padding-bottom: 0.85rem;
+      margin-bottom: 1.15rem;
+    }
+
+    .preview-date-group {
+      display: flex;
       align-items: center;
       gap: 0.6rem;
-      padding: 0.85rem 1.6rem;
-      border-radius: 8px;
-      font-size: 1rem;
+      font-size: 0.92rem;
       font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      cursor: pointer;
+      color: var(--text-main);
     }
 
-    .btn-primary {
-      background: var(--btn-bg);
-      color: var(--btn-text);
-      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+    .preview-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 8px rgba(52, 211, 153, 0.5);
     }
 
-    .btn-primary:hover {
-      background: var(--btn-hover);
-      transform: translateY(-1px);
+    .preview-streak {
+      font-size: 0.82rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      background: rgba(251, 191, 36, 0.12);
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      color: var(--accent-gold);
+      font-weight: 600;
     }
 
-    .btn-icon {
-      width: 20px;
-      height: 20px;
-      fill: currentColor;
+    .preview-narrative {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-main);
+      font-style: italic;
+      margin-bottom: 1.15rem;
+      padding: 0.85rem 1rem;
+      background: rgba(7, 9, 19, 0.6);
+      border-left: 3px solid var(--accent-soft);
+      border-radius: 4px;
     }
 
-    /* Features Section */
+    .preview-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-bottom: 1.15rem;
+    }
+
+    .preview-chip {
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-body);
+    }
+
+    .preview-chip.rating {
+      color: var(--accent-gold);
+      border-color: rgba(251, 191, 36, 0.25);
+      background: rgba(251, 191, 36, 0.08);
+    }
+
+    .preview-analysis-card {
+      background: rgba(7, 9, 19, 0.5);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 1.15rem;
+    }
+
+    .preview-analysis-card h4 {
+      font-size: 0.88rem;
+      color: var(--accent-light);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.45rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .preview-analysis-card p {
+      font-size: 0.91rem;
+      color: var(--text-body);
+      line-height: 1.55;
+    }
+
+    /* General Section Styling */
     .section {
-      padding: 4rem 0;
+      padding: 4.5rem 0;
+      border-bottom: 1px solid var(--nav-border);
+      position: relative;
     }
 
     .section-header {
       text-align: center;
-      max-width: 640px;
-      margin: 0 auto 3rem;
+      max-width: 680px;
+      margin: 0 auto 3.25rem;
+    }
+
+    .section-header-icon-wrap {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .section-header-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 20px rgba(129, 140, 248, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .section-category {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-light);
+      margin-bottom: 0.45rem;
+      display: block;
     }
 
     .section-header h2 {
-      font-size: 2rem;
-      color: var(--heading-color);
+      font-size: clamp(1.8rem, 3.2vw, 2.3rem);
+      color: var(--text-main);
       font-weight: 700;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.025em;
       margin-bottom: 0.75rem;
     }
 
     .section-header p {
-      color: var(--muted-color);
+      color: var(--text-muted);
       font-size: 1.05rem;
+      line-height: 1.65;
     }
 
-    .features-grid {
+    /* Featured Capability Showcase with App Visual Asset */
+    .capability-showcase {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: 280px 1fr;
+      gap: 2rem;
+      background: rgba(14, 18, 36, 0.75);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem;
+      margin-bottom: 2rem;
+      align-items: center;
+      box-shadow: var(--shadow-subtle);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .capability-visual {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 1.5rem;
+      background: rgba(7, 9, 19, 0.65);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--card-border);
+    }
+
+    .capability-icon-img {
+      width: 108px;
+      height: 108px;
+      border-radius: 22px;
+      object-fit: cover;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      margin-bottom: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .capability-visual h4 {
+      color: var(--text-main);
+      font-size: 1.1rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .capability-visual p {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
+
+    .capability-details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 1.25rem;
     }
 
-    .feature-card {
-      background-color: var(--card-bg);
+    .capability-card {
+      background: rgba(21, 27, 52, 0.45);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      transition: border-color 0.2s ease, transform 0.2s ease;
-      display: flex;
-      flex-direction: column;
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      transition: all 0.2s ease;
     }
 
-    .feature-card:hover {
-      border-color: var(--card-hover-border);
+    .capability-card:hover {
+      border-color: var(--card-border-hover);
+      background: rgba(21, 27, 52, 0.7);
       transform: translateY(-2px);
     }
 
-    .feature-icon-wrapper {
-      width: 44px;
-      height: 44px;
-      border-radius: 8px;
-      background: rgba(99, 102, 241, 0.12);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1rem;
+    .capability-card h4 {
+      font-size: 1.02rem;
+      color: var(--text-main);
+      margin-bottom: 0.45rem;
     }
 
-    .feature-icon {
-      width: 22px;
-      height: 22px;
-      fill: var(--accent-light);
+    .capability-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* Features Grid Layouts */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .feature-card {
+      background-color: rgba(14, 18, 36, 0.75);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 1.65rem;
+      transition: all 0.22s ease;
+      display: flex;
+      flex-direction: column;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .feature-card:hover {
+      border-color: var(--card-border-hover);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-subtle);
     }
 
     .feature-card h3 {
       font-size: 1.15rem;
       font-weight: 600;
-      color: var(--heading-color);
-      margin-bottom: 0.5rem;
+      color: var(--text-main);
+      margin-bottom: 0.55rem;
+      letter-spacing: -0.015em;
     }
 
     .feature-card p {
-      color: var(--muted-color);
+      color: var(--text-muted);
       font-size: 0.92rem;
-      line-height: 1.55;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      flex-grow: 1;
     }
 
-    /* Privacy & Architecture Highlight */
-    .highlight-card {
-      background-color: var(--card-bg);
+    .feature-tag-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: auto;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--nav-border);
+    }
+
+    .feature-tag {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    /* Privacy Card */
+    .privacy-box {
+      background: rgba(14, 18, 36, 0.78);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
+      border-radius: var(--radius-lg);
       padding: 2.25rem;
-      margin: 1rem 0;
+      box-shadow: var(--shadow-subtle);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .privacy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.75rem;
+    }
+
+    .privacy-item {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+
+    .privacy-check {
+      color: var(--accent-emerald);
+      font-weight: 700;
+      font-size: 1.15rem;
+      line-height: 1;
+      margin-top: 0.15rem;
+    }
+
+    .privacy-item h4 {
+      font-size: 1rem;
+      color: var(--text-main);
+      margin-bottom: 0.3rem;
+    }
+
+    .privacy-item p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* SEO Topic Links Showcase */
+    .topics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .topic-card {
+      background: rgba(14, 18, 36, 0.75);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      padding: 1.15rem;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s ease;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      justify-content: space-between;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
-    .highlight-card h3 {
-      font-size: 1.35rem;
-      color: var(--heading-color);
+    .topic-card:hover {
+      border-color: var(--card-border-hover);
+      background: rgba(21, 27, 52, 0.85);
+      transform: translateY(-2px);
+    }
+
+    .topic-card h4 {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      margin-bottom: 0.35rem;
       font-weight: 600;
     }
 
-    .highlight-card p {
-      color: var(--muted-color);
-      font-size: 0.98rem;
-    }
-
-    .highlight-points {
-      list-style: none;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 0.75rem;
-      margin: 0.5rem 0;
-    }
-
-    .highlight-points li {
-      color: var(--text-color);
-      font-size: 0.92rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .highlight-points li::before {
-      content: "✓";
-      color: var(--accent-light);
-      font-weight: 700;
-    }
-
-    /* CTA Banner */
-    .cta-banner {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 3rem 2rem;
-      text-align: center;
-      margin: 3rem 0;
-      box-shadow: var(--shadow);
-    }
-
-    .cta-banner h2 {
-      font-size: 1.85rem;
-      color: var(--heading-color);
+    .topic-card p {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.45;
       margin-bottom: 0.75rem;
     }
 
-    .cta-banner p {
-      color: var(--muted-color);
-      max-width: 540px;
-      margin: 0 auto 1.75rem;
-      font-size: 1rem;
-    }
-
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--border-color);
-      padding: 2.5rem 0;
-      margin-top: 3rem;
-      text-align: center;
-      font-size: 0.9rem;
-      color: var(--muted-color);
-    }
-
-    .footer-links {
+    .topic-link-arrow {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--accent-light);
       display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-bottom: 1rem;
+      align-items: center;
+      gap: 0.25rem;
+      margin-top: auto;
+    }
+
+    /* Final CTA Banner */
+    .cta-banner {
+      background:
+        linear-gradient(135deg, rgba(67, 56, 202, 0.28) 0%, rgba(14, 18, 36, 0.85) 100%);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 3.25rem 2rem;
+      text-align: center;
+      margin: 3.5rem 0 1rem;
+      box-shadow: var(--shadow-elevated);
+      position: relative;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .cta-banner h2 {
+      font-size: clamp(1.8rem, 3.6vw, 2.4rem);
+      color: var(--text-main);
+      margin-bottom: 0.85rem;
+      letter-spacing: -0.02em;
+    }
+
+    .cta-banner p {
+      color: var(--text-muted);
+      max-width: 580px;
+      margin: 0 auto 1.85rem;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    /* Footer with Serene Night-Sky Finish */
+    footer {
+      border-top: 1px solid var(--nav-border);
+      padding: 3.5rem 0 2.5rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      background: rgba(5, 7, 14, 0.68);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+      text-align: left;
+    }
+
+    .footer-col h5 {
+      color: var(--text-main);
+      font-size: 0.92rem;
+      font-weight: 600;
+      margin-bottom: 0.95rem;
+      letter-spacing: 0.02em;
+    }
+
+    .footer-col ul {
       list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
     }
 
-    .footer-links a {
-      color: var(--link-color);
+    .footer-col a {
+      color: var(--text-muted);
       text-decoration: none;
+      transition: color 0.2s ease;
     }
 
-    .footer-links a:hover {
-      color: var(--link-hover);
-      text-decoration: underline;
+    .footer-col a:hover {
+      color: var(--accent-moon);
     }
 
-    @media (max-width: 640px) {
+    .footer-bottom {
+      border-top: 1px solid var(--nav-border);
+      padding-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    @media (max-width: 860px) {
+      .capability-showcase {
+        grid-template-columns: 1fr;
+      }
+      .nav-menu {
+        gap: 1.25rem;
+      }
+    }
+
+    @media (max-width: 680px) {
       .hero {
-        padding: 3rem 0 2rem;
+        padding: 3.5rem 0 2.5rem;
       }
-      .nav-links {
-        gap: 0.85rem;
+      .nav-toggle {
+        display: inline-flex;
       }
-      .highlight-card {
+      .nav-menu {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(7, 9, 19, 0.96);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--nav-border);
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.6);
+        padding: 1.25rem 1.5rem 1.75rem;
+        gap: 1.25rem;
+        align-items: stretch;
+        text-align: center;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(-8px);
+        transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
+      }
+      .nav-menu.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+      .nav-menu li {
+        width: 100%;
+      }
+      .nav-menu a {
+        display: block;
+        padding: 0.65rem 0;
+        font-size: 1.05rem;
+      }
+      .nav-menu .nav-cta {
+        margin-top: 0.5rem;
+        padding: 0.75rem 1.25rem;
+        display: inline-flex;
+        width: 100%;
+      }
+      .hero-preview {
+        padding: 1.2rem;
+      }
+      .privacy-box {
         padding: 1.5rem;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
       }
     }
   </style>
 </head>
 <body>
+  <!-- Header Navigation -->
   <header>
     <div class="container">
       <nav>
-        <a href="/" class="brand">
-          <svg class="brand-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-5.4-5.4c0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
-          </svg>
+        <a href="/" class="brand" aria-label="Dreamly AI Home">
+          <img src="/assets/ic_interpret1.png" alt="Dreamly AI Logo" class="brand-logo-img">
           <span>Dreamly AI</span>
         </a>
-        <ul class="nav-links">
+        <button class="nav-toggle" id="mobile-nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="primary-nav-menu">
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+        </button>
+        <ul class="nav-menu" id="primary-nav-menu">
+          <li><a href="/">Home</a></li>
           <li><a href="#features">Features</a></li>
-          <li><a href="/privacy-policy">Privacy Policy</a></li>
-          <li><a href="https://play.google.com/store/apps/details?id=com.oberon.dreamlyai" target="_blank" rel="noopener noreferrer">Get App</a></li>
+          <li><a href="/dreams">Dream Encyclopedia</a></li>
+          <li>
+            <a href="https://play.google.com/store/apps/details?id=com.oberon.dreamlyai" class="btn btn-primary nav-cta" target="_blank" rel="noopener noreferrer">
+              Download
+            </a>
+          </li>
         </ul>
       </nav>
     </div>
   </header>
 
   <main>
-    <!-- Hero -->
+    <!-- Hero Section -->
     <section class="hero">
       <div class="container">
-        <div class="badge">
-          <span>🌙 Mobile AI Dream Interpretation &amp; Journaling</span>
+        <div class="hero-app-identity">
+          <img src="/assets/ic_interpret1.png" alt="Dreamly AI App Icon" class="hero-app-icon">
+          <div class="badge">
+            <span>🌙 Private Mobile Dream Journal for Android</span>
+          </div>
         </div>
-        <h1>Understand Your Dreams with <span class="gradient-text">Dreamly AI</span></h1>
-        <p>
-          Dreamly AI is a mobile dream interpretation and journaling application designed to bring thoughtful insight to your nighttime memories. Record journal entries, track recurring themes, and receive structured AI reflections directly on your Android device.
+        <h1>
+          Understand your dreams.<br>
+          Build your personal dream journal.<br>
+          <span class="gradient-text">Discover patterns over time.</span>
+        </h1>
+        <p class="hero-lead">
+          A calm, privacy-first dream companion for Android. Record memories in seconds upon waking with voice notes or text, explore contextual AI dream interpretations, and uncover recurring themes across your sleep life.
         </p>
         <div class="hero-actions">
-          <a href="https://play.google.com/store/apps/details?id=com.oberon.dreamlyai" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+          <a href="https://play.google.com/store/apps/details?id=com.oberon.dreamlyai" class="btn btn-primary" target="_blank" rel="noopener noreferrer" id="hero_google_play_btn">
             <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M3.609 1.814L13.792 12 3.61 22.186a2.38 2.38 0 0 1-.61-.735V2.55c.18-.286.39-.536.61-.736zm11.24 11.24l2.58 2.58-12.04 6.95 9.46-9.53zm0-2.108L5.39 1.417l12.04 6.95-2.58 2.58zM18.8 11.21l3.18 1.83a1.59 1.59 0 0 1 0 2.76l-3.18 1.83-2.11-2.11 2.11-2.31z"/>
             </svg>
-            <span>Get on Google Play</span>
+            <span>Get Dreamly AI on Google Play</span>
+          </a>
+          <a href="/dreams" class="btn btn-secondary" id="hero_explore_dreams_btn">
+            <span>Explore Dream Meanings &rarr;</span>
+          </a>
+        </div>
+
+        <!-- Realistic App UI Preview Mockup -->
+        <div class="hero-preview">
+          <div class="preview-header">
+            <div class="preview-date-group">
+              <span class="preview-dot" aria-hidden="true"></span>
+              <span>Morning Journal Entry &bull; Today</span>
+            </div>
+            <span class="preview-streak">Streak: 7 Days 🔥</span>
+          </div>
+          <div class="preview-narrative">
+            &ldquo;I stood on a misty mountain cliff and looked down at a glowing turquoise river. I stepped forward and began floating effortlessly through the cool air, holding a golden key...&rdquo;
+          </div>
+          <div class="preview-chips">
+            <span class="preview-chip">✨ Lucid Dream</span>
+            <span class="preview-chip">🕊️ Flying</span>
+            <span class="preview-chip">🌊 Water</span>
+            <span class="preview-chip rating">★ 5.0 Vividness</span>
+            <span class="preview-chip rating">★ 4.5 Lucidity</span>
+          </div>
+          <div class="preview-analysis-card">
+            <h4>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2L14.3 8.7L21 11L14.3 13.3L12 20L9.7 13.3L3 11L9.7 8.7L12 2Z"/></svg>
+              <span>Contextual AI Reflection</span>
+            </h4>
+            <p>
+              Flying across mist toward clear water symbolizes a conscious transition from uncertainty into clarity. The golden key highlights an emerging inner solution or self-discovery regarding your waking goals.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section A: AI Dream Interpretation -->
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-category">Subconscious Insights</span>
+          <h2>Context-Aware AI Dream Interpretation</h2>
+          <p>
+            Move beyond rigid static lookup tables. Dreamly AI evaluates the context, narrative flow, and underlying emotions of your dreams to provide balanced psychological reflections.
+          </p>
+        </div>
+
+        <!-- Showcase with ic_interpret1.png -->
+        <div class="capability-showcase">
+          <div class="capability-visual">
+            <img src="/assets/ic_interpret1.png" alt="AI Interpretation Engine" class="capability-icon-img">
+            <h4>Dream Intelligence</h4>
+            <p>Multi-layered psychological analysis &amp; reflection</p>
+          </div>
+          <div class="capability-details-grid">
+            <div class="capability-card">
+              <h4>Personal Dream Analysis</h4>
+              <p>Context-sensitive analysis considering your specific narrative, feelings, and waking circumstances.</p>
+            </div>
+            <div class="capability-card">
+              <h4>Multi-Layered Perspectives</h4>
+              <p>Structured breakdown into Summary, Symbolic Meaning, Emotional Tone, Narrative Sequence, and Open-Ended Reflection.</p>
+            </div>
+            <div class="capability-card">
+              <h4>Offline Reflection Mode</h4>
+              <p>Fail-safe introspection engine with deterministic matching against 50 canonical themes when offline.</p>
+            </div>
+            <div class="capability-card">
+              <h4>Global Localization</h4>
+              <p>Native-language interpretations and complete user interface across 31+ world languages.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section B: Dream Journal -->
+    <section class="section" id="journal">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-category">Capture &amp; Chronicle</span>
+          <h2>A Built-For-Waking Dream Journal</h2>
+          <p>
+            Capture fragile memories before morning sleep inertia washes them away. Flexible capture tools engineered for early mornings.
+          </p>
+        </div>
+
+        <!-- Showcase with ic_journal2.png -->
+        <div class="capability-showcase">
+          <div class="capability-visual">
+            <img src="/assets/ic_journal2.png" alt="Dream Journal Hub" class="capability-icon-img">
+            <h4>Dream Journal</h4>
+            <p>Voice notes, ratings, tagging &amp; private archives</p>
+          </div>
+          <div class="capability-details-grid">
+            <div class="capability-card">
+              <h4>Morning Quick Capture</h4>
+              <p>Streamlined waking screen designed for groggy mornings to record fragments in seconds.</p>
+            </div>
+            <div class="capability-card">
+              <h4>Private Voice Notes</h4>
+              <p>Hardware-accelerated AAC audio notes stored strictly on-device with inline playback.</p>
+            </div>
+            <div class="capability-card">
+              <h4>6-Dimension Ratings</h4>
+              <p>Track Vividness, Emotional Intensity, Recall Clarity, Lucidity, Control, and Sleep Quality.</p>
+            </div>
+            <div class="capability-card">
+              <h4>18 Canonical Tags</h4>
+              <p>Tag Lucid, Vivid, Recurring, Nightmare, Flying, Water, Travel, Falling, and more.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Secondary Journal Capabilities -->
+        <div class="features-grid">
+          <article class="feature-card">
+            <h3>Instant Search &amp; Multi-Filters</h3>
+            <p>
+              Accent-tolerant search across narrative, symbols, and emotions. Filter by favorites, voice notes, AI interpretations, and custom sort orders.
+            </p>
+            <ul class="feature-tag-list">
+              <li class="feature-tag">Accent-Tolerant Search</li>
+              <li class="feature-tag">Rich Filters</li>
+            </ul>
+          </article>
+          <article class="feature-card">
+            <h3>PDF, JSON &amp; TXT Exporters</h3>
+            <p>
+              Your data belongs to you. Export your entire journal into multi-page vector A4 PDFs, structured JSON archives, or plain TXT files.
+            </p>
+            <ul class="feature-tag-list">
+              <li class="feature-tag">Vector PDF Generator</li>
+              <li class="feature-tag">JSON / TXT Portability</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section C: Pattern Discovery & Mind Habits -->
+    <section class="section" id="patterns">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-category">Subconscious Analytics</span>
+          <h2>Pattern Discovery &amp; Mind Habits</h2>
+          <p>
+            Dreams are not isolated events. Discover correlations between symbols, recurring motifs, and emotional trajectories over weeks and months.
+          </p>
+        </div>
+
+        <!-- Showcase with ic_edu.png -->
+        <div class="capability-showcase">
+          <div class="capability-visual">
+            <img src="/assets/ic_edu.png" alt="Subconscious Learning and Pattern Discovery" class="capability-icon-img">
+            <h4>Pattern Discovery</h4>
+            <p>Connection graphs, habit streaks &amp; custom dictionary</p>
+          </div>
+          <div class="capability-details-grid">
+            <div class="capability-card">
+              <h4>Dream Connections Graph</h4>
+              <p>Co-occurrence engine detecting recurring relationships between symbols and emotions across multiple dreams.</p>
+            </div>
+            <div class="capability-card">
+              <h4>Calendar Activity Heatmap</h4>
+              <p>Interactive month calendar with Monday-start alignment to filter dreams by date and inspect multi-dream nights.</p>
+            </div>
+            <div class="capability-card">
+              <h4>Personal Dream Dictionary</h4>
+              <p>Build your private dictionary of symbols, subjective associations, and custom meanings.</p>
+            </div>
+            <div class="capability-card">
+              <h4>Habits &amp; Milestone Badges</h4>
+              <p>Bedtime intentions, reality check reminders, streak consistency, and 10 unlockable achievements.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section D: Privacy First -->
+    <section class="section">
+      <div class="container">
+        <div class="privacy-box">
+          <div class="section-header" style="margin-bottom: 1.5rem; text-align: left;">
+            <span class="section-category">Built for Trust</span>
+            <h2>On-Device Privacy First</h2>
+            <p>
+              Your subconscious reflections contain deeply personal memories. Dreamly AI is engineered from the ground up to protect your privacy.
+            </p>
+          </div>
+
+          <div class="privacy-grid">
+            <div class="privacy-item">
+              <span class="privacy-check" aria-hidden="true">✓</span>
+              <div>
+                <h4>100% Local-First Storage</h4>
+                <p>Journal entries, ratings, dictionary symbols, and audio notes are stored locally in your device's private SQLite database.</p>
+              </div>
+            </div>
+
+            <div class="privacy-item">
+              <span class="privacy-check" aria-hidden="true">✓</span>
+              <div>
+                <h4>Zero Cloud Audio Upload</h4>
+                <p>Voice recordings remain strictly on your phone's hardware sandbox. Audio is never sent to external servers or cloud repositories.</p>
+              </div>
+            </div>
+
+            <div class="privacy-item">
+              <span class="privacy-check" aria-hidden="true">✓</span>
+              <div>
+                <h4>No Mandatory Accounts</h4>
+                <p>Start journaling immediately without email sign-up, password creation, or personal identity tracking.</p>
+              </div>
+            </div>
+
+            <div class="privacy-item">
+              <span class="privacy-check" aria-hidden="true">✓</span>
+              <div>
+                <h4>Strict Content Protection</h4>
+                <p>Analytics strictly filter and whitelist parameters to ensure dream narratives, emotions, and personal text are never logged.</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid var(--nav-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <span style="font-size: 0.92rem; color: var(--text-muted);">Full details on data minimization and security:</span>
+            <a href="/privacy-policy" style="color: var(--accent-light); font-weight: 600; text-decoration: underline;">
+              Read the complete Dreamly AI Privacy Policy &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section E: SEO Content Hub Connection -->
+    <section class="section" id="encyclopedia">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-header-icon-wrap">
+            <img src="/assets/ic_edu.png" alt="Dream Encyclopedia &amp; Sleep Science" class="section-header-icon">
+          </div>
+          <span class="section-category">The Living Dream Encyclopedia</span>
+          <h2>Explore Dream Meanings &amp; Sleep Science</h2>
+          <p>
+            Curious about universal symbols or sleep science? Browse our curated educational guides examining psychological theories, archetypal symbolism, and waking triggers.
+          </p>
+        </div>
+
+        <div class="topics-grid">
+          <!-- 1. Recurring Dreams -->
+          <a href="/dreams/recurring-dreams" class="topic-card">
+            <div>
+              <h4>Recurring Dreams</h4>
+              <p>Why identical or thematic dream scenarios repeat and how waking triggers loop nighttime memories.</p>
+            </div>
+            <span class="topic-link-arrow">Read Meaning &rarr;</span>
+          </a>
+
+          <!-- 2. Falling Dreams -->
+          <a href="/dreams/falling-dreams" class="topic-card">
+            <div>
+              <h4>Falling in Dreams</h4>
+              <p>The science of hypnic jerks, loss of control, and anxiety transitions during sleep onset.</p>
+            </div>
+            <span class="topic-link-arrow">Read Meaning &rarr;</span>
+          </a>
+
+          <!-- 3. Flying Dreams -->
+          <a href="/dreams/flying-dreams" class="topic-card">
+            <div>
+              <h4>Flying Dreams</h4>
+              <p>Lucid awareness, psychological empowerment, and overcoming emotional obstacles.</p>
+            </div>
+            <span class="topic-link-arrow">Read Meaning &rarr;</span>
+          </a>
+
+          <!-- 4. Teeth Falling Out -->
+          <a href="/dreams/teeth-falling-out" class="topic-card">
+            <div>
+              <h4>Teeth Falling Out</h4>
+              <p>Stress, life transitions, social vulnerability, and subconscious loss of control.</p>
+            </div>
+            <span class="topic-link-arrow">Read Meaning &rarr;</span>
+          </a>
+
+          <!-- 5. Being Chased -->
+          <a href="/dreams/being-chased" class="topic-card">
+            <div>
+              <h4>Being Chased</h4>
+              <p>Avoidance behaviors, unresolved stressors, and nighttime fight-or-flight reactions.</p>
+            </div>
+            <span class="topic-link-arrow">Read Meaning &rarr;</span>
+          </a>
+
+          <!-- 6. Sleep Paralysis -->
+          <a href="/dreams/sleep-paralysis" class="topic-card">
+            <div>
+              <h4>Sleep Paralysis</h4>
+              <p>REM atonia, hypnagogic hallucinations, and how to remain calm during sleep transitions.</p>
+            </div>
+            <span class="topic-link-arrow">Read Meaning &rarr;</span>
+          </a>
+
+          <!-- 7. Lucid Dreaming -->
+          <a href="/dreams/lucid-dreaming" class="topic-card">
+            <div>
+              <h4>Lucid Dreaming Guide</h4>
+              <p>Cognitive reality checks, dream recall conditioning, and waking up inside your dreams.</p>
+            </div>
+            <span class="topic-link-arrow">Read Meaning &rarr;</span>
+          </a>
+
+          <!-- 8. Water in Dreams -->
+          <a href="/dreams/water-dreams" class="topic-card">
+            <div>
+              <h4>Water in Dreams</h4>
+              <p>Emotional depths, calm oceans, turbulent floods, and subconscious feelings.</p>
+            </div>
+            <span class="topic-link-arrow">Read Meaning &rarr;</span>
+          </a>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+          <a href="/dreams" class="btn btn-secondary" style="padding: 0.85rem 2rem;">
+            <span>Browse Complete Dream Directory (21+ Topics) &rarr;</span>
           </a>
         </div>
       </div>
     </section>
 
-    <!-- Features -->
-    <section class="section" id="features">
+    <!-- Final Call to Action Banner with Night-Sky Backdrop -->
+    <section class="section" style="padding-top: 0; border-bottom: none;">
       <div class="container">
-        <div class="section-header">
-          <h2>Core Application Features</h2>
-          <p>Explore the comprehensive dream interpretation and journaling capabilities built into Dreamly AI.</p>
-        </div>
-
-        <div class="features-grid">
-          <!-- 1. Structured AI Interpretations -->
-          <article class="feature-card">
-            <div class="feature-icon-wrapper">
-              <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 2L14.3 8.7L21 11L14.3 13.3L12 20L9.7 13.3L3 11L9.7 8.7L12 2Z"/>
-              </svg>
-            </div>
-            <h3>Structured AI Interpretations</h3>
-            <p>Receive balanced 6-part dream interpretations covering Summary, Detailed Analysis, Symbolic Meaning, Emotional Tone, Event Sequence, and Open-Ended Reflection.</p>
-          </article>
-
-          <!-- 2. 32-Language Support -->
-          <article class="feature-card">
-            <div class="feature-icon-wrapper">
-              <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-              </svg>
-            </div>
-            <h3>Global Multilingual Support</h3>
-            <p>Full localization and native-language interpretations across 32 world languages, including English, Spanish, German, French, Portuguese, Chinese, Japanese, and Korean.</p>
-          </article>
-
-          <!-- 3. Private Dream Journal -->
-          <article class="feature-card">
-            <div class="feature-icon-wrapper">
-              <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-              </svg>
-            </div>
-            <h3>Personal Dream Journal</h3>
-            <p>Log your dreams immediately upon waking. Categorize entries by dream type (Vivid, Lucid, Nightmare, Recurring, Flying, Falling) and assign vividness ratings.</p>
-          </article>
-
-          <!-- 4. Mood & Emotion Tracking -->
-          <article class="feature-card">
-            <div class="feature-icon-wrapper">
-              <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-              </svg>
-            </div>
-            <h3>Mood &amp; Emotion Tagging</h3>
-            <p>Tag the dominant feelings experienced in your dreams—joy, peace, anxiety, wonder, or intensity—to track your emotional journey over time.</p>
-          </article>
-
-          <!-- 5. Calendar & Patterns -->
-          <article class="feature-card">
-            <div class="feature-icon-wrapper">
-              <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/>
-              </svg>
-            </div>
-            <h3>Calendar &amp; Recurring Patterns</h3>
-            <p>Explore your dream history through a calendar view and discover recurring symbols, common themes, lucid dream rates, and overall dream frequency.</p>
-          </article>
-
-          <!-- 6. On-Device Voice Notes -->
-          <article class="feature-card">
-            <div class="feature-icon-wrapper">
-              <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5-3c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-              </svg>
-            </div>
-            <h3>On-Device Voice Notes</h3>
-            <p>Record quick audio voice notes to capture dreams before morning memories fade. Voice recordings remain stored securely on your local device.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Privacy & Local Data Architecture -->
-    <section class="section">
-      <div class="container">
-        <div class="highlight-card">
-          <h3>On-Device Privacy &amp; Data Protection</h3>
-          <p>
-            Dreamly AI is designed with user privacy, local storage, and data minimization as foundational principles:
-          </p>
-          <ul class="highlight-points">
-            <li>Journal entries and voice notes are stored locally on your Android device</li>
-            <li>No cloud user account or mandatory sign-up required</li>
-            <li>Secure HTTPS / TLS encryption for all AI interpretation requests</li>
-            <li>Full control to edit, export, or erase your dream records at any time</li>
-          </ul>
-          <div>
-            <a href="/privacy-policy" style="color: var(--link-color); font-weight: 600; text-decoration: underline;">
-              Read the complete Dreamly AI Privacy Policy &rarr;
-            </a>
-          </div>
-        </div>
-
-        <!-- CTA Callout -->
         <div class="cta-banner">
-          <h2>Experience Dreamly AI on Android</h2>
-          <p>Download the official mobile application on Google Play and start exploring your personal dream reflections today.</p>
-          <a href="https://play.google.com/store/apps/details?id=com.oberon.dreamlyai" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+          <h2>Start Your Dream Reflection Journey</h2>
+          <p>
+            Download Dreamly AI on Google Play today. Experience private dream journaling, insightful contextual AI interpretation, and discover the hidden patterns of your mind.
+          </p>
+          <a href="https://play.google.com/store/apps/details?id=com.oberon.dreamlyai" class="btn btn-primary" target="_blank" rel="noopener noreferrer" id="footer_google_play_btn">
             <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M3.609 1.814L13.792 12 3.61 22.186a2.38 2.38 0 0 1-.61-.735V2.55c.18-.286.39-.536.61-.736zm11.24 11.24l2.58 2.58-12.04 6.95 9.46-9.53zm0-2.108L5.39 1.417l12.04 6.95-2.58 2.58zM18.8 11.21l3.18 1.83a1.59 1.59 0 0 1 0 2.76l-3.18 1.83-2.11-2.11 2.11-2.31z"/>
             </svg>
@@ -554,14 +1299,51 @@
     </section>
   </main>
 
+  <!-- Footer -->
   <footer>
     <div class="container">
-      <ul class="footer-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/privacy-policy">Privacy Policy</a></li>
-        <li><a href="https://play.google.com/store/apps/details?id=com.oberon.dreamlyai" target="_blank" rel="noopener noreferrer">Google Play Store</a></li>
-      </ul>
-      <p>&copy; 2026 Dreamly AI. All rights reserved.</p>
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="brand" style="margin-bottom: 0.85rem;">
+            <img src="/assets/ic_interpret1.png" alt="Dreamly AI Logo" class="brand-logo-img">
+            <span>Dreamly AI</span>
+          </div>
+          <p style="font-size: 0.88rem; line-height: 1.5; color: var(--text-muted);">
+            Understand your dreams. Build your personal dream journal. Discover patterns over time.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h5>Features</h5>
+          <ul>
+            <li><a href="#features">AI Interpretation</a></li>
+            <li><a href="#journal">Quick Voice Journal</a></li>
+            <li><a href="#patterns">Pattern Connections</a></li>
+            <li><a href="#patterns">Bedtime Intentions</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Encyclopedia</h5>
+          <ul>
+            <li><a href="/dreams">All Dream Meanings</a></li>
+            <li><a href="/dreams/recurring-dreams">Recurring Dreams</a></li>
+            <li><a href="/dreams/falling-dreams">Falling in Dreams</a></li>
+            <li><a href="/dreams/lucid-dreaming">Lucid Dreaming Guide</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Legal &amp; App</h5>
+          <ul>
+            <li><a href="/privacy-policy">Privacy Policy</a></li>
+            <li><a href="/terms-of-use">Terms of Use</a></li>
+            <li><a href="/ai-disclaimer">AI &amp; Content Disclaimer</a></li>
+            <li><a href="https://play.google.com/store/apps/details?id=com.oberon.dreamlyai" target="_blank" rel="noopener noreferrer">Google Play Store</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Dreamly AI. All rights reserved.</p>
+        <p style="font-size: 0.82rem;">Dreamly AI is designed for personal self-reflection, journaling, and entertainment.</p>
+      </div>
     </div>
   </footer>
 
@@ -679,6 +1461,51 @@
       } else {
         updatePlayStoreLinks();
       }
+    })();
+  </script>
+
+  <!-- Mobile Navigation Interaction Script -->
+  <script>
+    (function() {
+      var navToggle = document.getElementById('mobile-nav-toggle');
+      var navMenu = document.getElementById('primary-nav-menu');
+      if (!navToggle || !navMenu) return;
+
+      function toggleMenu(forceOpen) {
+        var isOpen = typeof forceOpen === 'boolean' ? forceOpen : !navMenu.classList.contains('is-open');
+        if (isOpen) {
+          navMenu.classList.add('is-open');
+          navToggle.setAttribute('aria-expanded', 'true');
+        } else {
+          navMenu.classList.remove('is-open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        }
+      }
+
+      navToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleMenu();
+      });
+
+      var navLinks = navMenu.querySelectorAll('a');
+      navLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+          toggleMenu(false);
+        });
+      });
+
+      document.addEventListener('click', function(e) {
+        if (navMenu.classList.contains('is-open') && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+          toggleMenu(false);
+        }
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
+          toggleMenu(false);
+          navToggle.focus();
+        }
+      });
     })();
   </script>
 </body>

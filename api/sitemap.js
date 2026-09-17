@@ -26,7 +26,9 @@ function generateSitemapXml(topics = [], now = new Date()) {
   const staticUrls = [
     { loc: `${BASE_URL}/`, changefreq: "weekly", priority: "1.0" },
     { loc: `${BASE_URL}/dreams`, changefreq: "daily", priority: "0.9" },
-    { loc: `${BASE_URL}/privacy-policy`, changefreq: "monthly", priority: "0.3" }
+    { loc: `${BASE_URL}/privacy-policy`, changefreq: "monthly", priority: "0.3" },
+    { loc: `${BASE_URL}/terms-of-use`, changefreq: "monthly", priority: "0.3" },
+    { loc: `${BASE_URL}/ai-disclaimer`, changefreq: "monthly", priority: "0.3" }
   ];
 
   const topicUrls = topics.map((topic) => ({

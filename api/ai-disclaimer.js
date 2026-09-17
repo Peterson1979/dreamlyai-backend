@@ -1,0 +1,578 @@
+// api/ai-disclaimer.js
+const fs = require("fs");
+const path = require("path");
+
+const AI_DISCLAIMER_HTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI &amp; Content Disclaimer for Dreamly AI — Important information regarding AI-generated dream interpretations, subjectivity, and non-medical boundaries.">
+  <title>Dreamly AI — AI &amp; Content Disclaimer</title>
+  <link rel="canonical" href="https://dreamlyai-backend.vercel.app/ai-disclaimer">
+  <link rel="icon" type="image/png" href="/assets/ic_interpret1.png">
+
+  <!-- Open Graph Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Dreamly AI — AI &amp; Content Disclaimer">
+  <meta property="og:description" content="Important information regarding the nature, limitations, and personal self-reflection purpose of AI-generated dream interpretations.">
+  <meta property="og:url" content="https://dreamlyai-backend.vercel.app/ai-disclaimer">
+  <meta property="og:site_name" content="Dreamly AI">
+  <meta property="og:image" content="https://dreamlyai-backend.vercel.app/assets/ic_interpret1.png">
+
+  <style>
+    :root {
+      --bg-deep: #070913;
+      --bg-surface: #0e1224;
+      --bg-surface-elevated: #151b34;
+      --card-border: rgba(165, 180, 252, 0.12);
+      --card-border-hover: rgba(165, 180, 252, 0.35);
+      --text-main: #f1f5f9;
+      --text-body: #cbd5e1;
+      --text-muted: #8e9bb4;
+      --accent-soft: #818cf8;
+      --accent-light: #a5b4fc;
+      --accent-glow: rgba(129, 140, 248, 0.25);
+      --accent-moon: #c7d2fe;
+      --accent-emerald: #34d399;
+      --accent-amber: #fbbf24;
+      --btn-primary-bg: #4338ca;
+      --btn-primary-hover: #3730a3;
+      --btn-text: #ffffff;
+      --nav-border: rgba(148, 163, 184, 0.1);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.4);
+      --shadow-elevated: 0 12px 36px rgba(0, 0, 0, 0.55);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      position: relative;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-deep);
+      color: var(--text-body);
+      line-height: 1.7;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(99, 102, 241, 0.12), transparent 70%),
+        linear-gradient(180deg, rgba(7, 9, 19, 0.2) 0%, rgba(7, 9, 19, 0.4) 35%, rgba(7, 9, 19, 0.55) 70%, rgba(5, 7, 14, 0.72) 100%),
+        url('/assets/ic_background.jpg') center top / cover no-repeat;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Navigation */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 9, 19, 0.75);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--nav-border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      box-shadow: 0 0 14px var(--accent-glow);
+      display: block;
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--text-main);
+    }
+
+    .btn-download-nav {
+      background: var(--btn-primary-bg);
+      color: var(--btn-text) !important;
+      padding: 0.5rem 1.1rem;
+      border-radius: var(--radius-sm);
+      font-weight: 600 !important;
+      font-size: 0.875rem !important;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 10px rgba(67, 56, 202, 0.35);
+    }
+
+    .btn-download-nav:hover {
+      background: var(--btn-primary-hover);
+      box-shadow: 0 4px 16px rgba(67, 56, 202, 0.55);
+      transform: translateY(-1px);
+    }
+
+    /* Mobile Menu */
+    .mobile-menu-btn {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        right: 0;
+        background: rgba(14, 18, 36, 0.98);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1.5rem;
+        gap: 1.25rem;
+        border-bottom: 1px solid var(--card-border);
+        box-shadow: var(--shadow-elevated);
+      }
+      .nav-links.is-open {
+        display: flex;
+      }
+      .btn-download-nav {
+        text-align: center;
+      }
+    }
+
+    /* Main Card Layout */
+    main {
+      padding: 3rem 0 5rem;
+    }
+
+    .legal-card {
+      background: rgba(14, 18, 36, 0.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 3.5rem 3rem;
+      box-shadow: var(--shadow-elevated);
+    }
+
+    @media (max-width: 640px) {
+      .legal-card {
+        padding: 2rem 1.25rem;
+      }
+    }
+
+    .legal-header {
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(129, 140, 248, 0.12);
+      color: var(--accent-light);
+      border: 1px solid rgba(129, 140, 248, 0.3);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.03em;
+    }
+
+    .meta-date {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .legal-content h2 {
+      color: var(--text-main);
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-top: 2.25rem;
+      margin-bottom: 0.85rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid rgba(165, 180, 252, 0.08);
+      letter-spacing: -0.01em;
+    }
+
+    .legal-content p {
+      margin-bottom: 1.15rem;
+      font-size: 0.98rem;
+    }
+
+    .legal-content ul, .legal-content ol {
+      margin-bottom: 1.25rem;
+      padding-left: 1.5rem;
+    }
+
+    .legal-content li {
+      margin-bottom: 0.5rem;
+      font-size: 0.98rem;
+    }
+
+    .legal-content strong {
+      color: var(--text-main);
+    }
+
+    .highlight-box {
+      background: rgba(129, 140, 248, 0.07);
+      border-left: 4px solid var(--accent-soft);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .highlight-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .alert-box {
+      background: rgba(251, 191, 36, 0.08);
+      border-left: 4px solid var(--accent-amber);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+      color: #fde68a;
+    }
+
+    .alert-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .alert-box strong {
+      color: #fff;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--nav-border);
+      background: rgba(5, 7, 15, 0.9);
+      padding: 4rem 0 2.5rem;
+      margin-top: 4rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    .footer-brand p {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      margin-top: 0.75rem;
+      max-width: 280px;
+    }
+
+    .footer-col h4 {
+      color: var(--text-main);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      letter-spacing: 0.02em;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-col a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-col a:hover {
+      color: var(--accent-light);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--nav-border);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <div class="container">
+      <nav class="nav-inner" aria-label="Main Navigation">
+        <a href="/" class="brand-link" aria-label="Dreamly AI Home">
+          <img src="/assets/ic_interpret1.png" alt="Dreamly AI Logo" class="brand-logo" width="36" height="36">
+          <span>Dreamly AI</span>
+        </a>
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation" aria-expanded="false" aria-controls="navMenu">
+          &#9776;
+        </button>
+
+        <ul class="nav-links" id="navMenu">
+          <li><a href="/">Home</a></li>
+          <li><a href="/#features">Features</a></li>
+          <li><a href="/dreams">Dream Encyclopedia</a></li>
+          <li><a href="https://play.google.com/store/apps/details?id=com.oberon.dreamlyai" target="_blank" rel="noopener noreferrer" class="btn-download-nav">Download App</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Content Section -->
+  <main class="container">
+    <article class="legal-card">
+      <header class="legal-header">
+        <span class="badge">Legal &amp; Product Clarity</span>
+        <h1>AI &amp; Content Disclaimer</h1>
+        <p class="meta-date">Last Updated: September 2026</p>
+      </header>
+
+      <div class="legal-content">
+        <div class="highlight-box">
+          <p><strong>Overview:</strong> Dreamly AI is a personal dream exploration and self-reflection application. This disclaimer explains the computational nature, inherent subjectivity, and essential limitations of AI-generated dream interpretations, symbolic guides, and reflections.</p>
+        </div>
+
+        <h2>1. Nature of AI-Generated Interpretations</h2>
+        <p>Dreamly AI utilizes artificial intelligence and large language models to analyze dream narratives, identify archetypal patterns, and generate reflective commentary. While these models are engineered to provide engaging and nuanced perspectives, please note that:</p>
+        <ul>
+          <li><strong>Probabilistic Generation:</strong> AI models generate responses based on linguistic statistical patterns and training references. They do not possess consciousness, intuition, personal understanding, or supernatural awareness.</li>
+          <li><strong>Potential Inaccuracies:</strong> AI-generated content may occasionally contain factual errors, misinterpret context, offer illogical analogies, or present incomplete viewpoints.</li>
+          <li><strong>Variable Perspectives:</strong> Generating an interpretation for the same or similar dream narrative at different times may yield differing perspectives, themes, or symbolic focus areas.</li>
+        </ul>
+
+        <h2>2. Inherent Subjectivity of Dreams</h2>
+        <p>Dream symbols, narratives, and emotions are profoundly personal. The meaning of any dream experience is shaped by an individual's unique life history, emotional state, cultural background, and personal associations. Accordingly:</p>
+        <ul>
+          <li>There is no universally fixed, standardized, or single "correct" meaning for any dream image, symbol, or theme.</li>
+          <li>AI-generated interpretations reflect symbolic archetypes and reflective possibilities rather than definitive statements about your inner life or future events.</li>
+          <li>Users are encouraged to apply their own judgment, intuition, and discernment when reading any interpretation or reflection.</li>
+        </ul>
+
+        <h2>3. No Scientific or Clinical Validation</h2>
+        <p>Dreamly AI does <strong>not</strong> establish a scientifically validated, medically proven, or clinically verified meaning for an individual's dream merely by generating an interpretation or reflection. While dream analysis is a subject of historical, cultural, and psychological literature, automated AI commentary must not be interpreted as empirical truth or scientific finding.</p>
+
+        <h2>4. Purpose of the Application</h2>
+        <p>Dreamly AI is designed and provided solely for:</p>
+        <ul>
+          <li>Personal dream journaling and record-keeping.</li>
+          <li>Exploratory symbolic reflection and mindfulness.</li>
+          <li>Creative curiosity, storytelling, and self-reflection.</li>
+        </ul>
+        <p>The application is intended to serve as a companion for personal reflection and introspective journaling, rather than an authoritative assessment of personal mental health, cognitive state, or future circumstances.</p>
+
+        <h2>5. Strict Non-Professional Advice Boundary</h2>
+        <div class="alert-box">
+          <p><strong>Important Notice:</strong> Dreamly AI is <strong>not</strong> a medical, psychiatric, psychological, psychotherapy, psychiatric diagnostic, legal, or financial service. No content generated by or accessible through Dreamly AI should be interpreted as professional advice.</p>
+        </div>
+        <p>Specifically, Dreamly AI outputs do not constitute:</p>
+        <ul>
+          <li><strong>Medical or Psychiatric Diagnosis:</strong> The service cannot diagnose sleep disorders, psychological conditions, neurological issues, or physical ailments.</li>
+          <li><strong>Psychological Therapy or Treatment:</strong> The app does not provide therapeutic interventions, counseling, clinical guidance, or mental health treatment plans.</li>
+          <li><strong>Professional Decision Support:</strong> AI interpretations must never be used as a basis for legal, financial, relational, or career determinations.</li>
+        </ul>
+
+        <h2>6. Decision Making and Personal Wellbeing</h2>
+        <p>Users must <strong>never</strong> make important health, medical, safety, financial, or personal life decisions solely or primarily based on AI-generated dream interpretations or application content. If you experience distressing, recurring, or anxiety-inducing dreams, recognize that the AI output is a reflective tool, not an expert diagnosis.</p>
+
+        <h2>7. Seeking Qualified Support &amp; Emergency Resources</h2>
+        <p>If you have ongoing concerns about your sleep health, mental wellbeing, emotional stability, or personal safety:</p>
+        <ul>
+          <li>Consult a qualified healthcare provider, licensed psychologist, psychiatrist, or accredited counselor.</li>
+          <li>For sleep-related disturbances, sleep apnea, or severe insomnia, seek the advice of a board-certified sleep specialist or medical doctor.</li>
+          <li>If you are experiencing a mental health crisis, overwhelming distress, or thoughts of self-harm, please contact your local emergency services, a crisis intervention hotline, or hospital emergency department immediately.</li>
+        </ul>
+
+        <h2>8. Contact &amp; Questions</h2>
+        <p>If you have questions regarding this AI &amp; Content Disclaimer or the operation of the Dreamly AI application, please consult the support and communication links provided on our official Google Play Store listing and website footer.</p>
+      </div>
+    </article>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="brand-link">
+            <img src="/assets/ic_interpret1.png" alt="Dreamly AI Logo" class="brand-logo" width="32" height="32">
+            <span>Dreamly AI</span>
+          </a>
+          <p>Explore your inner world through modern AI dream journaling, archetypal reflection, and personal insights.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="/#features">Features</a></li>
+            <li><a href="https://play.google.com/store/apps/details?id=com.oberon.dreamlyai" target="_blank" rel="noopener noreferrer">Download App</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="/dreams">Dream Encyclopedia</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="/privacy-policy">Privacy Policy</a></li>
+            <li><a href="/terms-of-use">Terms of Use</a></li>
+            <li><a href="/ai-disclaimer" class="active">AI &amp; Content Disclaimer</a></li>
+            <li><a href="https://play.google.com/store/apps/details?id=com.oberon.dreamlyai" target="_blank" rel="noopener noreferrer">Google Play Store</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Dreamly AI. All rights reserved.</p>
+        <p>Designed for peaceful night reflection and dream journaling.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      var mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      var navMenu = document.getElementById('navMenu');
+      if (!mobileMenuBtn || !navMenu) return;
+
+      function toggleMenu(force) {
+        var isOpen = typeof force === 'boolean' ? force : !navMenu.classList.contains('is-open');
+        navMenu.classList.toggle('is-open', isOpen);
+        mobileMenuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      }
+
+      mobileMenuBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleMenu();
+      });
+
+      var navLinks = navMenu.querySelectorAll('a');
+      navLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+          toggleMenu(false);
+        });
+      });
+
+      document.addEventListener('click', function(e) {
+        if (navMenu.classList.contains('is-open') && !navMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+          toggleMenu(false);
+        }
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && navMenu.classList.contains('is-open')) {
+          toggleMenu(false);
+          mobileMenuBtn.focus();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>`;
+
+module.exports = async (req, res) => {
+  res.setHeader("Content-Type", "text/html; charset=utf-8");
+  res.setHeader("Cache-Control", "public, max-age=3600, s-maxage=86400");
+  res.status(200).send(AI_DISCLAIMER_HTML);
+};
+
+module.exports.AI_DISCLAIMER_HTML = AI_DISCLAIMER_HTML;
