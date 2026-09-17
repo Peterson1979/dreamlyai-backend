@@ -9,16 +9,16 @@ const PRIVACY_POLICY_HTML = `<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Privacy Policy for Dreamly AI — Learn how your dream journal data, AI interpretations, and app measurements are handled with a local-first, privacy-focused approach.">
   <title>Dreamly AI Privacy Policy</title>
-  <link rel="canonical" href="https://dreamlyai-backend.vercel.app/privacy-policy">
+  <link rel="canonical" href="https://dreamlyai.life/privacy-policy">
   <link rel="icon" type="image/png" href="/assets/ic_interpret1.png">
 
   <!-- Open Graph Meta -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Dreamly AI Privacy Policy">
   <meta property="og:description" content="Privacy Policy for Dreamly AI — Learn how your dream journal data, AI interpretations, and app measurements are handled with a local-first, privacy-focused approach.">
-  <meta property="og:url" content="https://dreamlyai-backend.vercel.app/privacy-policy">
+  <meta property="og:url" content="https://dreamlyai.life/privacy-policy">
   <meta property="og:site_name" content="Dreamly AI">
-  <meta property="og:image" content="https://dreamlyai-backend.vercel.app/assets/ic_interpret1.png">
+  <meta property="og:image" content="https://dreamlyai.life/assets/ic_interpret1.png">
 
   <style>
     :root {

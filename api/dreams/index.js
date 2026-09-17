@@ -56,7 +56,7 @@ function escapeHtml(str) {
 }
 
 function renderDirectoryHtml(topics) {
-  const canonicalUrl = "https://dreamlyai-backend.vercel.app/dreams";
+  const canonicalUrl = "https://dreamlyai.life/dreams";
   const playStoreUrl = buildAttributedPlayStoreUrl({
     platform: "website",
     medium: "organic",
@@ -88,7 +88,7 @@ function renderDirectoryHtml(topics) {
       "@type": "ListItem",
       "position": index + 1,
       "name": topic.title,
-      "url": `https://dreamlyai-backend.vercel.app/dreams/${topic.id}`
+      "url": `https://dreamlyai.life/dreams/${topic.id}`
     }))
   };
 
@@ -100,7 +100,7 @@ function renderDirectoryHtml(topics) {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://dreamlyai-backend.vercel.app/"
+        "item": "https://dreamlyai.life/"
       },
       {
         "@type": "ListItem",
@@ -127,7 +127,7 @@ function renderDirectoryHtml(topics) {
   <meta property="og:description" content="Explore thoughtful guides on dream symbols, common dream themes, sleep biology, and reflective dream interpretations with Dreamly AI.">
   <meta property="og:url" content="${escapeHtml(canonicalUrl)}">
   <meta property="og:site_name" content="Dreamly AI">
-  <meta property="og:image" content="https://dreamlyai-backend.vercel.app/assets/ic_interpret1.png">
+  <meta property="og:image" content="https://dreamlyai.life/assets/ic_interpret1.png">
 
   <!-- Structured Data JSON-LD -->
   <script type="application/ld+json">

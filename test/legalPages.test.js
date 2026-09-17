@@ -169,11 +169,11 @@ describe("Legal & Documentation Layer Verification", () => {
       const topics = getAllTopics();
       const xml = generateSitemapXml(topics);
 
-      assert.ok(xml.includes("<loc>https://dreamlyai-backend.vercel.app/terms-of-use</loc>"));
-      assert.ok(xml.includes("<loc>https://dreamlyai-backend.vercel.app/ai-disclaimer</loc>"));
-      assert.ok(xml.includes("<loc>https://dreamlyai-backend.vercel.app/privacy-policy</loc>"));
-      assert.ok(xml.includes("<loc>https://dreamlyai-backend.vercel.app/dreams</loc>"));
-      assert.ok(xml.includes("<loc>https://dreamlyai-backend.vercel.app/</loc>"));
+      assert.ok(xml.includes("<loc>https://dreamlyai.life/terms-of-use</loc>"));
+      assert.ok(xml.includes("<loc>https://dreamlyai.life/ai-disclaimer</loc>"));
+      assert.ok(xml.includes("<loc>https://dreamlyai.life/privacy-policy</loc>"));
+      assert.ok(xml.includes("<loc>https://dreamlyai.life/dreams</loc>"));
+      assert.ok(xml.includes("<loc>https://dreamlyai.life/</loc>"));
     });
   });
 });

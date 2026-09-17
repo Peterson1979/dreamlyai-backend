@@ -63,15 +63,15 @@ describe("Dream SEO Content Hub v1", () => {
       // Meta tags
       assert.ok(html.includes("<title>Teeth Falling Out in Dreams: Stress, Control &amp; Life Transitions — Dreamly AI</title>"));
       assert.ok(html.includes('<meta name="description"'));
-      assert.ok(html.includes('<link rel="canonical" href="https://dreamlyai-backend.vercel.app/dreams/teeth-falling-out">'));
+      assert.ok(html.includes('<link rel="canonical" href="https://dreamlyai.life/dreams/teeth-falling-out">'));
       assert.ok(html.includes('<meta property="og:type" content="article">'));
       assert.ok(html.includes('<meta property="og:title"'));
-      assert.ok(html.includes('<meta property="og:url" content="https://dreamlyai-backend.vercel.app/dreams/teeth-falling-out">'));
+      assert.ok(html.includes('<meta property="og:url" content="https://dreamlyai.life/dreams/teeth-falling-out">'));
 
       // JSON-LD Schemas
       assert.ok(html.includes('"@type": "Article"'));
       assert.ok(html.includes('"@type": "BreadcrumbList"'));
-      assert.ok(html.includes('"url": "https://dreamlyai-backend.vercel.app/dreams/teeth-falling-out"'));
+      assert.ok(html.includes('"url": "https://dreamlyai.life/dreams/teeth-falling-out"'));
 
       // Content Sections
       assert.ok(html.includes("Understanding This Dream Experience"));
@@ -137,7 +137,7 @@ describe("Dream SEO Content Hub v1", () => {
 
       // Meta and titles
       assert.ok(html.includes("Dream Meanings &amp; Sleep Science Directory — Dreamly AI"));
-      assert.ok(html.includes('<link rel="canonical" href="https://dreamlyai-backend.vercel.app/dreams">'));
+      assert.ok(html.includes('<link rel="canonical" href="https://dreamlyai.life/dreams">'));
 
       // JSON-LD ItemList
       assert.ok(html.includes('"@type": "ItemList"'));
@@ -158,6 +158,10 @@ describe("Dream SEO Content Hub v1", () => {
           `Expected directory to link to /dreams/${topic.id}`
         );
       }
+
+      // Visual Hub Icon & Identity
+      assert.ok(html.includes("ic_edu.png"), "Expected directory to include ic_edu.png icon");
+      assert.ok(html.includes("Dream Meaning &amp; Sleep Science Hub"), "Expected directory to include hub title");
 
       // CTA Banner
       assert.ok(html.includes("Journal &amp; Decode Your Dreams with Dreamly AI"));
@@ -190,16 +194,16 @@ describe("Dream SEO Content Hub v1", () => {
       assert.ok(xml.includes('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'));
 
       // Core static URLs
-      assert.ok(xml.includes("<loc>https://dreamlyai-backend.vercel.app/</loc>"));
-      assert.ok(xml.includes("<loc>https://dreamlyai-backend.vercel.app/dreams</loc>"));
-      assert.ok(xml.includes("<loc>https://dreamlyai-backend.vercel.app/privacy-policy</loc>"));
+      assert.ok(xml.includes("<loc>https://dreamlyai.life/</loc>"));
+      assert.ok(xml.includes("<loc>https://dreamlyai.life/dreams</loc>"));
+      assert.ok(xml.includes("<loc>https://dreamlyai.life/privacy-policy</loc>"));
 
       // All 21 topic URLs
       const allTopics = getAllTopics();
       for (const topic of allTopics) {
         assert.ok(
-          xml.includes(`<loc>https://dreamlyai-backend.vercel.app/dreams/${topic.id}</loc>`),
-          `Expected sitemap to include https://dreamlyai-backend.vercel.app/dreams/${topic.id}`
+          xml.includes(`<loc>https://dreamlyai.life/dreams/${topic.id}</loc>`),
+          `Expected sitemap to include https://dreamlyai.life/dreams/${topic.id}`
         );
       }
     });
@@ -221,7 +225,7 @@ describe("Dream SEO Content Hub v1", () => {
       const content = fs.readFileSync(robotsPath, "utf8");
       assert.ok(content.includes("User-agent: *"));
       assert.ok(content.includes("Allow: /"));
-      assert.ok(content.includes("Sitemap: https://dreamlyai-backend.vercel.app/sitemap.xml"));
+      assert.ok(content.includes("Sitemap: https://dreamlyai.life/sitemap.xml"));
     });
   });
 });

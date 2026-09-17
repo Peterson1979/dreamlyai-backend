@@ -8,7 +8,7 @@
 
 const { getAllTopics } = require("../content/topics/registry");
 
-const BASE_URL = "https://dreamlyai-backend.vercel.app";
+const BASE_URL = "https://dreamlyai.life";
 
 function escapeXml(str) {
   if (typeof str !== "string") return "";

@@ -9,16 +9,16 @@ const AI_DISCLAIMER_HTML = `<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="AI &amp; Content Disclaimer for Dreamly AI — Important information regarding AI-generated dream interpretations, subjectivity, and non-medical boundaries.">
   <title>Dreamly AI — AI &amp; Content Disclaimer</title>
-  <link rel="canonical" href="https://dreamlyai-backend.vercel.app/ai-disclaimer">
+  <link rel="canonical" href="https://dreamlyai.life/ai-disclaimer">
   <link rel="icon" type="image/png" href="/assets/ic_interpret1.png">
 
   <!-- Open Graph Meta -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Dreamly AI — AI &amp; Content Disclaimer">
   <meta property="og:description" content="Important information regarding the nature, limitations, and personal self-reflection purpose of AI-generated dream interpretations.">
-  <meta property="og:url" content="https://dreamlyai-backend.vercel.app/ai-disclaimer">
+  <meta property="og:url" content="https://dreamlyai.life/ai-disclaimer">
   <meta property="og:site_name" content="Dreamly AI">
-  <meta property="og:image" content="https://dreamlyai-backend.vercel.app/assets/ic_interpret1.png">
+  <meta property="og:image" content="https://dreamlyai.life/assets/ic_interpret1.png">
 
   <style>
     :root {

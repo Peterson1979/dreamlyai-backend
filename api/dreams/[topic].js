@@ -109,7 +109,7 @@ function renderNotFoundHtml() {
 }
 
 function renderTopicHtml(topic) {
-  const canonicalUrl = `https://dreamlyai-backend.vercel.app/dreams/${topic.id}`;
+  const canonicalUrl = `https://dreamlyai.life/dreams/${topic.id}`;
   const categoryLabel = CATEGORY_LABELS[topic.category] || topic.category.replace(/_/g, " ");
   const relatedTopics = getTopicsByCategory(topic.category).filter((t) => t.id !== topic.id).slice(0, 4);
 
@@ -132,7 +132,7 @@ function renderTopicHtml(topic) {
     "publisher": {
       "@type": "Organization",
       "name": "Dreamly AI",
-      "url": "https://dreamlyai-backend.vercel.app/"
+      "url": "https://dreamlyai.life/"
     }
   };
 
@@ -144,13 +144,13 @@ function renderTopicHtml(topic) {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://dreamlyai-backend.vercel.app/"
+        "item": "https://dreamlyai.life/"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Dream Topics",
-        "item": "https://dreamlyai-backend.vercel.app/dreams"
+        "item": "https://dreamlyai.life/dreams"
       },
       {
         "@type": "ListItem",
@@ -177,7 +177,7 @@ function renderTopicHtml(topic) {
   <meta property="og:description" content="${escapeHtml(topic.searchIntent)}">
   <meta property="og:url" content="${escapeHtml(canonicalUrl)}">
   <meta property="og:site_name" content="Dreamly AI">
-  <meta property="og:image" content="https://dreamlyai-backend.vercel.app/assets/ic_interpret1.png">
+  <meta property="og:image" content="https://dreamlyai.life/assets/ic_interpret1.png">
 
   <!-- Twitter Meta -->
   <meta name="twitter:card" content="summary">

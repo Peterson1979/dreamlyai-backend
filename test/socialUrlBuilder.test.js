@@ -60,19 +60,31 @@ describe("Social & Campaign URL Builder", () => {
     assert.ok(url.includes("utm_content%3Dgeneral"));
   });
 
-  it("buildAttributedWebUrl builds valid attributed website URL with standard UTM parameters", () => {
+  it("buildAttributedWebUrl builds valid attributed website URL with default production domain", () => {
     const url = buildAttributedWebUrl({
-      baseUrl: "https://dreamlyai-backend.vercel.app",
       platform: "pinterest",
       medium: "social",
       campaign: "flying_dreams",
       contentId: "pin_42"
     });
 
-    assert.ok(url.startsWith("https://dreamlyai-backend.vercel.app/"));
+    assert.ok(url.startsWith("https://dreamlyai.life/"));
     assert.ok(url.includes("utm_source=pinterest"));
     assert.ok(url.includes("utm_medium=social"));
     assert.ok(url.includes("utm_campaign=flying_dreams"));
     assert.ok(url.includes("utm_content=pin_42"));
+  });
+
+  it("buildAttributedWebUrl respects custom baseUrl when specified", () => {
+    const url = buildAttributedWebUrl({
+      baseUrl: "https://custom.dreamlyai.life",
+      platform: "pinterest",
+      medium: "social",
+      campaign: "flying_dreams",
+      contentId: "pin_42"
+    });
+
+    assert.ok(url.startsWith("https://custom.dreamlyai.life/"));
+    assert.ok(url.includes("utm_source=pinterest"));
   });
 });

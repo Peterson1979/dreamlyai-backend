@@ -59,7 +59,7 @@ function buildAttributedPlayStoreUrl({
  * Builds an attributed Website URL with standard UTM query parameters.
  *
  * @param {object} params
- * @param {string} [params.baseUrl="https://dreamlyai-backend.vercel.app"] Website base URL
+ * @param {string} [params.baseUrl="https://dreamlyai.life"] Website base URL
  * @param {string} [params.platform="facebook"] Platform source
  * @param {string} [params.medium="social"] Marketing medium
  * @param {string} [params.campaign="daily_social"] Campaign name or topic ID
@@ -67,7 +67,7 @@ function buildAttributedPlayStoreUrl({
  * @returns {string} Fully qualified Website URL with UTM query parameters
  */
 function buildAttributedWebUrl({
-  baseUrl = "https://dreamlyai-backend.vercel.app",
+  baseUrl = "https://dreamlyai.life",
   platform = "facebook",
   medium = DEFAULT_MEDIUM,
   campaign = DEFAULT_CAMPAIGN,
