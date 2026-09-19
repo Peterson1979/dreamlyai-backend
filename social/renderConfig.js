@@ -35,6 +35,7 @@ const TYPOGRAPHY = Object.freeze({
   brandFontSize: 28,
   brandLetterSpacing: 4,
   slideNumberFontSize: 22,
+  swipeFontSize: 30,
   
   // Cover slide
   coverHeadlineFontSize: 56,
@@ -60,7 +61,7 @@ const TYPOGRAPHY = Object.freeze({
   ctaHeadlineLineHeight: 72,
   ctaBodyFontSize: 34,
   ctaBodyLineHeight: 50,
-  ctaButtonFontSize: 24,
+  ctaButtonFontSize: 34,
   ctaMaxHeadlineCharsPerLine: 28,
   ctaMaxBodyCharsPerLine: 42,
   ctaMaxHeadlineLines: 3,
@@ -78,9 +79,9 @@ const LAYOUT = Object.freeze({
   cardWidth: 920,
   cardHeight: 960,
   cardRadius: 28,
-  buttonWidth: 620,
-  buttonHeight: 88,
-  buttonRadius: 44
+  buttonWidth: 820,
+  buttonHeight: 100,
+  buttonRadius: 50
 });
 
 module.exports = {

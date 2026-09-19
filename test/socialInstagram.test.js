@@ -15,6 +15,7 @@ const {
   waitForInstagramContainerReady,
   publishInstagramCarousel
 } = require("../social/instagram");
+const { INSTAGRAM_BIO_CTA } = require("../social/captions");
 
 function createValidManifest() {
   return {
@@ -752,7 +753,9 @@ describe("Instagram 5-Image Carousel Publishing Adapter", () => {
         params.get("children"),
         "child_container_1,child_container_2,child_container_3,child_container_4,child_container_5"
       );
-      assert.equal(params.get("caption"), manifest.captions.instagram);
+      assert.equal(params.get("caption"), `${manifest.captions.instagram}\n\n${INSTAGRAM_BIO_CTA}`);
+      assert.equal(params.get("caption").includes("link in bio"), true);
+      assert.equal(params.get("caption").includes("https://"), false);
       assert.equal(params.get("caption").includes("Download DreamlyAI"), false);
     });
 

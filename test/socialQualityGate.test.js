@@ -8,7 +8,13 @@ const { renderCarousel } = require("../social/renderer");
 const { loadR2Config } = require("../social/storageConfig");
 const { uploadRenderedCarousel } = require("../social/storage");
 const { buildManifest } = require("../social/manifest");
-const { buildPlatformCaptions, FACEBOOK_FINAL_CAPTION_MAX } = require("../social/captions");
+const {
+  buildPlatformCaptions,
+  INSTAGRAM_BIO_CTA,
+  FACEBOOK_WEB_CTA,
+  FACEBOOK_WEBSITE_URL,
+  FACEBOOK_FINAL_CAPTION_MAX
+} = require("../social/captions");
 const {
   QUALITY_GATE_VERSION,
   QUALITY_STATUS,
@@ -111,36 +117,46 @@ describe("Social Quality Gate & Final Captions", () => {
   });
 
   describe("Final Platform Captions", () => {
-    it("1. Instagram caption remains exactly unchanged", async () => {
+    it("1. Instagram caption contains link in bio CTA without direct URL", async () => {
       const { manifest } = await buildFullArtifact();
       const captions = buildPlatformCaptions(manifest);
-      assert.equal(captions.instagram, manifest.captions.instagram);
+      assert.equal(captions.instagram.includes(INSTAGRAM_BIO_CTA), true);
+      assert.equal(captions.instagram.includes("link in bio"), true);
+      assert.equal(captions.instagram.includes("https://"), false);
+      assert.equal(captions.instagram.includes("http://"), false);
+      assert.equal(captions.instagram.startsWith(manifest.captions.instagram), true);
     });
 
-    it("2. Facebook gets deterministic Google Play CTA", async () => {
+    it("2. Facebook gets deterministic website CTA pointing to dreamlyai.life", async () => {
       const { manifest } = await buildFullArtifact();
       const captions = buildPlatformCaptions(manifest);
-      assert.equal(captions.facebook.includes("Download Dreamly AI on Google Play:\n" + GOOGLE_PLAY_URL), true);
+      assert.equal(captions.facebook.includes(FACEBOOK_WEB_CTA), true);
+      assert.equal(captions.facebook.includes(FACEBOOK_WEBSITE_URL), true);
+      assert.equal(captions.facebook.includes("play.google.com"), false);
+      assert.equal(captions.facebook.startsWith(manifest.captions.facebook), true);
     });
 
-    it("3. Facebook exact Play URL appears exactly once", async () => {
+    it("3. Facebook exact website URL appears exactly once", async () => {
       const { manifest } = await buildFullArtifact();
       const captions = buildPlatformCaptions(manifest);
-      const occurrences = captions.facebook.split(GOOGLE_PLAY_URL).length - 1;
+      const occurrences = captions.facebook.split(FACEBOOK_WEBSITE_URL).length - 1;
       assert.equal(occurrences, 1);
     });
 
-    it("4. existing exact URL is not duplicated", async () => {
+    it("4. existing exact CTA / URL is not duplicated", async () => {
       const { manifest } = await buildFullArtifact("2026-08-28", {
         captions: {
-          instagram: "Test IG",
-          facebook: `Base text with ${GOOGLE_PLAY_URL} already included`
+          instagram: `Test IG with ${INSTAGRAM_BIO_CTA} already present`,
+          facebook: `Base text with ${FACEBOOK_WEBSITE_URL} already included`
         }
       });
       const captions = buildPlatformCaptions(manifest);
-      const occurrences = captions.facebook.split(GOOGLE_PLAY_URL).length - 1;
-      assert.equal(occurrences, 1);
-      assert.equal(captions.facebook, `Base text with ${GOOGLE_PLAY_URL} already included`);
+      const igOccurrences = captions.instagram.split("link in bio").length - 1;
+      const fbOccurrences = captions.facebook.split(FACEBOOK_WEBSITE_URL).length - 1;
+      assert.equal(igOccurrences, 1);
+      assert.equal(fbOccurrences, 1);
+      assert.equal(captions.instagram, `Test IG with ${INSTAGRAM_BIO_CTA} already present`);
+      assert.equal(captions.facebook, `Base text with ${FACEBOOK_WEBSITE_URL} already included`);
     });
 
     it("5. Facebook final caption > 2000 chars fails", async () => {
@@ -149,7 +165,7 @@ describe("Social Quality Gate & Final Captions", () => {
         ...manifest,
         captions: {
           instagram: "Test IG",
-          facebook: "A".repeat(1950)
+          facebook: "A".repeat(1970)
         }
       };
       assert.throws(

@@ -2,7 +2,7 @@
 const { describe, it } = require("node:test");
 const assert = require("node:assert/strict");
 
-const { GOOGLE_PLAY_URL } = require("../social/config");
+const { FACEBOOK_WEBSITE_URL, FACEBOOK_WEB_CTA } = require("../social/captions");
 const {
   META_GRAPH_API_VERSION,
   loadFacebookConfig,
@@ -521,10 +521,12 @@ describe("Facebook Multi-Image Publishing Adapter", () => {
       const bodyParams = new URLSearchParams(feedCall.options.body);
       const message = bodyParams.get("message");
 
-      // 25-26. Message contains final Facebook caption with Play URL exactly once
+      // 25-26. Message contains final Facebook caption with website URL exactly once
       assert.equal(message.includes(manifest.captions.facebook), true);
-      assert.equal(message.includes(GOOGLE_PLAY_URL), true);
-      assert.equal(message.split(GOOGLE_PLAY_URL).length - 1, 1);
+      assert.equal(message.includes(FACEBOOK_WEBSITE_URL), true);
+      assert.equal(message.includes(FACEBOOK_WEB_CTA), true);
+      assert.equal(message.split(FACEBOOK_WEBSITE_URL).length - 1, 1);
+      assert.equal(message.includes("play.google.com"), false);
 
       // 27. attached_media contains exactly 5 media_fbid in order
       const attachedMedia = JSON.parse(bodyParams.get("attached_media"));

@@ -16,7 +16,9 @@ const {
   WIDTH,
   HEIGHT,
   FORMAT,
-  CTA_BUTTON_TEXT
+  CTA_BUTTON_TEXT,
+  TYPOGRAPHY,
+  LAYOUT
 } = require("../social/renderConfig");
 
 function createValidCreativePayload(overrides = {}) {
@@ -399,5 +401,41 @@ describe("Social Carousel Renderer", () => {
     const svg = generateSlideSvg(ctaSlide, 5);
     assert.match(svg, new RegExp(CTA_BUTTON_TEXT, "i"));
     assert.match(svg, /id="cta-button"/i);
+    assert.equal(CTA_BUTTON_TEXT, "Download Dreamly AI on Google Play");
+    assert.equal(TYPOGRAPHY.ctaButtonFontSize >= 32, true);
+    assert.match(svg, new RegExp(`font-size="${TYPOGRAPHY.ctaButtonFontSize}"`));
+  });
+
+  it("16. carousel cards contain Swipe to explore with increased typography", () => {
+    const coverSlide = {
+      role: "cover",
+      headline: "What Do Your Dreams Reveal?",
+      subheadline: "Explore the symbolism behind your dreams."
+    };
+    const contentSlide = {
+      role: "content",
+      title: "Calm Waters & Peace",
+      body: "Tranquil oceans in dreams may reflect inner emotional clarity."
+    };
+
+    const coverSvg = generateSlideSvg(coverSlide, 1);
+    const contentSvg = generateSlideSvg(contentSlide, 2);
+
+    assert.match(coverSvg, /Swipe to explore/);
+    assert.match(contentSvg, /Swipe to explore/);
+    assert.equal(TYPOGRAPHY.swipeFontSize >= 28, true);
+    assert.match(coverSvg, new RegExp(`font-size="${TYPOGRAPHY.swipeFontSize}"`));
+    assert.match(contentSvg, new RegExp(`font-size="${TYPOGRAPHY.swipeFontSize}"`));
+  });
+
+  it("17. final-card typography and button remain comfortably within intended safe area", () => {
+    // Canvas dimensions: 1080x1350, marginX: 80 (safe area: left 80, right 1000)
+    const buttonLeft = (WIDTH - LAYOUT.buttonWidth) / 2;
+    const buttonRight = buttonLeft + LAYOUT.buttonWidth;
+
+    assert.equal(buttonLeft >= LAYOUT.marginX, true, "Button left margin must be >= marginX");
+    assert.equal(buttonRight <= WIDTH - LAYOUT.marginX, true, "Button right margin must be <= WIDTH - marginX");
+    assert.equal(LAYOUT.buttonHeight >= 90, true, "Button height must accommodate larger font");
+    assert.equal(LAYOUT.buttonWidth >= 750, true, "Button width must accommodate larger font");
   });
 });

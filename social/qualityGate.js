@@ -10,11 +10,11 @@ const sharp = require("sharp");
 
 const { validatePreparedContent } = require("./contentSchema");
 const { validateManifest } = require("./manifest");
-const { buildPlatformCaptions } = require("./captions");
+const { buildPlatformCaptions, FACEBOOK_WEBSITE_URL } = require("./captions");
 const { isValidDateString } = require("./topics");
 const { getRedisClient } = require("../utils/redisClient");
 const { WIDTH, HEIGHT, FORMAT } = require("./renderConfig");
-const { SLIDE_COUNT, SLIDE_ROLES, GOOGLE_PLAY_URL } = require("./config");
+const { SLIDE_COUNT, SLIDE_ROLES } = require("./config");
 
 const QUALITY_GATE_VERSION = 1;
 
@@ -271,15 +271,15 @@ async function evaluateQualityGate({
 
     if (
       !finalCaptions.instagram ||
-      finalCaptions.instagram !== manifest.captions.instagram
+      !finalCaptions.instagram.includes("link in bio")
     ) {
       errorCodes.push("FINAL_CAPTIONS_INVALID");
     }
 
     if (
       !finalCaptions.facebook ||
-      !finalCaptions.facebook.includes(GOOGLE_PLAY_URL) ||
-      finalCaptions.facebook.split(GOOGLE_PLAY_URL).length !== 2
+      !finalCaptions.facebook.includes(FACEBOOK_WEBSITE_URL) ||
+      finalCaptions.facebook.split(FACEBOOK_WEBSITE_URL).length !== 2
     ) {
       errorCodes.push("FINAL_CAPTIONS_INVALID");
     }

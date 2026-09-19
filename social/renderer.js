@@ -354,7 +354,9 @@ function generateCoverSlideSvg(slide) {
     'font-family="' +
     escapeXml(TYPOGRAPHY.fontFamily) +
     '" ' +
-    'font-size="24" ' +
+    'font-size="' +
+    TYPOGRAPHY.swipeFontSize +
+    '" ' +
     'font-weight="600" ' +
     'fill="' +
     escapeXml(THEME.primaryText) +
@@ -435,7 +437,9 @@ function generateContentSlideSvg(slide, slideIndex) {
     'font-family="' +
     escapeXml(TYPOGRAPHY.fontFamily) +
     '" ' +
-    'font-size="24" ' +
+    'font-size="' +
+    TYPOGRAPHY.swipeFontSize +
+    '" ' +
     'font-weight="600" ' +
     'fill="' +
     escapeXml(THEME.primaryText) +
@@ -477,9 +481,13 @@ function generateCtaSlideSvg(slide) {
     headlineHeight +
     100;
 
-  const buttonY = 970;
+  const buttonY = 960;
   const buttonX =
     (WIDTH - LAYOUT.buttonWidth) / 2;
+  const buttonTextY =
+    buttonY +
+    Math.round(LAYOUT.buttonHeight / 2) +
+    Math.round(TYPOGRAPHY.ctaButtonFontSize * 0.35);
 
   return (
     generateBackgroundSvg(5) +
@@ -526,7 +534,7 @@ function generateCtaSlideSvg(slide) {
     '<text x="' +
     WIDTH / 2 +
     '" y="' +
-    (buttonY + 57) +
+    buttonTextY +
     '" ' +
     'font-family="' +
     escapeXml(TYPOGRAPHY.fontFamily) +
