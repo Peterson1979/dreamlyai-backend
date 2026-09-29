@@ -1,6 +1,19 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.dreamlyai.life"
+        }
+      ],
+      "destination": "https://dreamlyai.life/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/privacy-policy",
