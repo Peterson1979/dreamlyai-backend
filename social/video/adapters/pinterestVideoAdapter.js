@@ -201,7 +201,10 @@ class PinterestVideoAdapter extends BaseVideoAdapter {
    * @param {Function} [params.fetchFn=fetch]
    * @returns {Promise<object>}
    */
-  async publish({ manifest, config, redis, fetchFn = fetch }) {
+  async publish({ manifest, config, redis, fetchFn = fetch, sleepFn }) {
+    const defaultSleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    const sleep = sleepFn || defaultSleep;
+
     // 1. Validate configuration
     const configCheck = this.validateConfig(config);
     if (!configCheck.valid) {
@@ -344,8 +347,12 @@ class PinterestVideoAdapter extends BaseVideoAdapter {
         }
       }
 
-      // Step D: Poll media status until succeeded (or up to 6 attempts)
-      for (let attempt = 1; attempt <= 6; attempt++) {
+      // Step D: Poll media status until succeeded (with delay)
+      let mediaReady = false;
+      const pollMaxAttempts = Number(config.pollMaxAttempts) || 8;
+      const pollIntervalMs = Number(config.pollIntervalMs) || 3000;
+
+      for (let attempt = 1; attempt <= pollMaxAttempts; attempt++) {
         const statusRes = await this.fetchWithTimeout(
           fetchFn,
           `${PINTEREST_API_BASE_URL}/media/${mediaId}`,
@@ -359,6 +366,7 @@ class PinterestVideoAdapter extends BaseVideoAdapter {
         if (statusRes.ok) {
           const statusData = await statusRes.json().catch(() => ({}));
           if (statusData.status === "succeeded") {
+            mediaReady = true;
             break;
           } else if (statusData.status === "failed") {
             return {
@@ -370,6 +378,23 @@ class PinterestVideoAdapter extends BaseVideoAdapter {
             };
           }
         }
+
+        if (attempt < pollMaxAttempts) {
+          await sleep(pollIntervalMs);
+        }
+      }
+
+      if (!mediaReady) {
+        return {
+          success: false,
+          status: "FAILED",
+          targetId: this.targetId,
+          postId: null,
+          error: {
+            message: `Pinterest video media processing timed out after ${pollMaxAttempts} attempts (${this.targetId})`,
+            status: 504
+          }
+        };
       }
 
       // Step E: Create Video Pin via /pins

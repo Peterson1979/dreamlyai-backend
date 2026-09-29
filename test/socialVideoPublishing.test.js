@@ -358,4 +358,127 @@ describe("Dreamly AI Video Publishing Pipeline", () => {
     assert.equal(capturedPinPayload.media_source.media_id, "m_12345");
     assert.equal(capturedPinPayload.media_source.cover_image_key_frame_time, 0);
   });
+
+  it("7. PinterestVideoAdapter waits between polling attempts until media is succeeded", async () => {
+    const { PinterestVideoAdapter } = require("../social/video/adapters/pinterestVideoAdapter");
+    const adapter = new PinterestVideoAdapter("pinterest_dreamly");
+
+    let mediaPollCount = 0;
+    const sleptIntervals = [];
+    const mockSleep = async (ms) => {
+      sleptIntervals.push(ms);
+    };
+
+    const mockFetch = async (url, opts = {}) => {
+      const u = String(url);
+      if (u.endsWith("/media")) {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({ media_id: "m_poll_1", upload_url: "https://mock.upload.url", upload_parameters: {} })
+        };
+      }
+      if (u.endsWith("/2.mp4") || u.endsWith(".mp4")) {
+        return { ok: true, status: 200, arrayBuffer: async () => Buffer.from("video") };
+      }
+      if (u.includes("mock.upload.url")) {
+        return { ok: true, status: 204 };
+      }
+      if (u.includes("/media/m_poll_1")) {
+        mediaPollCount++;
+        // Return processing on attempts 1 and 2, then succeeded on attempt 3
+        if (mediaPollCount < 3) {
+          return { ok: true, status: 200, json: async () => ({ status: "processing" }) };
+        }
+        return { ok: true, status: 200, json: async () => ({ status: "succeeded" }) };
+      }
+      if (u.endsWith("/pins")) {
+        return { ok: true, status: 201, json: async () => ({ id: "pin_polled_ok" }) };
+      }
+      throw new Error(`Unexpected fetch URL: ${u}`);
+    };
+
+    const manifest = getVideoManifestBySequence(2);
+    const config = {
+      boardId: "board_123",
+      accessToken: "token_abc",
+      accessTier: "standard",
+      pollMaxAttempts: 5,
+      pollIntervalMs: 2000
+    };
+
+    const result = await adapter.publish({
+      manifest,
+      config,
+      fetchFn: mockFetch,
+      sleepFn: mockSleep
+    });
+
+    assert.equal(result.success, true);
+    assert.equal(result.status, "PUBLISHED");
+    assert.equal(result.postId, "pin_polled_ok");
+    assert.equal(mediaPollCount, 3, "Should have polled 3 times before succeeding");
+    assert.deepEqual(sleptIntervals, [2000, 2000], "Should have slept 2000ms after attempt 1 and 2");
+  });
+
+  it("8. PinterestVideoAdapter fails cleanly when media never reaches succeeded state without calling /pins", async () => {
+    const { PinterestVideoAdapter } = require("../social/video/adapters/pinterestVideoAdapter");
+    const adapter = new PinterestVideoAdapter("pinterest_dreamly");
+
+    let pinCalled = false;
+    let mediaPollCount = 0;
+    const sleptIntervals = [];
+    const mockSleep = async (ms) => {
+      sleptIntervals.push(ms);
+    };
+
+    const mockFetch = async (url, opts = {}) => {
+      const u = String(url);
+      if (u.endsWith("/media")) {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({ media_id: "m_timeout_1", upload_url: "https://mock.upload.url", upload_parameters: {} })
+        };
+      }
+      if (u.endsWith("/2.mp4") || u.endsWith(".mp4")) {
+        return { ok: true, status: 200, arrayBuffer: async () => Buffer.from("video") };
+      }
+      if (u.includes("mock.upload.url")) {
+        return { ok: true, status: 204 };
+      }
+      if (u.includes("/media/m_timeout_1")) {
+        mediaPollCount++;
+        return { ok: true, status: 200, json: async () => ({ status: "processing" }) };
+      }
+      if (u.endsWith("/pins")) {
+        pinCalled = true;
+        return { ok: true, status: 201, json: async () => ({ id: "pin_never_reached" }) };
+      }
+      throw new Error(`Unexpected fetch URL: ${u}`);
+    };
+
+    const manifest = getVideoManifestBySequence(2);
+    const config = {
+      boardId: "board_123",
+      accessToken: "token_abc",
+      accessTier: "standard",
+      pollMaxAttempts: 3,
+      pollIntervalMs: 1000
+    };
+
+    const result = await adapter.publish({
+      manifest,
+      config,
+      fetchFn: mockFetch,
+      sleepFn: mockSleep
+    });
+
+    assert.equal(result.success, false);
+    assert.equal(result.status, "FAILED");
+    assert.equal(pinCalled, false, "Must NOT attempt /pins when media never reaches succeeded state");
+    assert.equal(mediaPollCount, 3, "Should have polled up to max attempts");
+    assert.deepEqual(sleptIntervals, [1000, 1000], "Should sleep between attempts 1-2 and 2-3");
+    assert.ok(result.error?.message.includes("timed out"), "Error message should mention timeout");
+  });
 });
