@@ -380,7 +380,8 @@ class PinterestVideoAdapter extends BaseVideoAdapter {
         link: pinCopy.link || manifest.destinationUrl || "",
         media_source: {
           source_type: "video_id",
-          media_id: mediaId
+          media_id: mediaId,
+          cover_image_key_frame_time: 0
         }
       };
 

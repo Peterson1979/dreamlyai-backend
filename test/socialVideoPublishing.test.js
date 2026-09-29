@@ -294,4 +294,68 @@ describe("Dreamly AI Video Publishing Pipeline", () => {
     assert.equal(result.sequenceNumber, 2);
     assert.equal(result.videoFileName, "2.mp4");
   });
+
+  it("6. PinterestVideoAdapter.publish() includes cover_image_key_frame_time in media_source payload", async () => {
+    const { PinterestVideoAdapter } = require("../social/video/adapters/pinterestVideoAdapter");
+    const adapter = new PinterestVideoAdapter("pinterest_dreamly");
+
+    let capturedPinPayload = null;
+    const mockFetch = async (url, opts = {}) => {
+      const u = String(url);
+      if (u.endsWith("/media")) {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({ media_id: "m_12345", upload_url: "https://mock.upload.url", upload_parameters: {} })
+        };
+      }
+      if (u.endsWith("/2.mp4") || u.endsWith(".mp4")) {
+        return {
+          ok: true,
+          status: 200,
+          arrayBuffer: async () => Buffer.from("mock video data")
+        };
+      }
+      if (u.includes("mock.upload.url")) {
+        return { ok: true, status: 204 };
+      }
+      if (u.includes("/media/m_12345")) {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({ status: "succeeded" })
+        };
+      }
+      if (u.endsWith("/pins")) {
+        capturedPinPayload = JSON.parse(opts.body);
+        return {
+          ok: true,
+          status: 201,
+          json: async () => ({ id: "pin_test_9999" })
+        };
+      }
+      throw new Error(`Unexpected fetch URL: ${u}`);
+    };
+
+    const manifest = getVideoManifestBySequence(2);
+    const config = {
+      boardId: "board_123",
+      accessToken: "token_abc",
+      accessTier: "standard"
+    };
+
+    const pubResult = await adapter.publish({
+      manifest,
+      config,
+      fetchFn: mockFetch
+    });
+
+    assert.equal(pubResult.success, true);
+    assert.equal(pubResult.status, "PUBLISHED");
+    assert.equal(pubResult.postId, "pin_test_9999");
+    assert.ok(capturedPinPayload, "Pin payload must be sent to /pins");
+    assert.equal(capturedPinPayload.media_source.source_type, "video_id");
+    assert.equal(capturedPinPayload.media_source.media_id, "m_12345");
+    assert.equal(capturedPinPayload.media_source.cover_image_key_frame_time, 0);
+  });
 });
