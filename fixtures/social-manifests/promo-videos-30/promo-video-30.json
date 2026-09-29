@@ -1,0 +1,69 @@
+{
+  "date": "2026-10-27",
+  "id": "promo-video-2026-10-27",
+  "type": "video",
+  "media": [
+    {
+      "url": "https://dreamlyai-backend.vercel.app/videos/promo/30.mp4",
+      "type": "video/mp4",
+      "duration": 10,
+      "aspectRatio": "9:16",
+      "altText": "You dreamed it. Why not explore it? | Dreamly AI",
+      "fileName": "30.mp4",
+      "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\30.mp4"
+    }
+  ],
+  "destinations": [
+    "pinterest_dreamly",
+    "youtube_dreamly",
+    "instagram_lifemode",
+    "facebook_lifemode",
+    "youtube_lifemode",
+    "pinterest_lifemode"
+  ],
+  "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-30",
+  "captions": {
+    "instagram": "✨ You dreamed it. Why not explore it?\n\nYou dreamed it. Why not explore it? Discover Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+    "facebook": "✨ You dreamed it. Why not explore it?\n\nYou dreamed it. Why not explore it? Discover Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-30\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-30\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+    "youtube": {
+      "title": "You Dreamed It. Why Not Explore It? 🚀 #Shorts",
+      "description": "You dreamed it. Why not explore it?\n\nYou dreamed it. Why not explore it? Discover Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-30\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-30\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+      "tags": [
+        "Dreamly AI",
+        "explore dreams",
+        "dream app",
+        "Shorts",
+        "dream analysis",
+        "sleep journey"
+      ]
+    },
+    "pinterest": {
+      "title": "You Dreamed It. Why Not Explore It with Dreamly AI?",
+      "description": "✨ You dreamed it. Why not explore it?\n\nYou dreamed it. Why not explore it? Discover Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-30",
+      "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-30"
+    },
+    "pinterest_secondary": {
+      "title": "You Dreamed It. Why Not Explore It with Dreamly AI?",
+      "description": "✨ You dreamed it. Why not explore it?\n\nYou dreamed it. Why not explore it? Discover Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-30",
+      "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-30"
+    }
+  },
+  "metadata": {
+    "series": "dreamly_ai_promo_30",
+    "sequenceNumber": 30,
+    "videoFileName": "30.mp4",
+    "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\30.mp4",
+    "sourceDescriptionNumber": 30,
+    "exactSourceTitle": "You dreamed it. Why not explore it?",
+    "visual": "A person wakes up and enters a vivid visual representation of their dream.",
+    "voiceover": "You dreamed it. Why not explore it? Discover Dreamly AI.",
+    "category": "full_exploration",
+    "format": "promotional_video",
+    "contentId": "dreamly-video-30",
+    "destinationPath": "/dreams",
+    "scheduledPublishTimeUtc": "18:00:00Z",
+    "scheduledPublicationDateTime": "2026-10-27T18:00:00Z",
+    "qualityGate": "QUALITY_GATE_PASS",
+    "generatedAt": "2026-09-28T15:47:56.925Z"
+  }
+}

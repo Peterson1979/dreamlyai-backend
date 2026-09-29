@@ -1,0 +1,69 @@
+{
+  "date": "2026-10-02",
+  "id": "promo-video-2026-10-02",
+  "type": "video",
+  "media": [
+    {
+      "url": "https://dreamlyai-backend.vercel.app/videos/promo/5.mp4",
+      "type": "video/mp4",
+      "duration": 10,
+      "aspectRatio": "9:16",
+      "altText": "Why did THAT person appear in your dream? | Dreamly AI",
+      "fileName": "5.mp4",
+      "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\5.mp4"
+    }
+  ],
+  "destinations": [
+    "pinterest_dreamly",
+    "youtube_dreamly",
+    "instagram_lifemode",
+    "facebook_lifemode",
+    "youtube_lifemode",
+    "pinterest_lifemode"
+  ],
+  "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-05",
+  "captions": {
+    "instagram": "✨ Why did THAT person appear in your dream?\n\nWhy did that person appear in your dream? Explore the story with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+    "facebook": "✨ Why did THAT person appear in your dream?\n\nWhy did that person appear in your dream? Explore the story with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-05\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-05\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+    "youtube": {
+      "title": "Why Did THAT Person Appear in Your Dream? 👀 #Shorts",
+      "description": "Why did THAT person appear in your dream?\n\nWhy did that person appear in your dream? Explore the story with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-05\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-05\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+      "tags": [
+        "Dreamly AI",
+        "people in dreams",
+        "dream psychology",
+        "Shorts",
+        "subconscious mind",
+        "dream meaning"
+      ]
+    },
+    "pinterest": {
+      "title": "Why Did That Specific Person Appear in Your Dream?",
+      "description": "✨ Why did THAT person appear in your dream?\n\nWhy did that person appear in your dream? Explore the story with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-05",
+      "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-05"
+    },
+    "pinterest_secondary": {
+      "title": "Why Did That Specific Person Appear in Your Dream?",
+      "description": "✨ Why did THAT person appear in your dream?\n\nWhy did that person appear in your dream? Explore the story with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-05",
+      "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-05"
+    }
+  },
+  "metadata": {
+    "series": "dreamly_ai_promo_30",
+    "sequenceNumber": 5,
+    "videoFileName": "5.mp4",
+    "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\5.mp4",
+    "sourceDescriptionNumber": 5,
+    "exactSourceTitle": "Why did THAT person appear in your dream?",
+    "visual": "A mysterious familiar figure appears in a dreamlike city and disappears.",
+    "voiceover": "Why did that person appear in your dream? Explore the story with Dreamly AI.",
+    "category": "people_in_dreams",
+    "format": "promotional_video",
+    "contentId": "dreamly-video-05",
+    "destinationPath": "/dreams",
+    "scheduledPublishTimeUtc": "18:00:00Z",
+    "scheduledPublicationDateTime": "2026-10-02T18:00:00Z",
+    "qualityGate": "QUALITY_GATE_PASS",
+    "generatedAt": "2026-09-28T15:47:56.923Z"
+  }
+}

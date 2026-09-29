@@ -567,15 +567,15 @@ describe("DreamlyAI Social Production HTTP Endpoint", () => {
       assert.equal(logged.join(" ").includes("Corrupted stream failure"), false);
     });
 
-    it("13. vercel.json exists and defines exactly one cron job for /api/social-run", () => {
+    it("13. vercel.json exists and defines a cron job for /api/social-run", () => {
       const vercelConfigPath = path.resolve(__dirname, "../vercel.json");
       assert.equal(fs.existsSync(vercelConfigPath), true);
 
       const vercelConfig = JSON.parse(fs.readFileSync(vercelConfigPath, "utf8"));
       assert.equal(Array.isArray(vercelConfig.crons), true);
-      assert.equal(vercelConfig.crons.length, 1);
-      assert.equal(vercelConfig.crons[0].path, "/api/social-run");
-      assert.equal(vercelConfig.crons[0].schedule, "0 7 * * *");
+      const socialCron = vercelConfig.crons.find(c => c.path === "/api/social-run");
+      assert.ok(socialCron, "Expected /api/social-run cron in vercel.json");
+      assert.equal(socialCron.schedule, "0 7 * * *");
     });
 
     it("14. getUtcPublishDate helper produces valid YYYY-MM-DD", () => {

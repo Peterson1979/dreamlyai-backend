@@ -1,0 +1,69 @@
+{
+  "date": "2026-10-10",
+  "id": "promo-video-2026-10-10",
+  "type": "video",
+  "media": [
+    {
+      "url": "https://dreamlyai-backend.vercel.app/videos/promo/13.mp4",
+      "type": "video/mp4",
+      "duration": 10,
+      "aspectRatio": "9:16",
+      "altText": "Why are dreams so unbelievably weird? | Dreamly AI",
+      "fileName": "13.mp4",
+      "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\13.mp4"
+    }
+  ],
+  "destinations": [
+    "pinterest_dreamly",
+    "youtube_dreamly",
+    "instagram_lifemode",
+    "facebook_lifemode",
+    "youtube_lifemode",
+    "pinterest_lifemode"
+  ],
+  "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-13",
+  "captions": {
+    "instagram": "✨ Why are dreams so unbelievably weird?\n\nWhy are dreams so unbelievably weird? Explore yours with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+    "facebook": "✨ Why are dreams so unbelievably weird?\n\nWhy are dreams so unbelievably weird? Explore yours with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-13\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-13\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+    "youtube": {
+      "title": "Why Are Dreams So Unbelievably Weird? 🌀 #Shorts",
+      "description": "Why are dreams so unbelievably weird?\n\nWhy are dreams so unbelievably weird? Explore yours with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-13\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-13\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+      "tags": [
+        "Dreamly AI",
+        "weird dreams",
+        "REM sleep",
+        "Shorts",
+        "brain psychology",
+        "dream science"
+      ]
+    },
+    "pinterest": {
+      "title": "Why Are Dreams So Weird? How the Sleeping Brain Works",
+      "description": "✨ Why are dreams so unbelievably weird?\n\nWhy are dreams so unbelievably weird? Explore yours with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-13",
+      "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-13"
+    },
+    "pinterest_secondary": {
+      "title": "Why Are Dreams So Weird? How the Sleeping Brain Works",
+      "description": "✨ Why are dreams so unbelievably weird?\n\nWhy are dreams so unbelievably weird? Explore yours with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-13",
+      "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-13"
+    }
+  },
+  "metadata": {
+    "series": "dreamly_ai_promo_30",
+    "sequenceNumber": 13,
+    "videoFileName": "13.mp4",
+    "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\13.mp4",
+    "sourceDescriptionNumber": 13,
+    "exactSourceTitle": "Why are dreams so unbelievably weird?",
+    "visual": "Rapid surreal transitions: floating objects, strange landscapes and impossible architecture.",
+    "voiceover": "Why are dreams so unbelievably weird? Explore yours with Dreamly AI.",
+    "category": "surreal_logic",
+    "format": "promotional_video",
+    "contentId": "dreamly-video-13",
+    "destinationPath": "/dreams",
+    "scheduledPublishTimeUtc": "18:00:00Z",
+    "scheduledPublicationDateTime": "2026-10-10T18:00:00Z",
+    "qualityGate": "QUALITY_GATE_PASS",
+    "generatedAt": "2026-09-28T15:47:56.923Z"
+  }
+}

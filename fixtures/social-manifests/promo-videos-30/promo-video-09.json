@@ -1,0 +1,69 @@
+{
+  "date": "2026-10-06",
+  "id": "promo-video-2026-10-06",
+  "type": "video",
+  "media": [
+    {
+      "url": "https://dreamlyai-backend.vercel.app/videos/promo/9.mp4",
+      "type": "video/mp4",
+      "duration": 10,
+      "aspectRatio": "9:16",
+      "altText": "Why does the same dream keep coming back? | Dreamly AI",
+      "fileName": "9.mp4",
+      "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\9.mp4"
+    }
+  ],
+  "destinations": [
+    "pinterest_dreamly",
+    "youtube_dreamly",
+    "instagram_lifemode",
+    "facebook_lifemode",
+    "youtube_lifemode",
+    "pinterest_lifemode"
+  ],
+  "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-09",
+  "captions": {
+    "instagram": "✨ Why does the same dream keep coming back?\n\nWhy does the same dream keep coming back? Explore it with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+    "facebook": "✨ Why does the same dream keep coming back?\n\nWhy does the same dream keep coming back? Explore it with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-09\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-09\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+    "youtube": {
+      "title": "Why Does the Same Dream Keep Coming Back? 🔄 #Shorts",
+      "description": "Why does the same dream keep coming back?\n\nWhy does the same dream keep coming back? Explore it with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-09\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-09\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+      "tags": [
+        "Dreamly AI",
+        "recurring dreams",
+        "repeating dreams",
+        "Shorts",
+        "dream analysis",
+        "sleep psychology"
+      ]
+    },
+    "pinterest": {
+      "title": "Why Does the Same Dream Keep Coming Back?",
+      "description": "✨ Why does the same dream keep coming back?\n\nWhy does the same dream keep coming back? Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-09",
+      "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-09"
+    },
+    "pinterest_secondary": {
+      "title": "Why Does the Same Dream Keep Coming Back?",
+      "description": "✨ Why does the same dream keep coming back?\n\nWhy does the same dream keep coming back? Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-09",
+      "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-09"
+    }
+  },
+  "metadata": {
+    "series": "dreamly_ai_promo_30",
+    "sequenceNumber": 9,
+    "videoFileName": "9.mp4",
+    "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\9.mp4",
+    "sourceDescriptionNumber": 9,
+    "exactSourceTitle": "Why does the same dream keep coming back?",
+    "visual": "The same surreal dream scene repeats several times with subtle changes.",
+    "voiceover": "Why does the same dream keep coming back? Explore it with Dreamly AI.",
+    "category": "recurring_dreams",
+    "format": "promotional_video",
+    "contentId": "dreamly-video-09",
+    "destinationPath": "/dreams",
+    "scheduledPublishTimeUtc": "18:00:00Z",
+    "scheduledPublicationDateTime": "2026-10-06T18:00:00Z",
+    "qualityGate": "QUALITY_GATE_PASS",
+    "generatedAt": "2026-09-28T15:47:56.923Z"
+  }
+}

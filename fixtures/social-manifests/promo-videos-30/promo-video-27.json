@@ -1,0 +1,69 @@
+{
+  "date": "2026-10-24",
+  "id": "promo-video-2026-10-24",
+  "type": "video",
+  "media": [
+    {
+      "url": "https://dreamlyai-backend.vercel.app/videos/promo/27.mp4",
+      "type": "video/mp4",
+      "duration": 10,
+      "aspectRatio": "9:16",
+      "altText": "No two dreams are exactly the same. | Dreamly AI",
+      "fileName": "27.mp4",
+      "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\27.mp4"
+    }
+  ],
+  "destinations": [
+    "pinterest_dreamly",
+    "youtube_dreamly",
+    "instagram_lifemode",
+    "facebook_lifemode",
+    "youtube_lifemode",
+    "pinterest_lifemode"
+  ],
+  "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-27",
+  "captions": {
+    "instagram": "✨ No two dreams are exactly the same.\n\nNo two dreams are exactly the same. Explore yours with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+    "facebook": "✨ No two dreams are exactly the same.\n\nNo two dreams are exactly the same. Explore yours with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-27\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-27\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+    "youtube": {
+      "title": "No Two Dreams Are Exactly the Same 🎨 #Shorts",
+      "description": "No two dreams are exactly the same.\n\nNo two dreams are exactly the same. Explore yours with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-27\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-27\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+      "tags": [
+        "Dreamly AI",
+        "unique dreams",
+        "personal symbols",
+        "Shorts",
+        "creativity",
+        "mindscape"
+      ]
+    },
+    "pinterest": {
+      "title": "No Two Dreams Are Exactly the Same: Your Personal Mindscape",
+      "description": "✨ No two dreams are exactly the same.\n\nNo two dreams are exactly the same. Explore yours with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-27",
+      "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-27"
+    },
+    "pinterest_secondary": {
+      "title": "No Two Dreams Are Exactly the Same: Your Personal Mindscape",
+      "description": "✨ No two dreams are exactly the same.\n\nNo two dreams are exactly the same. Explore yours with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-27",
+      "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-27"
+    }
+  },
+  "metadata": {
+    "series": "dreamly_ai_promo_30",
+    "sequenceNumber": 27,
+    "videoFileName": "27.mp4",
+    "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\27.mp4",
+    "sourceDescriptionNumber": 27,
+    "exactSourceTitle": "No two dreams are exactly the same.",
+    "visual": "Multiple completely different dream worlds appear in rapid succession.",
+    "voiceover": "No two dreams are exactly the same. Explore yours with Dreamly AI.",
+    "category": "unique_dreamscapes",
+    "format": "promotional_video",
+    "contentId": "dreamly-video-27",
+    "destinationPath": "/dreams",
+    "scheduledPublishTimeUtc": "18:00:00Z",
+    "scheduledPublicationDateTime": "2026-10-24T18:00:00Z",
+    "qualityGate": "QUALITY_GATE_PASS",
+    "generatedAt": "2026-09-28T15:47:56.925Z"
+  }
+}

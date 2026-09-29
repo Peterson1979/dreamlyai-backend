@@ -1,0 +1,2074 @@
+[
+  {
+    "date": "2026-09-28",
+    "id": "promo-video-2026-09-28",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/1.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Your dreams might be saying more than you think. | Dreamly AI",
+        "fileName": "1.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\1.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-01",
+    "captions": {
+      "instagram": "✨ Your dreams might be saying more than you think.\n\nYour dreams might be saying more than you think. Explore them with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Your dreams might be saying more than you think.\n\nYour dreams might be saying more than you think. Explore them with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-01\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-01\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Your Dreams Say More Than You Think 🌙 #Shorts",
+        "description": "Your dreams might be saying more than you think.\n\nYour dreams might be saying more than you think. Explore them with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-01\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-01\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "dream meaning",
+          "subconscious",
+          "Shorts",
+          "dream interpretation",
+          "sleep psychology",
+          "dreams"
+        ]
+      },
+      "pinterest": {
+        "title": "Your Dreams Might Be Saying More Than You Think",
+        "description": "✨ Your dreams might be saying more than you think.\n\nYour dreams might be saying more than you think. Explore them with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-01",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-01"
+      },
+      "pinterest_secondary": {
+        "title": "Your Dreams Might Be Saying More Than You Think",
+        "description": "✨ Your dreams might be saying more than you think.\n\nYour dreams might be saying more than you think. Explore them with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-01",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-01"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 1,
+      "videoFileName": "1.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\1.mp4",
+      "sourceDescriptionNumber": 1,
+      "exactSourceTitle": "Your dreams might be saying more than you think.",
+      "visual": "A person sleeping peacefully; surreal dream fragments slowly appear around them.",
+      "voiceover": "Your dreams might be saying more than you think. Explore them with Dreamly AI.",
+      "category": "subconscious_messages",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-01",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-09-28T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.923Z"
+    }
+  },
+  {
+    "date": "2026-09-29",
+    "id": "promo-video-2026-09-29",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/2.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "What did THAT dream actually mean? | Dreamly AI",
+        "fileName": "2.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\2.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-02",
+    "captions": {
+      "instagram": "✨ What did THAT dream actually mean?\n\nWhat did that dream actually mean? Explore it with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ What did THAT dream actually mean?\n\nWhat did that dream actually mean? Explore it with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-02\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-02\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "What Did THAT Dream Actually Mean? 🔮 #Shorts",
+        "description": "What did THAT dream actually mean?\n\nWhat did that dream actually mean? Explore it with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-02\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-02\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "dream symbols",
+          "dream meaning",
+          "Shorts",
+          "dream decode",
+          "psychology",
+          "night dreams"
+        ]
+      },
+      "pinterest": {
+        "title": "What Did That Dream Actually Mean? Decode It Now",
+        "description": "✨ What did THAT dream actually mean?\n\nWhat did that dream actually mean? Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-02",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-02"
+      },
+      "pinterest_secondary": {
+        "title": "What Did That Dream Actually Mean? Decode It Now",
+        "description": "✨ What did THAT dream actually mean?\n\nWhat did that dream actually mean? Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-02",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-02"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 2,
+      "videoFileName": "2.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\2.mp4",
+      "sourceDescriptionNumber": 2,
+      "exactSourceTitle": "What did THAT dream actually mean?",
+      "visual": "A person wakes up confused as vivid dream images flash around them.",
+      "voiceover": "What did that dream actually mean? Explore it with Dreamly AI.",
+      "category": "dream_symbols",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-02",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-09-29T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.923Z"
+    }
+  },
+  {
+    "date": "2026-09-30",
+    "id": "promo-video-2026-09-30",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/3.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "You had an amazing dream... and forgot it. | Dreamly AI",
+        "fileName": "3.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\3.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-03",
+    "captions": {
+      "instagram": "✨ You had an amazing dream... and forgot it.\n\nYou had an amazing dream… and forgot it. Explore your dreams with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ You had an amazing dream... and forgot it.\n\nYou had an amazing dream… and forgot it. Explore your dreams with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-03\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-03\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "You Had an Amazing Dream... and Forgot It 💭 #Shorts",
+        "description": "You had an amazing dream... and forgot it.\n\nYou had an amazing dream… and forgot it. Explore your dreams with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-03\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-03\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "dream recall",
+          "remember dreams",
+          "Shorts",
+          "dream journal",
+          "sleep psychology"
+        ]
+      },
+      "pinterest": {
+        "title": "How to Remember Amazing Dreams Before They Fade",
+        "description": "✨ You had an amazing dream... and forgot it.\n\nYou had an amazing dream… and forgot it. Explore your dreams with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-03",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-03"
+      },
+      "pinterest_secondary": {
+        "title": "How to Remember Amazing Dreams Before They Fade",
+        "description": "✨ You had an amazing dream... and forgot it.\n\nYou had an amazing dream… and forgot it. Explore your dreams with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-03",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-03"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 3,
+      "videoFileName": "3.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\3.mp4",
+      "sourceDescriptionNumber": 3,
+      "exactSourceTitle": "You had an amazing dream... and forgot it.",
+      "visual": "Dream scenes fade away like smoke as the person tries to remember them.",
+      "voiceover": "You had an amazing dream… and forgot it. Explore your dreams with Dreamly AI.",
+      "category": "dream_recall",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-03",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-09-30T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.923Z"
+    }
+  },
+  {
+    "date": "2026-10-01",
+    "id": "promo-video-2026-10-01",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/4.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Why do so many people dream about falling? | Dreamly AI",
+        "fileName": "4.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\4.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams/falling?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-04",
+    "captions": {
+      "instagram": "✨ Why do so many people dream about falling?\n\nWhy do so many people dream about falling? Explore your dream with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Why do so many people dream about falling?\n\nWhy do so many people dream about falling? Explore your dream with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams/falling?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-04\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-04\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Why Do So Many People Dream About Falling? ☁️ #Shorts",
+        "description": "Why do so many people dream about falling?\n\nWhy do so many people dream about falling? Explore your dream with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams/falling?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-04\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-04\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "falling dream",
+          "dream meaning",
+          "Shorts",
+          "hypnic jerk",
+          "sleep science"
+        ]
+      },
+      "pinterest": {
+        "title": "Why Do You Dream About Falling? The Psychological Meaning",
+        "description": "✨ Why do so many people dream about falling?\n\nWhy do so many people dream about falling? Explore your dream with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams/falling?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-04",
+        "link": "https://dreamlyai.life/dreams/falling?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-04"
+      },
+      "pinterest_secondary": {
+        "title": "Why Do You Dream About Falling? The Psychological Meaning",
+        "description": "✨ Why do so many people dream about falling?\n\nWhy do so many people dream about falling? Explore your dream with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams/falling?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-04",
+        "link": "https://dreamlyai.life/dreams/falling?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-04"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 4,
+      "videoFileName": "4.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\4.mp4",
+      "sourceDescriptionNumber": 4,
+      "exactSourceTitle": "Why do so many people dream about falling?",
+      "visual": "A cinematic person slowly falling through clouds in a surreal dream world.",
+      "voiceover": "Why do so many people dream about falling? Explore your dream with Dreamly AI.",
+      "category": "common_dreams",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-04",
+      "destinationPath": "/dreams/falling",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-01T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.923Z"
+    }
+  },
+  {
+    "date": "2026-10-02",
+    "id": "promo-video-2026-10-02",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/5.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Why did THAT person appear in your dream? | Dreamly AI",
+        "fileName": "5.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\5.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-05",
+    "captions": {
+      "instagram": "✨ Why did THAT person appear in your dream?\n\nWhy did that person appear in your dream? Explore the story with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Why did THAT person appear in your dream?\n\nWhy did that person appear in your dream? Explore the story with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-05\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-05\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Why Did THAT Person Appear in Your Dream? 👀 #Shorts",
+        "description": "Why did THAT person appear in your dream?\n\nWhy did that person appear in your dream? Explore the story with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-05\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-05\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "people in dreams",
+          "dream psychology",
+          "Shorts",
+          "subconscious mind",
+          "dream meaning"
+        ]
+      },
+      "pinterest": {
+        "title": "Why Did That Specific Person Appear in Your Dream?",
+        "description": "✨ Why did THAT person appear in your dream?\n\nWhy did that person appear in your dream? Explore the story with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-05",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-05"
+      },
+      "pinterest_secondary": {
+        "title": "Why Did That Specific Person Appear in Your Dream?",
+        "description": "✨ Why did THAT person appear in your dream?\n\nWhy did that person appear in your dream? Explore the story with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-05",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-05"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 5,
+      "videoFileName": "5.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\5.mp4",
+      "sourceDescriptionNumber": 5,
+      "exactSourceTitle": "Why did THAT person appear in your dream?",
+      "visual": "A mysterious familiar figure appears in a dreamlike city and disappears.",
+      "voiceover": "Why did that person appear in your dream? Explore the story with Dreamly AI.",
+      "category": "people_in_dreams",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-05",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-02T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.923Z"
+    }
+  },
+  {
+    "date": "2026-10-03",
+    "id": "promo-video-2026-10-03",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/6.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Ever had a dream that felt completely real? | Dreamly AI",
+        "fileName": "6.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\6.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-06",
+    "captions": {
+      "instagram": "✨ Ever had a dream that felt completely real?\n\nEver had a dream that felt completely real? Explore it with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Ever had a dream that felt completely real?\n\nEver had a dream that felt completely real? Explore it with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-06\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-06\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Ever Had a Dream That Felt Completely Real? ✨ #Shorts",
+        "description": "Ever had a dream that felt completely real?\n\nEver had a dream that felt completely real? Explore it with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-06\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-06\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "vivid dreams",
+          "lucid dream",
+          "Shorts",
+          "dream reality",
+          "sleep psychology"
+        ]
+      },
+      "pinterest": {
+        "title": "When Dreams Feel Completely Real: What It Means",
+        "description": "✨ Ever had a dream that felt completely real?\n\nEver had a dream that felt completely real? Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-06",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-06"
+      },
+      "pinterest_secondary": {
+        "title": "When Dreams Feel Completely Real: What It Means",
+        "description": "✨ Ever had a dream that felt completely real?\n\nEver had a dream that felt completely real? Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-06",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-06"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 6,
+      "videoFileName": "6.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\6.mp4",
+      "sourceDescriptionNumber": 6,
+      "exactSourceTitle": "Ever had a dream that felt completely real?",
+      "visual": "A surreal transition between a bedroom and an incredibly realistic dream world.",
+      "voiceover": "Ever had a dream that felt completely real? Explore it with Dreamly AI.",
+      "category": "lucid_realism",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-06",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-03T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.923Z"
+    }
+  },
+  {
+    "date": "2026-10-04",
+    "id": "promo-video-2026-10-04",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/7.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "What does water mean in a dream? | Dreamly AI",
+        "fileName": "7.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\7.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-07",
+    "captions": {
+      "instagram": "✨ What does water mean in a dream?\n\nWhat does water mean in a dream? Explore your dream with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ What does water mean in a dream?\n\nWhat does water mean in a dream? Explore your dream with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-07\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-07\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "What Does Water Mean in a Dream? 🌊 #Shorts",
+        "description": "What does water mean in a dream?\n\nWhat does water mean in a dream? Explore your dream with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-07\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-07\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "water dream",
+          "dream symbols",
+          "Shorts",
+          "emotions",
+          "dream interpretation"
+        ]
+      },
+      "pinterest": {
+        "title": "What Does Water Mean in a Dream? Emotional Symbols Explained",
+        "description": "✨ What does water mean in a dream?\n\nWhat does water mean in a dream? Explore your dream with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-07",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-07"
+      },
+      "pinterest_secondary": {
+        "title": "What Does Water Mean in a Dream? Emotional Symbols Explained",
+        "description": "✨ What does water mean in a dream?\n\nWhat does water mean in a dream? Explore your dream with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-07",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-07"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 7,
+      "videoFileName": "7.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\7.mp4",
+      "sourceDescriptionNumber": 7,
+      "exactSourceTitle": "What does water mean in a dream?",
+      "visual": "A calm ocean transforms into waves, rain and an underwater dream scene.",
+      "voiceover": "What does water mean in a dream? Explore your dream with Dreamly AI.",
+      "category": "water_symbolism",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-07",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-04T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.923Z"
+    }
+  },
+  {
+    "date": "2026-10-05",
+    "id": "promo-video-2026-10-05",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/8.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Why do you keep dreaming about doors? | Dreamly AI",
+        "fileName": "8.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\8.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-08",
+    "captions": {
+      "instagram": "✨ Why do you keep dreaming about doors?\n\nWhy do you keep dreaming about doors? Explore your dreams with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Why do you keep dreaming about doors?\n\nWhy do you keep dreaming about doors? Explore your dreams with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-08\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-08\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Why Do You Keep Dreaming About Doors? 🚪 #Shorts",
+        "description": "Why do you keep dreaming about doors?\n\nWhy do you keep dreaming about doors? Explore your dreams with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-08\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-08\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "door in dream",
+          "dream symbols",
+          "Shorts",
+          "life transitions",
+          "subconscious"
+        ]
+      },
+      "pinterest": {
+        "title": "Why You Keep Dreaming About Doors: Hidden Transitions",
+        "description": "✨ Why do you keep dreaming about doors?\n\nWhy do you keep dreaming about doors? Explore your dreams with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-08",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-08"
+      },
+      "pinterest_secondary": {
+        "title": "Why You Keep Dreaming About Doors: Hidden Transitions",
+        "description": "✨ Why do you keep dreaming about doors?\n\nWhy do you keep dreaming about doors? Explore your dreams with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-08",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-08"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 8,
+      "videoFileName": "8.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\8.mp4",
+      "sourceDescriptionNumber": 8,
+      "exactSourceTitle": "Why do you keep dreaming about doors?",
+      "visual": "A person walks through a surreal hallway filled with mysterious doors.",
+      "voiceover": "Why do you keep dreaming about doors? Explore your dreams with Dreamly AI.",
+      "category": "door_symbols",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-08",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-05T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.923Z"
+    }
+  },
+  {
+    "date": "2026-10-06",
+    "id": "promo-video-2026-10-06",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/9.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Why does the same dream keep coming back? | Dreamly AI",
+        "fileName": "9.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\9.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-09",
+    "captions": {
+      "instagram": "✨ Why does the same dream keep coming back?\n\nWhy does the same dream keep coming back? Explore it with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Why does the same dream keep coming back?\n\nWhy does the same dream keep coming back? Explore it with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-09\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-09\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Why Does the Same Dream Keep Coming Back? 🔄 #Shorts",
+        "description": "Why does the same dream keep coming back?\n\nWhy does the same dream keep coming back? Explore it with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-09\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-09\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "recurring dreams",
+          "repeating dreams",
+          "Shorts",
+          "dream analysis",
+          "sleep psychology"
+        ]
+      },
+      "pinterest": {
+        "title": "Why Does the Same Dream Keep Coming Back?",
+        "description": "✨ Why does the same dream keep coming back?\n\nWhy does the same dream keep coming back? Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-09",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-09"
+      },
+      "pinterest_secondary": {
+        "title": "Why Does the Same Dream Keep Coming Back?",
+        "description": "✨ Why does the same dream keep coming back?\n\nWhy does the same dream keep coming back? Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-09",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-09"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 9,
+      "videoFileName": "9.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\9.mp4",
+      "sourceDescriptionNumber": 9,
+      "exactSourceTitle": "Why does the same dream keep coming back?",
+      "visual": "The same surreal dream scene repeats several times with subtle changes.",
+      "voiceover": "Why does the same dream keep coming back? Explore it with Dreamly AI.",
+      "category": "recurring_dreams",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-09",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-06T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.923Z"
+    }
+  },
+  {
+    "date": "2026-10-07",
+    "id": "promo-video-2026-10-07",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/10.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Your dreams disappear faster than you think. | Dreamly AI",
+        "fileName": "10.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\10.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-10",
+    "captions": {
+      "instagram": "✨ Your dreams disappear faster than you think.\n\nYour dreams disappear faster than you think. Explore them with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Your dreams disappear faster than you think.\n\nYour dreams disappear faster than you think. Explore them with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-10\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-10\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Your Dreams Disappear Faster Than You Think ⏳ #Shorts",
+        "description": "Your dreams disappear faster than you think.\n\nYour dreams disappear faster than you think. Explore them with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-10\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-10\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "forgetting dreams",
+          "dream memory",
+          "Shorts",
+          "dream journal",
+          "mind"
+        ]
+      },
+      "pinterest": {
+        "title": "Why Dreams Disappear So Fast and How to Save Them",
+        "description": "✨ Your dreams disappear faster than you think.\n\nYour dreams disappear faster than you think. Explore them with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-10",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-10"
+      },
+      "pinterest_secondary": {
+        "title": "Why Dreams Disappear So Fast and How to Save Them",
+        "description": "✨ Your dreams disappear faster than you think.\n\nYour dreams disappear faster than you think. Explore them with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-10",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-10"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 10,
+      "videoFileName": "10.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\10.mp4",
+      "sourceDescriptionNumber": 10,
+      "exactSourceTitle": "Your dreams disappear faster than you think.",
+      "visual": "Beautiful dream imagery rapidly dissolves after a person wakes up.",
+      "voiceover": "Your dreams disappear faster than you think. Explore them with Dreamly AI.",
+      "category": "dream_recall",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-10",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-07T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.923Z"
+    }
+  },
+  {
+    "date": "2026-10-08",
+    "id": "promo-video-2026-10-08",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/11.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Ever dreamed you could fly? | Dreamly AI",
+        "fileName": "11.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\11.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-11",
+    "captions": {
+      "instagram": "✨ Ever dreamed you could fly?\n\nEver dreamed you could fly? Explore your dream with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Ever dreamed you could fly?\n\nEver dreamed you could fly? Explore your dream with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-11\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-11\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Ever Dreamed You Could Fly? 🕊️ #Shorts",
+        "description": "Ever dreamed you could fly?\n\nEver dreamed you could fly? Explore your dream with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-11\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-11\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "flying dream",
+          "lucid dreaming",
+          "Shorts",
+          "freedom",
+          "dream psychology"
+        ]
+      },
+      "pinterest": {
+        "title": "Ever Dreamed You Could Fly? The Meaning Behind Flying Dreams",
+        "description": "✨ Ever dreamed you could fly?\n\nEver dreamed you could fly? Explore your dream with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-11",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-11"
+      },
+      "pinterest_secondary": {
+        "title": "Ever Dreamed You Could Fly? The Meaning Behind Flying Dreams",
+        "description": "✨ Ever dreamed you could fly?\n\nEver dreamed you could fly? Explore your dream with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-11",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-11"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 11,
+      "videoFileName": "11.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\11.mp4",
+      "sourceDescriptionNumber": 11,
+      "exactSourceTitle": "Ever dreamed you could fly?",
+      "visual": "A person rises above a glowing city and flies through clouds.",
+      "voiceover": "Ever dreamed you could fly? Explore your dream with Dreamly AI.",
+      "category": "flying_dreams",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-11",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-08T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.923Z"
+    }
+  },
+  {
+    "date": "2026-10-09",
+    "id": "promo-video-2026-10-09",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/12.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Not every dream is beautiful. | Dreamly AI",
+        "fileName": "12.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\12.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-12",
+    "captions": {
+      "instagram": "✨ Not every dream is beautiful.\n\nNot every dream is beautiful. Explore what yours might mean with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Not every dream is beautiful.\n\nNot every dream is beautiful. Explore what yours might mean with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-12\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-12\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Not Every Dream Is Beautiful 🌑 #Shorts",
+        "description": "Not every dream is beautiful.\n\nNot every dream is beautiful. Explore what yours might mean with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-12\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-12\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "nightmares",
+          "bad dreams",
+          "Shorts",
+          "shadow work",
+          "emotional healing"
+        ]
+      },
+      "pinterest": {
+        "title": "Not Every Dream Is Beautiful: Understanding Dark Dreams",
+        "description": "✨ Not every dream is beautiful.\n\nNot every dream is beautiful. Explore what yours might mean with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-12",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-12"
+      },
+      "pinterest_secondary": {
+        "title": "Not Every Dream Is Beautiful: Understanding Dark Dreams",
+        "description": "✨ Not every dream is beautiful.\n\nNot every dream is beautiful. Explore what yours might mean with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-12",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-12"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 12,
+      "videoFileName": "12.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\12.mp4",
+      "sourceDescriptionNumber": 12,
+      "exactSourceTitle": "Not every dream is beautiful.",
+      "visual": "A beautiful dream world suddenly shifts into a dark, mysterious landscape.",
+      "voiceover": "Not every dream is beautiful. Explore what yours might mean with Dreamly AI.",
+      "category": "nightmares_shadow",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-12",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-09T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.923Z"
+    }
+  },
+  {
+    "date": "2026-10-10",
+    "id": "promo-video-2026-10-10",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/13.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Why are dreams so unbelievably weird? | Dreamly AI",
+        "fileName": "13.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\13.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-13",
+    "captions": {
+      "instagram": "✨ Why are dreams so unbelievably weird?\n\nWhy are dreams so unbelievably weird? Explore yours with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Why are dreams so unbelievably weird?\n\nWhy are dreams so unbelievably weird? Explore yours with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-13\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-13\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Why Are Dreams So Unbelievably Weird? 🌀 #Shorts",
+        "description": "Why are dreams so unbelievably weird?\n\nWhy are dreams so unbelievably weird? Explore yours with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-13\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-13\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "weird dreams",
+          "REM sleep",
+          "Shorts",
+          "brain psychology",
+          "dream science"
+        ]
+      },
+      "pinterest": {
+        "title": "Why Are Dreams So Weird? How the Sleeping Brain Works",
+        "description": "✨ Why are dreams so unbelievably weird?\n\nWhy are dreams so unbelievably weird? Explore yours with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-13",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-13"
+      },
+      "pinterest_secondary": {
+        "title": "Why Are Dreams So Weird? How the Sleeping Brain Works",
+        "description": "✨ Why are dreams so unbelievably weird?\n\nWhy are dreams so unbelievably weird? Explore yours with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-13",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-13"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 13,
+      "videoFileName": "13.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\13.mp4",
+      "sourceDescriptionNumber": 13,
+      "exactSourceTitle": "Why are dreams so unbelievably weird?",
+      "visual": "Rapid surreal transitions: floating objects, strange landscapes and impossible architecture.",
+      "voiceover": "Why are dreams so unbelievably weird? Explore yours with Dreamly AI.",
+      "category": "surreal_logic",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-13",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-10T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.923Z"
+    }
+  },
+  {
+    "date": "2026-10-11",
+    "id": "promo-video-2026-10-11",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/14.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Your dream makes no sense. Or does it? | Dreamly AI",
+        "fileName": "14.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\14.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-14",
+    "captions": {
+      "instagram": "✨ Your dream makes no sense. Or does it?\n\nYour dream makes no sense. Or does it? Explore it with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Your dream makes no sense. Or does it?\n\nYour dream makes no sense. Or does it? Explore it with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-14\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-14\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Your Dream Makes No Sense. Or Does It? 🧩 #Shorts",
+        "description": "Your dream makes no sense. Or does it?\n\nYour dream makes no sense. Or does it? Explore it with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-14\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-14\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "dream meaning",
+          "hidden messages",
+          "Shorts",
+          "dream interpretation",
+          "symbols"
+        ]
+      },
+      "pinterest": {
+        "title": "Your Dream Makes No Sense... Or Does It? Dream Decoding",
+        "description": "✨ Your dream makes no sense. Or does it?\n\nYour dream makes no sense. Or does it? Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-14",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-14"
+      },
+      "pinterest_secondary": {
+        "title": "Your Dream Makes No Sense... Or Does It? Dream Decoding",
+        "description": "✨ Your dream makes no sense. Or does it?\n\nYour dream makes no sense. Or does it? Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-14",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-14"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 14,
+      "videoFileName": "14.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\14.mp4",
+      "sourceDescriptionNumber": 14,
+      "exactSourceTitle": "Your dream makes no sense. Or does it?",
+      "visual": "Completely unrelated dream scenes connect into one intriguing visual sequence.",
+      "voiceover": "Your dream makes no sense. Or does it? Explore it with Dreamly AI.",
+      "category": "hidden_connections",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-14",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-11T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.923Z"
+    }
+  },
+  {
+    "date": "2026-10-12",
+    "id": "promo-video-2026-10-12",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/15.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Quick question: what did you dream about last night? | Dreamly AI",
+        "fileName": "15.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\15.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-15",
+    "captions": {
+      "instagram": "✨ Quick question: what did you dream about last night?\n\nQuick question: what did you dream about last night? Explore it with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Quick question: what did you dream about last night?\n\nQuick question: what did you dream about last night? Explore it with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-15\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-15\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Quick Question: What Did You Dream Last Night? ☕ #Shorts",
+        "description": "Quick question: what did you dream about last night?\n\nQuick question: what did you dream about last night? Explore it with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-15\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-15\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "morning reflection",
+          "dream tracking",
+          "Shorts",
+          "daily habits",
+          "mindfulness"
+        ]
+      },
+      "pinterest": {
+        "title": "Quick Morning Question: What Did You Dream Last Night?",
+        "description": "✨ Quick question: what did you dream about last night?\n\nQuick question: what did you dream about last night? Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-15",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-15"
+      },
+      "pinterest_secondary": {
+        "title": "Quick Morning Question: What Did You Dream Last Night?",
+        "description": "✨ Quick question: what did you dream about last night?\n\nQuick question: what did you dream about last night? Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-15",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-15"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 15,
+      "videoFileName": "15.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\15.mp4",
+      "sourceDescriptionNumber": 15,
+      "exactSourceTitle": "Quick question: what did you dream about last night?",
+      "visual": "Someone wakes up and looks thoughtfully at the ceiling while dream images appear.",
+      "voiceover": "Quick question: what did you dream about last night? Explore it with Dreamly AI.",
+      "category": "morning_reflection",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-15",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-12T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.924Z"
+    }
+  },
+  {
+    "date": "2026-10-13",
+    "id": "promo-video-2026-10-13",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/16.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "POV: you actually remember your dream. | Dreamly AI",
+        "fileName": "16.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\16.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-16",
+    "captions": {
+      "instagram": "✨ POV: you actually remember your dream.\n\nPOV: you actually remember your dream. Now explore it with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ POV: you actually remember your dream.\n\nPOV: you actually remember your dream. Now explore it with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-16\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-16\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "POV: You Actually Remember Your Dream 😊 #Shorts",
+        "description": "POV: you actually remember your dream.\n\nPOV: you actually remember your dream. Now explore it with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-16\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-16\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "POV",
+          "remembering dreams",
+          "Shorts",
+          "dream journal",
+          "sleep habits"
+        ]
+      },
+      "pinterest": {
+        "title": "POV: You Actually Remember Your Dream This Morning",
+        "description": "✨ POV: you actually remember your dream.\n\nPOV: you actually remember your dream. Now explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-16",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-16"
+      },
+      "pinterest_secondary": {
+        "title": "POV: You Actually Remember Your Dream This Morning",
+        "description": "✨ POV: you actually remember your dream.\n\nPOV: you actually remember your dream. Now explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-16",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-16"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 16,
+      "videoFileName": "16.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\16.mp4",
+      "sourceDescriptionNumber": 16,
+      "exactSourceTitle": "POV: you actually remember your dream.",
+      "visual": "A person wakes up smiling as vivid dream memories surround them.",
+      "voiceover": "POV: you actually remember your dream. Now explore it with Dreamly AI.",
+      "category": "vivid_recall",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-16",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-13T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.924Z"
+    }
+  },
+  {
+    "date": "2026-10-14",
+    "id": "promo-video-2026-10-14",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/17.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Your brain at 3 AM: | Dreamly AI",
+        "fileName": "17.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\17.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-17",
+    "captions": {
+      "instagram": "✨ Your brain at 3 AM:\n\nYour brain at 3 AM: absolutely wild. Explore your dreams with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Your brain at 3 AM:\n\nYour brain at 3 AM: absolutely wild. Explore your dreams with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-17\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-17\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Your Brain at 3 AM: Absolutely Wild 🌌 #Shorts",
+        "description": "Your brain at 3 AM:\n\nYour brain at 3 AM: absolutely wild. Explore your dreams with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-17\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-17\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "3am thoughts",
+          "REM cycle",
+          "Shorts",
+          "night dreams",
+          "subconscious"
+        ]
+      },
+      "pinterest": {
+        "title": "Your Brain at 3 AM: The Wild Nature of Nighttime Dreams",
+        "description": "✨ Your brain at 3 AM:\n\nYour brain at 3 AM: absolutely wild. Explore your dreams with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-17",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-17"
+      },
+      "pinterest_secondary": {
+        "title": "Your Brain at 3 AM: The Wild Nature of Nighttime Dreams",
+        "description": "✨ Your brain at 3 AM:\n\nYour brain at 3 AM: absolutely wild. Explore your dreams with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-17",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-17"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 17,
+      "videoFileName": "17.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\17.mp4",
+      "sourceDescriptionNumber": 17,
+      "exactSourceTitle": "Your brain at 3 AM:",
+      "visual": "A surreal bedroom transforms into a chaotic sequence of bizarre dream images.",
+      "voiceover": "Your brain at 3 AM: absolutely wild. Explore your dreams with Dreamly AI.",
+      "category": "night_brain",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-17",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-14T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.924Z"
+    }
+  },
+  {
+    "date": "2026-10-15",
+    "id": "promo-video-2026-10-15",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/18.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "One dream can change your entire morning. | Dreamly AI",
+        "fileName": "18.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\18.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-18",
+    "captions": {
+      "instagram": "✨ One dream can change your entire morning.\n\nOne dream can change your entire morning. Explore it with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ One dream can change your entire morning.\n\nOne dream can change your entire morning. Explore it with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-18\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-18\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "One Dream Can Change Your Entire Morning 🌅 #Shorts",
+        "description": "One dream can change your entire morning.\n\nOne dream can change your entire morning. Explore it with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-18\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-18\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "morning mood",
+          "dream feelings",
+          "Shorts",
+          "mindfulness",
+          "emotions"
+        ]
+      },
+      "pinterest": {
+        "title": "How One Dream Can Change Your Entire Morning Mood",
+        "description": "✨ One dream can change your entire morning.\n\nOne dream can change your entire morning. Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-18",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-18"
+      },
+      "pinterest_secondary": {
+        "title": "How One Dream Can Change Your Entire Morning Mood",
+        "description": "✨ One dream can change your entire morning.\n\nOne dream can change your entire morning. Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-18",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-18"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 18,
+      "videoFileName": "18.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\18.mp4",
+      "sourceDescriptionNumber": 18,
+      "exactSourceTitle": "One dream can change your entire morning.",
+      "visual": "A person wakes up thoughtful; the dream world slowly blends into their morning.",
+      "voiceover": "One dream can change your entire morning. Explore it with Dreamly AI.",
+      "category": "emotional_impact",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-18",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-15T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.924Z"
+    }
+  },
+  {
+    "date": "2026-10-16",
+    "id": "promo-video-2026-10-16",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/19.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Sometimes the emotion matters more than the dream. | Dreamly AI",
+        "fileName": "19.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\19.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-19",
+    "captions": {
+      "instagram": "✨ Sometimes the emotion matters more than the dream.\n\nSometimes the emotion matters more than the dream. Explore it with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Sometimes the emotion matters more than the dream.\n\nSometimes the emotion matters more than the dream. Explore it with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-19\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-19\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Sometimes the Emotion Matters More Than the Dream ❤️ #Shorts",
+        "description": "Sometimes the emotion matters more than the dream.\n\nSometimes the emotion matters more than the dream. Explore it with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-19\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-19\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "dream emotions",
+          "emotional processing",
+          "Shorts",
+          "subconscious",
+          "therapy"
+        ]
+      },
+      "pinterest": {
+        "title": "Why the Emotion in Your Dream Matters More Than the Story",
+        "description": "✨ Sometimes the emotion matters more than the dream.\n\nSometimes the emotion matters more than the dream. Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-19",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-19"
+      },
+      "pinterest_secondary": {
+        "title": "Why the Emotion in Your Dream Matters More Than the Story",
+        "description": "✨ Sometimes the emotion matters more than the dream.\n\nSometimes the emotion matters more than the dream. Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-19",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-19"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 19,
+      "videoFileName": "19.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\19.mp4",
+      "sourceDescriptionNumber": 19,
+      "exactSourceTitle": "Sometimes the emotion matters more than the dream.",
+      "visual": "Dream imagery fades while the person's emotional expression remains the focus.",
+      "voiceover": "Sometimes the emotion matters more than the dream. Explore it with Dreamly AI.",
+      "category": "core_emotions",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-19",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-16T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.924Z"
+    }
+  },
+  {
+    "date": "2026-10-17",
+    "id": "promo-video-2026-10-17",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/20.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "What if your entire dream looked like this? | Dreamly AI",
+        "fileName": "20.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\20.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-20",
+    "captions": {
+      "instagram": "✨ What if your entire dream looked like this?\n\nWhat if your entire dream looked like this? Explore your own dreams with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ What if your entire dream looked like this?\n\nWhat if your entire dream looked like this? Explore your own dreams with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-20\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-20\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "What If Your Entire Dream Looked Like This? 🎬 #Shorts",
+        "description": "What if your entire dream looked like this?\n\nWhat if your entire dream looked like this? Explore your own dreams with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-20\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-20\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "cinematic dreams",
+          "dream visuals",
+          "Shorts",
+          "AI art",
+          "dream world"
+        ]
+      },
+      "pinterest": {
+        "title": "What If Your Entire Dream Looked Like This Cinematic World?",
+        "description": "✨ What if your entire dream looked like this?\n\nWhat if your entire dream looked like this? Explore your own dreams with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-20",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-20"
+      },
+      "pinterest_secondary": {
+        "title": "What If Your Entire Dream Looked Like This Cinematic World?",
+        "description": "✨ What if your entire dream looked like this?\n\nWhat if your entire dream looked like this? Explore your own dreams with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-20",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-20"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 20,
+      "videoFileName": "20.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\20.mp4",
+      "sourceDescriptionNumber": 20,
+      "exactSourceTitle": "What if your entire dream looked like this?",
+      "visual": "An extraordinary cinematic dream world unfolds with surreal landscapes and light.",
+      "voiceover": "What if your entire dream looked like this? Explore your own dreams with Dreamly AI.",
+      "category": "cinematic_visuals",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-20",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-17T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.924Z"
+    }
+  },
+  {
+    "date": "2026-10-18",
+    "id": "promo-video-2026-10-18",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/21.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Dream symbol challenge: what do you see? | Dreamly AI",
+        "fileName": "21.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\21.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-21",
+    "captions": {
+      "instagram": "✨ Dream symbol challenge: what do you see?\n\nDream symbol challenge: what do you see? Explore it with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Dream symbol challenge: what do you see?\n\nDream symbol challenge: what do you see? Explore it with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-21\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-21\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Dream Symbol Challenge: What Do You See? 👁️ #Shorts",
+        "description": "Dream symbol challenge: what do you see?\n\nDream symbol challenge: what do you see? Explore it with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-21\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-21\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "symbol challenge",
+          "archetypes",
+          "Shorts",
+          "dream quiz",
+          "subconscious"
+        ]
+      },
+      "pinterest": {
+        "title": "Dream Symbol Challenge: Decode What You See",
+        "description": "✨ Dream symbol challenge: what do you see?\n\nDream symbol challenge: what do you see? Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-21",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-21"
+      },
+      "pinterest_secondary": {
+        "title": "Dream Symbol Challenge: Decode What You See",
+        "description": "✨ Dream symbol challenge: what do you see?\n\nDream symbol challenge: what do you see? Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-21",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-21"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 21,
+      "videoFileName": "21.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\21.mp4",
+      "sourceDescriptionNumber": 21,
+      "exactSourceTitle": "Dream symbol challenge: what do you see?",
+      "visual": "Several mysterious dream symbols appear and transform into different objects.",
+      "voiceover": "Dream symbol challenge: what do you see? Explore it with Dreamly AI.",
+      "category": "symbol_challenge",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-21",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-18T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.924Z"
+    }
+  },
+  {
+    "date": "2026-10-19",
+    "id": "promo-video-2026-10-19",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/22.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Before you forget what you dreamed... | Dreamly AI",
+        "fileName": "22.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\22.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-22",
+    "captions": {
+      "instagram": "✨ Before you forget what you dreamed...\n\nBefore you forget what you dreamed, explore it with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Before you forget what you dreamed...\n\nBefore you forget what you dreamed, explore it with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-22\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-22\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Before You Forget What You Dreamed... ⚡ #Shorts",
+        "description": "Before you forget what you dreamed...\n\nBefore you forget what you dreamed, explore it with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-22\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-22\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "dream diary",
+          "capture dreams",
+          "Shorts",
+          "morning routine",
+          "memory"
+        ]
+      },
+      "pinterest": {
+        "title": "Before You Forget What You Dreamed: Capture It Instantly",
+        "description": "✨ Before you forget what you dreamed...\n\nBefore you forget what you dreamed, explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-22",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-22"
+      },
+      "pinterest_secondary": {
+        "title": "Before You Forget What You Dreamed: Capture It Instantly",
+        "description": "✨ Before you forget what you dreamed...\n\nBefore you forget what you dreamed, explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-22",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-22"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 22,
+      "videoFileName": "22.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\22.mp4",
+      "sourceDescriptionNumber": 22,
+      "exactSourceTitle": "Before you forget what you dreamed...",
+      "visual": "Dream images rapidly fade while a person tries to hold onto the memory.",
+      "voiceover": "Before you forget what you dreamed, explore it with Dreamly AI.",
+      "category": "instant_logging",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-22",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-19T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.924Z"
+    }
+  },
+  {
+    "date": "2026-10-20",
+    "id": "promo-video-2026-10-20",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/23.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Dream logic is absolutely wild. | Dreamly AI",
+        "fileName": "23.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\23.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-23",
+    "captions": {
+      "instagram": "✨ Dream logic is absolutely wild.\n\nDream logic is absolutely wild. Explore your dreams with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Dream logic is absolutely wild.\n\nDream logic is absolutely wild. Explore your dreams with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-23\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-23\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Dream Logic Is Absolutely Wild 🚪🌊 #Shorts",
+        "description": "Dream logic is absolutely wild.\n\nDream logic is absolutely wild. Explore your dreams with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-23\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-23\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "dream logic",
+          "surreal world",
+          "Shorts",
+          "mind bending",
+          "sleep science"
+        ]
+      },
+      "pinterest": {
+        "title": "Dream Logic Is Absolutely Wild: Impossible Dream Transitions",
+        "description": "✨ Dream logic is absolutely wild.\n\nDream logic is absolutely wild. Explore your dreams with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-23",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-23"
+      },
+      "pinterest_secondary": {
+        "title": "Dream Logic Is Absolutely Wild: Impossible Dream Transitions",
+        "description": "✨ Dream logic is absolutely wild.\n\nDream logic is absolutely wild. Explore your dreams with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-23",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-23"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 23,
+      "videoFileName": "23.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\23.mp4",
+      "sourceDescriptionNumber": 23,
+      "exactSourceTitle": "Dream logic is absolutely wild.",
+      "visual": "Impossible dream transitions: a door opens into the ocean, then into the sky.",
+      "voiceover": "Dream logic is absolutely wild. Explore your dreams with Dreamly AI.",
+      "category": "dream_physics",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-23",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-20T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.924Z"
+    }
+  },
+  {
+    "date": "2026-10-21",
+    "id": "promo-video-2026-10-21",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/24.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "First question after waking up: what did I dream? | Dreamly AI",
+        "fileName": "24.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\24.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-24",
+    "captions": {
+      "instagram": "✨ First question after waking up: what did I dream?\n\nFirst question after waking up: what did I dream? Explore it with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ First question after waking up: what did I dream?\n\nFirst question after waking up: what did I dream? Explore it with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-24\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-24\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "First Question After Waking Up: What Did I Dream? 🌅 #Shorts",
+        "description": "First question after waking up: what did I dream?\n\nFirst question after waking up: what did I dream? Explore it with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-24\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-24\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "waking up",
+          "dream meaning",
+          "Shorts",
+          "morning thoughts",
+          "self discovery"
+        ]
+      },
+      "pinterest": {
+        "title": "First Question After Waking Up: What Did I Just Dream?",
+        "description": "✨ First question after waking up: what did I dream?\n\nFirst question after waking up: what did I dream? Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-24",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-24"
+      },
+      "pinterest_secondary": {
+        "title": "First Question After Waking Up: What Did I Just Dream?",
+        "description": "✨ First question after waking up: what did I dream?\n\nFirst question after waking up: what did I dream? Explore it with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-24",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-24"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 24,
+      "videoFileName": "24.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\24.mp4",
+      "sourceDescriptionNumber": 24,
+      "exactSourceTitle": "First question after waking up: what did I dream?",
+      "visual": "A person opens their eyes as dream fragments float above the bed.",
+      "voiceover": "First question after waking up: what did I dream? Explore it with Dreamly AI.",
+      "category": "waking_curiosity",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-24",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-21T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.925Z"
+    }
+  },
+  {
+    "date": "2026-10-22",
+    "id": "promo-video-2026-10-22",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/25.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Every strange dream has a story. | Dreamly AI",
+        "fileName": "25.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\25.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-25",
+    "captions": {
+      "instagram": "✨ Every strange dream has a story.\n\nEvery strange dream has a story. Explore yours with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Every strange dream has a story.\n\nEvery strange dream has a story. Explore yours with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-25\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-25\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Every Strange Dream Has a Story 📖 #Shorts",
+        "description": "Every strange dream has a story.\n\nEvery strange dream has a story. Explore yours with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-25\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-25\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "dream story",
+          "strange dreams",
+          "Shorts",
+          "subconscious narrative",
+          "meaning"
+        ]
+      },
+      "pinterest": {
+        "title": "Every Strange Dream Has a Story: Uncover Yours",
+        "description": "✨ Every strange dream has a story.\n\nEvery strange dream has a story. Explore yours with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-25",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-25"
+      },
+      "pinterest_secondary": {
+        "title": "Every Strange Dream Has a Story: Uncover Yours",
+        "description": "✨ Every strange dream has a story.\n\nEvery strange dream has a story. Explore yours with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-25",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-25"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 25,
+      "videoFileName": "25.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\25.mp4",
+      "sourceDescriptionNumber": 25,
+      "exactSourceTitle": "Every strange dream has a story.",
+      "visual": "A strange dream sequence gradually reveals a connected visual story.",
+      "voiceover": "Every strange dream has a story. Explore yours with Dreamly AI.",
+      "category": "connected_story",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-25",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-22T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.925Z"
+    }
+  },
+  {
+    "date": "2026-10-23",
+    "id": "promo-video-2026-10-23",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/26.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Dream or reality? | Dreamly AI",
+        "fileName": "26.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\26.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-26",
+    "captions": {
+      "instagram": "✨ Dream or reality?\n\nDream or reality? Explore the difference with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Dream or reality?\n\nDream or reality? Explore the difference with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-26\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-26\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Dream or Reality? Exploring the Difference 🌓 #Shorts",
+        "description": "Dream or reality?\n\nDream or reality? Explore the difference with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-26\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-26\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "dream or reality",
+          "lucid awareness",
+          "Shorts",
+          "false awakening",
+          "mind"
+        ]
+      },
+      "pinterest": {
+        "title": "Dream or Reality? How to Explore the Fine Line",
+        "description": "✨ Dream or reality?\n\nDream or reality? Explore the difference with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-26",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-26"
+      },
+      "pinterest_secondary": {
+        "title": "Dream or Reality? How to Explore the Fine Line",
+        "description": "✨ Dream or reality?\n\nDream or reality? Explore the difference with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-26",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-26"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 26,
+      "videoFileName": "26.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\26.mp4",
+      "sourceDescriptionNumber": 26,
+      "exactSourceTitle": "Dream or reality?",
+      "visual": "A realistic bedroom slowly transforms into an impossible dream landscape.",
+      "voiceover": "Dream or reality? Explore the difference with Dreamly AI.",
+      "category": "reality_testing",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-26",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-23T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.925Z"
+    }
+  },
+  {
+    "date": "2026-10-24",
+    "id": "promo-video-2026-10-24",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/27.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "No two dreams are exactly the same. | Dreamly AI",
+        "fileName": "27.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\27.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-27",
+    "captions": {
+      "instagram": "✨ No two dreams are exactly the same.\n\nNo two dreams are exactly the same. Explore yours with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ No two dreams are exactly the same.\n\nNo two dreams are exactly the same. Explore yours with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-27\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-27\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "No Two Dreams Are Exactly the Same 🎨 #Shorts",
+        "description": "No two dreams are exactly the same.\n\nNo two dreams are exactly the same. Explore yours with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-27\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-27\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "unique dreams",
+          "personal symbols",
+          "Shorts",
+          "creativity",
+          "mindscape"
+        ]
+      },
+      "pinterest": {
+        "title": "No Two Dreams Are Exactly the Same: Your Personal Mindscape",
+        "description": "✨ No two dreams are exactly the same.\n\nNo two dreams are exactly the same. Explore yours with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-27",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-27"
+      },
+      "pinterest_secondary": {
+        "title": "No Two Dreams Are Exactly the Same: Your Personal Mindscape",
+        "description": "✨ No two dreams are exactly the same.\n\nNo two dreams are exactly the same. Explore yours with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-27",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-27"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 27,
+      "videoFileName": "27.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\27.mp4",
+      "sourceDescriptionNumber": 27,
+      "exactSourceTitle": "No two dreams are exactly the same.",
+      "visual": "Multiple completely different dream worlds appear in rapid succession.",
+      "voiceover": "No two dreams are exactly the same. Explore yours with Dreamly AI.",
+      "category": "unique_dreamscapes",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-27",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-24T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.925Z"
+    }
+  },
+  {
+    "date": "2026-10-25",
+    "id": "promo-video-2026-10-25",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/28.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "What will you dream about tonight? | Dreamly AI",
+        "fileName": "28.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\28.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-28",
+    "captions": {
+      "instagram": "✨ What will you dream about tonight?\n\nWhat will you dream about tonight? Explore your dreams with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ What will you dream about tonight?\n\nWhat will you dream about tonight? Explore your dreams with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-28\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-28\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "What Will You Dream About Tonight? 🌙 #Shorts",
+        "description": "What will you dream about tonight?\n\nWhat will you dream about tonight? Explore your dreams with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-28\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-28\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "tonight dreams",
+          "bedtime routine",
+          "Shorts",
+          "sleep intention",
+          "peaceful sleep"
+        ]
+      },
+      "pinterest": {
+        "title": "What Will You Dream About Tonight? Set Your Sleep Intention",
+        "description": "✨ What will you dream about tonight?\n\nWhat will you dream about tonight? Explore your dreams with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-28",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-28"
+      },
+      "pinterest_secondary": {
+        "title": "What Will You Dream About Tonight? Set Your Sleep Intention",
+        "description": "✨ What will you dream about tonight?\n\nWhat will you dream about tonight? Explore your dreams with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-28",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-28"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 28,
+      "videoFileName": "28.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\28.mp4",
+      "sourceDescriptionNumber": 28,
+      "exactSourceTitle": "What will you dream about tonight?",
+      "visual": "A person falls asleep as stars and surreal dream imagery fill the room.",
+      "voiceover": "What will you dream about tonight? Explore your dreams with Dreamly AI.",
+      "category": "dream_incubation",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-28",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-25T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.925Z"
+    }
+  },
+  {
+    "date": "2026-10-26",
+    "id": "promo-video-2026-10-26",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/29.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "Your dream. Your symbols. Your story. | Dreamly AI",
+        "fileName": "29.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\29.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-29",
+    "captions": {
+      "instagram": "✨ Your dream. Your symbols. Your story.\n\nYour dream. Your symbols. Your story. Explore them with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ Your dream. Your symbols. Your story.\n\nYour dream. Your symbols. Your story. Explore them with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-29\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-29\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "Your Dream. Your Symbols. Your Story. ✨ #Shorts",
+        "description": "Your dream. Your symbols. Your story.\n\nYour dream. Your symbols. Your story. Explore them with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-29\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-29\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "personal symbols",
+          "dream journey",
+          "Shorts",
+          "self discovery",
+          "psychology"
+        ]
+      },
+      "pinterest": {
+        "title": "Your Dream. Your Symbols. Your Story: Personalized Dream Analysis",
+        "description": "✨ Your dream. Your symbols. Your story.\n\nYour dream. Your symbols. Your story. Explore them with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-29",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-29"
+      },
+      "pinterest_secondary": {
+        "title": "Your Dream. Your Symbols. Your Story: Personalized Dream Analysis",
+        "description": "✨ Your dream. Your symbols. Your story.\n\nYour dream. Your symbols. Your story. Explore them with Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-29",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-29"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 29,
+      "videoFileName": "29.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\29.mp4",
+      "sourceDescriptionNumber": 29,
+      "exactSourceTitle": "Your dream. Your symbols. Your story.",
+      "visual": "Dream symbols, colors and scenes assemble into one personalized-looking dream world.",
+      "voiceover": "Your dream. Your symbols. Your story. Explore them with Dreamly AI.",
+      "category": "personal_story",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-29",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-26T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.925Z"
+    }
+  },
+  {
+    "date": "2026-10-27",
+    "id": "promo-video-2026-10-27",
+    "type": "video",
+    "media": [
+      {
+        "url": "https://dreamlyai-backend.vercel.app/videos/promo/30.mp4",
+        "type": "video/mp4",
+        "duration": 10,
+        "aspectRatio": "9:16",
+        "altText": "You dreamed it. Why not explore it? | Dreamly AI",
+        "fileName": "30.mp4",
+        "localFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\30.mp4"
+      }
+    ],
+    "destinations": [
+      "pinterest_dreamly",
+      "youtube_dreamly",
+      "instagram_lifemode",
+      "facebook_lifemode",
+      "youtube_lifemode",
+      "pinterest_lifemode"
+    ],
+    "destinationUrl": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-30",
+    "captions": {
+      "instagram": "✨ You dreamed it. Why not explore it?\n\nYou dreamed it. Why not explore it? Discover Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
+      "facebook": "✨ You dreamed it. Why not explore it?\n\nYou dreamed it. Why not explore it? Discover Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-30\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-30\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+      "youtube": {
+        "title": "You Dreamed It. Why Not Explore It? 🚀 #Shorts",
+        "description": "You dreamed it. Why not explore it?\n\nYou dreamed it. Why not explore it? Discover Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-30\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-30\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
+        "tags": [
+          "Dreamly AI",
+          "explore dreams",
+          "dream app",
+          "Shorts",
+          "dream analysis",
+          "sleep journey"
+        ]
+      },
+      "pinterest": {
+        "title": "You Dreamed It. Why Not Explore It with Dreamly AI?",
+        "description": "✨ You dreamed it. Why not explore it?\n\nYou dreamed it. Why not explore it? Discover Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-30",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-30"
+      },
+      "pinterest_secondary": {
+        "title": "You Dreamed It. Why Not Explore It with Dreamly AI?",
+        "description": "✨ You dreamed it. Why not explore it?\n\nYou dreamed it. Why not explore it? Discover Dreamly AI.\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-30",
+        "link": "https://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-30"
+      }
+    },
+    "metadata": {
+      "series": "dreamly_ai_promo_30",
+      "sequenceNumber": 30,
+      "videoFileName": "30.mp4",
+      "videoFilePath": "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok\\30.mp4",
+      "sourceDescriptionNumber": 30,
+      "exactSourceTitle": "You dreamed it. Why not explore it?",
+      "visual": "A person wakes up and enters a vivid visual representation of their dream.",
+      "voiceover": "You dreamed it. Why not explore it? Discover Dreamly AI.",
+      "category": "full_exploration",
+      "format": "promotional_video",
+      "contentId": "dreamly-video-30",
+      "destinationPath": "/dreams",
+      "scheduledPublishTimeUtc": "18:00:00Z",
+      "scheduledPublicationDateTime": "2026-10-27T18:00:00Z",
+      "qualityGate": "QUALITY_GATE_PASS",
+      "generatedAt": "2026-09-28T15:47:56.925Z"
+    }
+  }
+]

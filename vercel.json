@@ -51,6 +51,10 @@
     {
       "path": "/api/social-run",
       "schedule": "0 7 * * *"
+    },
+    {
+      "path": "/api/video-run",
+      "schedule": "0 18 * * *"
     }
   ],
   "functions": {
