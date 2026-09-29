@@ -3,14 +3,14 @@
   "cleanUrls": true,
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/(.*)",
       "has": [
         {
           "type": "host",
           "value": "www.dreamlyai.life"
         }
       ],
-      "destination": "https://dreamlyai.life/:path*",
+      "destination": "https://dreamlyai.life/$1",
       "permanent": true
     }
   ],
