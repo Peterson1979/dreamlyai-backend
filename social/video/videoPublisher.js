@@ -34,13 +34,15 @@ const { InstagramReelsAdapter } = require("./adapters/instagramReelsAdapter");
 const { FacebookVideoAdapter } = require("./adapters/facebookVideoAdapter");
 
 /**
- * Creates default adapter instances for all 6 targets.
+ * Creates default adapter instances for all 8 targets.
  * @returns {object} Map of canonical target ID to adapter instance
  */
 function createDefaultVideoAdapters() {
   return {
     [VIDEO_TARGETS.PINTEREST_DREAMLY]: new PinterestVideoAdapter(VIDEO_TARGETS.PINTEREST_DREAMLY),
     [VIDEO_TARGETS.YOUTUBE_DREAMLY]: new YouTubeVideoAdapter(VIDEO_TARGETS.YOUTUBE_DREAMLY),
+    [VIDEO_TARGETS.INSTAGRAM_DREAMLY]: new InstagramReelsAdapter(VIDEO_TARGETS.INSTAGRAM_DREAMLY),
+    [VIDEO_TARGETS.FACEBOOK_DREAMLY]: new FacebookVideoAdapter(VIDEO_TARGETS.FACEBOOK_DREAMLY),
     [VIDEO_TARGETS.INSTAGRAM_LIFEMODE]: new InstagramReelsAdapter(VIDEO_TARGETS.INSTAGRAM_LIFEMODE),
     [VIDEO_TARGETS.FACEBOOK_LIFEMODE]: new FacebookVideoAdapter(VIDEO_TARGETS.FACEBOOK_LIFEMODE),
     [VIDEO_TARGETS.YOUTUBE_LIFEMODE]: new YouTubeVideoAdapter(VIDEO_TARGETS.YOUTUBE_LIFEMODE),

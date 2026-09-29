@@ -13,6 +13,8 @@
 const VIDEO_TARGETS = Object.freeze({
   PINTEREST_DREAMLY: "pinterest_dreamly",
   YOUTUBE_DREAMLY: "youtube_dreamly",
+  INSTAGRAM_DREAMLY: "instagram_dreamly",
+  FACEBOOK_DREAMLY: "facebook_dreamly",
   INSTAGRAM_LIFEMODE: "instagram_lifemode",
   FACEBOOK_LIFEMODE: "facebook_lifemode",
   YOUTUBE_LIFEMODE: "youtube_lifemode",
@@ -22,6 +24,8 @@ const VIDEO_TARGETS = Object.freeze({
 const ALL_TARGET_IDS = Object.freeze([
   VIDEO_TARGETS.PINTEREST_DREAMLY,
   VIDEO_TARGETS.YOUTUBE_DREAMLY,
+  VIDEO_TARGETS.INSTAGRAM_DREAMLY,
+  VIDEO_TARGETS.FACEBOOK_DREAMLY,
   VIDEO_TARGETS.INSTAGRAM_LIFEMODE,
   VIDEO_TARGETS.FACEBOOK_LIFEMODE,
   VIDEO_TARGETS.YOUTUBE_LIFEMODE,
@@ -33,9 +37,11 @@ const TARGET_ALIASES = Object.freeze({
   pinterest_primary: VIDEO_TARGETS.PINTEREST_DREAMLY,
   youtube: VIDEO_TARGETS.YOUTUBE_DREAMLY,
   youtube_primary: VIDEO_TARGETS.YOUTUBE_DREAMLY,
-  instagram: VIDEO_TARGETS.INSTAGRAM_LIFEMODE,
+  instagram: VIDEO_TARGETS.INSTAGRAM_DREAMLY,
+  instagram_primary: VIDEO_TARGETS.INSTAGRAM_DREAMLY,
+  facebook: VIDEO_TARGETS.FACEBOOK_DREAMLY,
+  facebook_primary: VIDEO_TARGETS.FACEBOOK_DREAMLY,
   instagram_secondary: VIDEO_TARGETS.INSTAGRAM_LIFEMODE,
-  facebook: VIDEO_TARGETS.FACEBOOK_LIFEMODE,
   facebook_secondary: VIDEO_TARGETS.FACEBOOK_LIFEMODE,
   youtube_secondary: VIDEO_TARGETS.YOUTUBE_LIFEMODE,
   pinterest_secondary: VIDEO_TARGETS.PINTEREST_LIFEMODE
@@ -68,7 +74,7 @@ function parseBoolEnv(val, defaultVal = true) {
 }
 
 /**
- * Loads and validates configuration for all 6 targets from environment variables.
+ * Loads and validates configuration for all 8 targets from environment variables.
  * Keeps credentials isolated between Dreamly and LifeMode.
  *
  * @param {object} [env=process.env]
@@ -167,7 +173,80 @@ function loadVideoTargetsConfig(env = process.env) {
     httpTimeoutMs: Number(env.YOUTUBE_HTTP_TIMEOUT_MS) || 60000
   };
 
-  // 3. Instagram LifeMode (@lifemodehq Reels)
+  // 3. Instagram Dreamly (@dreamlyai Reels)
+  const instagramDreamlyEnabled = parseBoolEnv(
+    env.DREAMLY_INSTAGRAM_ENABLED ??
+    env.INSTAGRAM_DREAMLY_ENABLED ??
+    env.INSTAGRAM_PRIMARY_ENABLED ??
+    env.INSTAGRAM_ENABLED,
+    true
+  );
+  const instagramDreamlyConfig = {
+    targetId: VIDEO_TARGETS.INSTAGRAM_DREAMLY,
+    platform: "instagram",
+    brand: "Dreamly AI",
+    account: "@dreamlyai",
+    enabled: instagramDreamlyEnabled,
+    businessAccountId: (
+      env.DREAMLY_INSTAGRAM_BUSINESS_ACCOUNT_ID ||
+      env.INSTAGRAM_DREAMLY_BUSINESS_ACCOUNT_ID ||
+      env.INSTAGRAM_PRIMARY_BUSINESS_ACCOUNT_ID ||
+      env.INSTAGRAM_BUSINESS_ACCOUNT_ID ||
+      ""
+    ).trim(),
+    pageId: (
+      env.DREAMLY_FACEBOOK_PAGE_ID ||
+      env.FACEBOOK_DREAMLY_PAGE_ID ||
+      env.FACEBOOK_PRIMARY_PAGE_ID ||
+      env.FACEBOOK_PAGE_ID ||
+      ""
+    ).trim(),
+    pageAccessToken: (
+      env.DREAMLY_FACEBOOK_PAGE_ACCESS_TOKEN ||
+      env.FACEBOOK_DREAMLY_PAGE_ACCESS_TOKEN ||
+      env.FACEBOOK_PRIMARY_PAGE_ACCESS_TOKEN ||
+      env.FACEBOOK_PAGE_ACCESS_TOKEN ||
+      ""
+    ).trim(),
+    graphApiVersion: env.META_GRAPH_API_VERSION || "v25.0",
+    httpTimeoutMs: Number(env.META_HTTP_TIMEOUT_MS) || 30000,
+    pollMaxAttempts: Number(env.INSTAGRAM_POLL_MAX_ATTEMPTS) || 12,
+    pollIntervalMs: Number(env.INSTAGRAM_POLL_INTERVAL_MS) || 5000
+  };
+
+  // 4. Facebook Dreamly (Dreamly AI Facebook Page Video)
+  const facebookDreamlyEnabled = parseBoolEnv(
+    env.DREAMLY_FACEBOOK_ENABLED ??
+    env.FACEBOOK_DREAMLY_ENABLED ??
+    env.FACEBOOK_PRIMARY_ENABLED ??
+    env.FACEBOOK_ENABLED,
+    true
+  );
+  const facebookDreamlyConfig = {
+    targetId: VIDEO_TARGETS.FACEBOOK_DREAMLY,
+    platform: "facebook",
+    brand: "Dreamly AI",
+    account: "Dreamly AI",
+    enabled: facebookDreamlyEnabled,
+    pageId: (
+      env.DREAMLY_FACEBOOK_PAGE_ID ||
+      env.FACEBOOK_DREAMLY_PAGE_ID ||
+      env.FACEBOOK_PRIMARY_PAGE_ID ||
+      env.FACEBOOK_PAGE_ID ||
+      ""
+    ).trim(),
+    pageAccessToken: (
+      env.DREAMLY_FACEBOOK_PAGE_ACCESS_TOKEN ||
+      env.FACEBOOK_DREAMLY_PAGE_ACCESS_TOKEN ||
+      env.FACEBOOK_PRIMARY_PAGE_ACCESS_TOKEN ||
+      env.FACEBOOK_PAGE_ACCESS_TOKEN ||
+      ""
+    ).trim(),
+    graphApiVersion: env.META_GRAPH_API_VERSION || "v25.0",
+    httpTimeoutMs: Number(env.META_HTTP_TIMEOUT_MS) || 30000
+  };
+
+  // 5. Instagram LifeMode (@lifemodehq Reels)
   const instagramLifemodeEnabled = parseBoolEnv(
     env.LIFEMODE_INSTAGRAM_ENABLED ?? env.INSTAGRAM_SECONDARY_ENABLED,
     true
@@ -181,19 +260,16 @@ function loadVideoTargetsConfig(env = process.env) {
     businessAccountId: (
       env.LIFEMODE_INSTAGRAM_BUSINESS_ACCOUNT_ID ||
       env.INSTAGRAM_SECONDARY_BUSINESS_ACCOUNT_ID ||
-      env.INSTAGRAM_BUSINESS_ACCOUNT_ID ||
       ""
     ).trim(),
     pageId: (
       env.LIFEMODE_FACEBOOK_PAGE_ID ||
       env.FACEBOOK_SECONDARY_PAGE_ID ||
-      env.FACEBOOK_PAGE_ID ||
       ""
     ).trim(),
     pageAccessToken: (
       env.LIFEMODE_FACEBOOK_PAGE_ACCESS_TOKEN ||
       env.FACEBOOK_SECONDARY_PAGE_ACCESS_TOKEN ||
-      env.FACEBOOK_PAGE_ACCESS_TOKEN ||
       ""
     ).trim(),
     graphApiVersion: env.META_GRAPH_API_VERSION || "v25.0",
@@ -202,7 +278,7 @@ function loadVideoTargetsConfig(env = process.env) {
     pollIntervalMs: Number(env.INSTAGRAM_POLL_INTERVAL_MS) || 5000
   };
 
-  // 4. Facebook LifeMode (LifeMode Facebook Page Video)
+  // 6. Facebook LifeMode (LifeMode Facebook Page Video)
   const facebookLifemodeEnabled = parseBoolEnv(
     env.LIFEMODE_FACEBOOK_ENABLED ?? env.FACEBOOK_SECONDARY_ENABLED,
     true
@@ -216,20 +292,18 @@ function loadVideoTargetsConfig(env = process.env) {
     pageId: (
       env.LIFEMODE_FACEBOOK_PAGE_ID ||
       env.FACEBOOK_SECONDARY_PAGE_ID ||
-      env.FACEBOOK_PAGE_ID ||
       ""
     ).trim(),
     pageAccessToken: (
       env.LIFEMODE_FACEBOOK_PAGE_ACCESS_TOKEN ||
       env.FACEBOOK_SECONDARY_PAGE_ACCESS_TOKEN ||
-      env.FACEBOOK_PAGE_ACCESS_TOKEN ||
       ""
     ).trim(),
     graphApiVersion: env.META_GRAPH_API_VERSION || "v25.0",
     httpTimeoutMs: Number(env.META_HTTP_TIMEOUT_MS) || 30000
   };
 
-  // 5. YouTube LifeMode (LifeMode YouTube Channel)
+  // 7. YouTube LifeMode (LifeMode YouTube Channel)
   const youtubeLifemodeEnabled = parseBoolEnv(
     env.LIFEMODE_YOUTUBE_ENABLED ?? env.YOUTUBE_SECONDARY_ENABLED,
     true
@@ -249,7 +323,7 @@ function loadVideoTargetsConfig(env = process.env) {
     httpTimeoutMs: Number(env.YOUTUBE_HTTP_TIMEOUT_MS) || 60000
   };
 
-  // 6. Pinterest LifeMode (@lifemodehq, Board: Dream Meanings & Night Symbols)
+  // 8. Pinterest LifeMode (@lifemodehq, Board: Dream Meanings & Night Symbols)
   const pinterestLifemodeEnabled = parseBoolEnv(
     env.LIFEMODE_PINTEREST_ENABLED ??
     env.PINTEREST_LIFEMODE_ENABLED ??
@@ -273,35 +347,30 @@ function loadVideoTargetsConfig(env = process.env) {
       env.LIFEMODE_PINTEREST_ACCESS_TOKEN ||
       env.PINTEREST_LIFEMODE_ACCESS_TOKEN ||
       env.PINTEREST_SECONDARY_ACCESS_TOKEN ||
-      env.PINTEREST_ACCESS_TOKEN ||
       ""
     ).trim(),
     refreshToken: (
       env.LIFEMODE_PINTEREST_REFRESH_TOKEN ||
       env.PINTEREST_LIFEMODE_REFRESH_TOKEN ||
       env.PINTEREST_SECONDARY_REFRESH_TOKEN ||
-      env.PINTEREST_REFRESH_TOKEN ||
       ""
     ).trim(),
     appId: (
       env.LIFEMODE_PINTEREST_APP_ID ||
       env.PINTEREST_LIFEMODE_APP_ID ||
       env.PINTEREST_SECONDARY_APP_ID ||
-      env.PINTEREST_APP_ID ||
       ""
     ).trim(),
     appSecret: (
       env.LIFEMODE_PINTEREST_APP_SECRET ||
       env.PINTEREST_LIFEMODE_APP_SECRET ||
       env.PINTEREST_SECONDARY_APP_SECRET ||
-      env.PINTEREST_APP_SECRET ||
       ""
     ).trim(),
     accessTier: (
       env.LIFEMODE_PINTEREST_ACCESS_TIER ||
       env.PINTEREST_LIFEMODE_ACCESS_TIER ||
       env.PINTEREST_SECONDARY_ACCESS_TIER ||
-      env.PINTEREST_ACCESS_TIER ||
       "standard"
     ).trim(),
     allowTrialPosting: parseBoolEnv(
@@ -317,6 +386,8 @@ function loadVideoTargetsConfig(env = process.env) {
   return {
     [VIDEO_TARGETS.PINTEREST_DREAMLY]: pinterestDreamlyConfig,
     [VIDEO_TARGETS.YOUTUBE_DREAMLY]: youtubeDreamlyConfig,
+    [VIDEO_TARGETS.INSTAGRAM_DREAMLY]: instagramDreamlyConfig,
+    [VIDEO_TARGETS.FACEBOOK_DREAMLY]: facebookDreamlyConfig,
     [VIDEO_TARGETS.INSTAGRAM_LIFEMODE]: instagramLifemodeConfig,
     [VIDEO_TARGETS.FACEBOOK_LIFEMODE]: facebookLifemodeConfig,
     [VIDEO_TARGETS.YOUTUBE_LIFEMODE]: youtubeLifemodeConfig,

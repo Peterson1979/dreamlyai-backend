@@ -67,7 +67,7 @@
     },
     {
       "path": "/api/video-run",
-      "schedule": "0 18 * * *"
+      "schedule": "0 16 * * *"
     }
   ],
   "functions": {

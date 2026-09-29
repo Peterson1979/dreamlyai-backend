@@ -18,11 +18,13 @@ const { InstagramReelsAdapter } = require("../social/video/adapters/instagramRee
 const { FacebookVideoAdapter } = require("../social/video/adapters/facebookVideoAdapter");
 
 describe("Dreamly AI Video Social Target Registry & Config", () => {
-  it("1. Resolves all 6 canonical target IDs and alias mappings", () => {
-    assert.equal(ALL_TARGET_IDS.length, 6);
+  it("1. Resolves all 8 canonical target IDs and alias mappings", () => {
+    assert.equal(ALL_TARGET_IDS.length, 8);
     assert.deepEqual(ALL_TARGET_IDS, [
       "pinterest_dreamly",
       "youtube_dreamly",
+      "instagram_dreamly",
+      "facebook_dreamly",
       "instagram_lifemode",
       "facebook_lifemode",
       "youtube_lifemode",
@@ -31,9 +33,15 @@ describe("Dreamly AI Video Social Target Registry & Config", () => {
 
     // Test canonical aliases
     assert.equal(canonicalizeTargetId("pinterest"), "pinterest_dreamly");
+    assert.equal(canonicalizeTargetId("pinterest_primary"), "pinterest_dreamly");
     assert.equal(canonicalizeTargetId("youtube"), "youtube_dreamly");
-    assert.equal(canonicalizeTargetId("instagram"), "instagram_lifemode");
-    assert.equal(canonicalizeTargetId("facebook"), "facebook_lifemode");
+    assert.equal(canonicalizeTargetId("youtube_primary"), "youtube_dreamly");
+    assert.equal(canonicalizeTargetId("instagram"), "instagram_dreamly");
+    assert.equal(canonicalizeTargetId("instagram_primary"), "instagram_dreamly");
+    assert.equal(canonicalizeTargetId("facebook"), "facebook_dreamly");
+    assert.equal(canonicalizeTargetId("facebook_primary"), "facebook_dreamly");
+    assert.equal(canonicalizeTargetId("instagram_secondary"), "instagram_lifemode");
+    assert.equal(canonicalizeTargetId("facebook_secondary"), "facebook_lifemode");
     assert.equal(canonicalizeTargetId("youtube_secondary"), "youtube_lifemode");
     assert.equal(canonicalizeTargetId("pinterest_secondary"), "pinterest_lifemode");
     assert.equal(canonicalizeTargetId("non_existent"), null);
@@ -50,6 +58,10 @@ describe("Dreamly AI Video Social Target Registry & Config", () => {
       DREAMLY_YOUTUBE_CLIENT_SECRET: "yt_secret_dreamly",
       DREAMLY_YOUTUBE_REFRESH_TOKEN: "yt_refresh_dreamly",
       DREAMLY_YOUTUBE_CHANNEL_ID: "yt_channel_dreamly",
+
+      INSTAGRAM_BUSINESS_ACCOUNT_ID: "ig_dreamly_123",
+      FACEBOOK_PAGE_ID: "fb_page_dreamly_456",
+      FACEBOOK_PAGE_ACCESS_TOKEN: "token_dreamly_meta",
 
       LIFEMODE_INSTAGRAM_BUSINESS_ACCOUNT_ID: "ig_lifemode_123",
       LIFEMODE_FACEBOOK_PAGE_ID: "fb_page_lifemode_456",
@@ -75,6 +87,16 @@ describe("Dreamly AI Video Social Target Registry & Config", () => {
     assert.equal(config.youtube_dreamly.refreshToken, "yt_refresh_dreamly");
     assert.equal(config.youtube_dreamly.enabled, true);
 
+    // Verify Dreamly Instagram
+    assert.equal(config.instagram_dreamly.businessAccountId, "ig_dreamly_123");
+    assert.equal(config.instagram_dreamly.pageAccessToken, "token_dreamly_meta");
+    assert.equal(config.instagram_dreamly.enabled, true);
+
+    // Verify Dreamly Facebook
+    assert.equal(config.facebook_dreamly.pageId, "fb_page_dreamly_456");
+    assert.equal(config.facebook_dreamly.pageAccessToken, "token_dreamly_meta");
+    assert.equal(config.facebook_dreamly.enabled, true);
+
     // Verify LifeMode Instagram
     assert.equal(config.instagram_lifemode.businessAccountId, "ig_lifemode_123");
     assert.equal(config.instagram_lifemode.pageAccessToken, "token_lifemode_meta");
@@ -97,6 +119,8 @@ describe("Dreamly AI Video Social Target Registry & Config", () => {
     const mockEnv = {
       DREAMLY_PINTEREST_ENABLED: "false",
       DREAMLY_YOUTUBE_ENABLED: "0",
+      DREAMLY_INSTAGRAM_ENABLED: "false",
+      DREAMLY_FACEBOOK_ENABLED: "0",
       LIFEMODE_INSTAGRAM_ENABLED: "true",
       LIFEMODE_FACEBOOK_ENABLED: "1",
       LIFEMODE_YOUTUBE_ENABLED: "no",
@@ -107,6 +131,8 @@ describe("Dreamly AI Video Social Target Registry & Config", () => {
 
     assert.equal(config.pinterest_dreamly.enabled, false);
     assert.equal(config.youtube_dreamly.enabled, false);
+    assert.equal(config.instagram_dreamly.enabled, false);
+    assert.equal(config.facebook_dreamly.enabled, false);
     assert.equal(config.instagram_lifemode.enabled, true);
     assert.equal(config.facebook_lifemode.enabled, true);
     assert.equal(config.youtube_lifemode.enabled, false);
@@ -128,12 +154,12 @@ describe("Dreamly AI Video Social Target Registry & Config", () => {
     assert.ok(ytVal.errors.some(e => e.includes("Missing clientId")));
     assert.ok(ytVal.errors.some(e => e.includes("Missing refreshToken")));
 
-    const igAdapter = new InstagramReelsAdapter("instagram_lifemode");
+    const igAdapter = new InstagramReelsAdapter("instagram_dreamly");
     const igVal = igAdapter.validateConfig(emptyConfig);
     assert.equal(igVal.valid, false);
     assert.ok(igVal.errors.some(e => e.includes("Missing Instagram Business Account ID")));
 
-    const fbAdapter = new FacebookVideoAdapter("facebook_lifemode");
+    const fbAdapter = new FacebookVideoAdapter("facebook_dreamly");
     const fbVal = fbAdapter.validateConfig(emptyConfig);
     assert.equal(fbVal.valid, false);
     assert.ok(fbVal.errors.some(e => e.includes("Missing Page ID")));

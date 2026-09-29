@@ -1,7 +1,7 @@
 /**
  * Dreamly AI Daily Video Pipeline Serverless HTTP Endpoint
  *
- * Invoked daily by Vercel Cron (schedule: "0 18 * * *") or authenticated manual trigger.
+ * Invoked daily by Vercel Cron (schedule: "0 16 * * *") or authenticated manual trigger.
  * Verifies CRON_SECRET authorization, derives UTC publishDate, and delegates
  * to runDailyVideoPipeline().
  */
