@@ -105,7 +105,6 @@ async function runDailyVideoPipeline({
       videoFileName: manifest.metadata?.videoFileName,
       manifestId: manifest.id,
       dryRun,
-      pinterestEnvKeys: result.pinterestEnvKeys,
       targets: result.targets
     };
   } catch (err) {

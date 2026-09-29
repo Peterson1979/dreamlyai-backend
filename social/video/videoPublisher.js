@@ -105,9 +105,6 @@ async function executeVideoPublishing({
 
   // DRY-RUN EXECUTION BRANCH (Read-only, 0 writes, returns success: true)
   if (dryRun) {
-    const pinterestEnvKeys = Object.keys(process.env).filter(
-      (k) => /PINTEREST|DREAMLY|PIN|BOARD/i.test(k)
-    );
     for (const targetId of targetList) {
       const targetConfig = resolvedTargetsConfig[targetId];
       const adapter = resolvedAdapters[targetId];
@@ -133,7 +130,6 @@ async function executeVideoPublishing({
       sequenceNumber: manifest.metadata?.sequenceNumber,
       dryRun: true,
       isCanary,
-      pinterestEnvKeys,
       targets: results
     };
   }
