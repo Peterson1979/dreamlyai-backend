@@ -964,25 +964,38 @@ ${getMeasurementFoundationScript({ topicId: topic.id })}
 }
 
 module.exports = async function topicPageHandler(req, res) {
-  if (req?.method && req.method !== "GET") {
+  if (req?.method && req.method !== "GET" && req.method !== "HEAD") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   const topicId = getTopicIdFromRequest(req);
   if (!topicId) {
     res.setHeader("Content-Type", "text/html; charset=utf-8");
+    if (req?.method === "HEAD") {
+      return typeof res.end === "function" ? res.status(404).end() : res.status(404).send("");
+    }
     return res.status(404).send(renderNotFoundHtml());
   }
 
   const topic = getTopicById(topicId);
   if (!topic) {
     res.setHeader("Content-Type", "text/html; charset=utf-8");
+    if (req?.method === "HEAD") {
+      return typeof res.end === "function" ? res.status(404).end() : res.status(404).send("");
+    }
     return res.status(404).send(renderNotFoundHtml());
   }
 
-  const html = renderTopicHtml(topic);
   res.setHeader("Content-Type", "text/html; charset=utf-8");
   res.setHeader("Cache-Control", "public, max-age=3600, s-maxage=86400");
+  if (req?.method === "HEAD") {
+    if (typeof res.end === "function") {
+      return res.status(200).end();
+    }
+    return res.status(200).send("");
+  }
+
+  const html = renderTopicHtml(topic);
   return res.status(200).send(html);
 };
 

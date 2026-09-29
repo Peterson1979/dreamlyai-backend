@@ -851,15 +851,21 @@ ${getMeasurementFoundationScript()}
 }
 
 module.exports = async function directoryPageHandler(req, res) {
-  if (req?.method && req.method !== "GET") {
+  if (req?.method && req.method !== "GET" && req.method !== "HEAD") {
     return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  res.setHeader("Content-Type", "text/html; charset=utf-8");
+  res.setHeader("Cache-Control", "public, max-age=3600, s-maxage=86400");
+  if (req?.method === "HEAD") {
+    if (typeof res.end === "function") {
+      return res.status(200).end();
+    }
+    return res.status(200).send("");
   }
 
   const topics = getAllTopics();
   const html = renderDirectoryHtml(topics);
-
-  res.setHeader("Content-Type", "text/html; charset=utf-8");
-  res.setHeader("Cache-Control", "public, max-age=3600, s-maxage=86400");
   return res.status(200).send(html);
 };
 

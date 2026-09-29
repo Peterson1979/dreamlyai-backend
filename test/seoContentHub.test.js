@@ -33,6 +33,9 @@ function createMockResponse() {
       this.body = content;
       return this;
     },
+    end() {
+      return this;
+    },
     json(content) {
       this.headers["content-type"] = "application/json";
       this.body = JSON.stringify(content);
@@ -113,12 +116,23 @@ describe("Dream SEO Content Hub v1", () => {
       assert.ok(res.body.includes("Dream Topic Not Found"));
     });
 
-    it("rejects non-GET methods with 405", async () => {
+    it("rejects unsupported methods (e.g. POST, PUT, DELETE) with 405", async () => {
       const req = { method: "POST", query: { topic: "teeth-falling-out" } };
       const res = createMockResponse();
 
       await topicPageHandler(req, res);
       assert.equal(res.statusCode, 405);
+    });
+
+    it("accepts HEAD method and returns 200 with headers and empty body for valid topic", async () => {
+      const req = { method: "HEAD", query: { topic: "teeth-falling-out" } };
+      const res = createMockResponse();
+
+      await topicPageHandler(req, res);
+      assert.equal(res.statusCode, 200);
+      assert.ok(res.headers["content-type"].includes("text/html"));
+      assert.ok(res.headers["cache-control"].includes("public"));
+      assert.equal(res.body, "");
     });
   });
 
@@ -168,12 +182,23 @@ describe("Dream SEO Content Hub v1", () => {
       assert.ok(html.includes("utm_content%3Ddreams_index"));
     });
 
-    it("rejects non-GET methods with 405", async () => {
+    it("rejects unsupported methods with 405", async () => {
       const req = { method: "POST", url: "/dreams" };
       const res = createMockResponse();
 
       await directoryPageHandler(req, res);
       assert.equal(res.statusCode, 405);
+    });
+
+    it("accepts HEAD method and returns 200 with headers and empty body", async () => {
+      const req = { method: "HEAD", url: "/dreams" };
+      const res = createMockResponse();
+
+      await directoryPageHandler(req, res);
+      assert.equal(res.statusCode, 200);
+      assert.ok(res.headers["content-type"].includes("text/html"));
+      assert.ok(res.headers["cache-control"].includes("public"));
+      assert.equal(res.body, "");
     });
   });
 
