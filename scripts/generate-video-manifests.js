@@ -13,6 +13,7 @@ const OUTPUT_BATCH = path.resolve(__dirname, "../fixtures/social-manifests/promo
 
 const BASE_WEBSITE_URL = "https://dreamlyai.life";
 const BASE_PLAYSTORE_URL = "https://play.google.com/store/apps/details?id=com.oberon.dreamlyai";
+const PINTEREST_DREAMLY_DEST_URL = "https://play.google.com/store/apps/details?id=com.oberon.dreamlyai&pli=1";
 const VIDEO_PUBLIC_BASE_URL = "https://dreamlyai-backend.vercel.app/videos/promo";
 
 const START_DATE = "2026-09-28";
@@ -315,7 +316,8 @@ function generateManifests() {
 
     const ytDescription = `${title}\n\n${voiceover}\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\n${destUrl}\n\nDownload Dreamly AI on Google Play:\n${playStoreYtUrl}\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious`;
 
-    const pinDescription = `✨ ${title}\n\n${voiceover}\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\n${destUrl}`;
+    const pinDreamlyDescription = `✨ ${title}\n\n${voiceover}\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\n${PINTEREST_DREAMLY_DEST_URL}`;
+    const pinSecondaryDescription = `✨ ${title}\n\n${voiceover}\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\n${destUrl}`;
 
     const manifest = {
       date: dateStr,
@@ -351,12 +353,12 @@ function generateManifests() {
         },
         pinterest: {
           title: cfg.pinTitle,
-          description: pinDescription,
-          link: destUrl
+          description: pinDreamlyDescription,
+          link: PINTEREST_DREAMLY_DEST_URL
         },
         pinterest_secondary: {
           title: cfg.pinTitle,
-          description: pinDescription,
+          description: pinSecondaryDescription,
           link: destUrl
         }
       },
