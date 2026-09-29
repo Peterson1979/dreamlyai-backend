@@ -81,7 +81,10 @@ function loadVideoTargetsConfig(env = process.env) {
 
   // 1. Pinterest Dreamly (@dreamlyai)
   const pinterestDreamlyEnabled = parseBoolEnv(
-    env.DREAMLY_PINTEREST_ENABLED ?? env.PINTEREST_ENABLED,
+    env.DREAMLY_PINTEREST_ENABLED ??
+    env.PINTEREST_DREAMLY_ENABLED ??
+    env.PINTEREST_PRIMARY_ENABLED ??
+    env.PINTEREST_ENABLED,
     true
   );
   const pinterestDreamlyConfig = {
@@ -91,13 +94,55 @@ function loadVideoTargetsConfig(env = process.env) {
     account: "@dreamlyai",
     boardName: "Dreamly AI",
     enabled: pinterestDreamlyEnabled,
-    boardId: (env.DREAMLY_PINTEREST_BOARD_ID || env.PINTEREST_BOARD_ID || "").trim(),
-    accessToken: (env.DREAMLY_PINTEREST_ACCESS_TOKEN || env.PINTEREST_ACCESS_TOKEN || "").trim(),
-    refreshToken: (env.DREAMLY_PINTEREST_REFRESH_TOKEN || env.PINTEREST_REFRESH_TOKEN || "").trim(),
-    appId: (env.DREAMLY_PINTEREST_APP_ID || env.PINTEREST_APP_ID || "").trim(),
-    appSecret: (env.DREAMLY_PINTEREST_APP_SECRET || env.PINTEREST_APP_SECRET || "").trim(),
-    accessTier: (env.DREAMLY_PINTEREST_ACCESS_TIER || env.PINTEREST_ACCESS_TIER || "standard").trim(),
-    allowTrialPosting: parseBoolEnv(env.DREAMLY_PINTEREST_ALLOW_TRIAL_POSTING ?? env.PINTEREST_ALLOW_TRIAL_POSTING, false),
+    boardId: (
+      env.DREAMLY_PINTEREST_BOARD_ID ||
+      env.PINTEREST_DREAMLY_BOARD_ID ||
+      env.PINTEREST_PRIMARY_BOARD_ID ||
+      env.PINTEREST_BOARD_ID ||
+      ""
+    ).trim(),
+    accessToken: (
+      env.DREAMLY_PINTEREST_ACCESS_TOKEN ||
+      env.PINTEREST_DREAMLY_ACCESS_TOKEN ||
+      env.PINTEREST_PRIMARY_ACCESS_TOKEN ||
+      env.PINTEREST_ACCESS_TOKEN ||
+      ""
+    ).trim(),
+    refreshToken: (
+      env.DREAMLY_PINTEREST_REFRESH_TOKEN ||
+      env.PINTEREST_DREAMLY_REFRESH_TOKEN ||
+      env.PINTEREST_PRIMARY_REFRESH_TOKEN ||
+      env.PINTEREST_REFRESH_TOKEN ||
+      ""
+    ).trim(),
+    appId: (
+      env.DREAMLY_PINTEREST_APP_ID ||
+      env.PINTEREST_DREAMLY_APP_ID ||
+      env.PINTEREST_PRIMARY_APP_ID ||
+      env.PINTEREST_APP_ID ||
+      ""
+    ).trim(),
+    appSecret: (
+      env.DREAMLY_PINTEREST_APP_SECRET ||
+      env.PINTEREST_DREAMLY_APP_SECRET ||
+      env.PINTEREST_PRIMARY_APP_SECRET ||
+      env.PINTEREST_APP_SECRET ||
+      ""
+    ).trim(),
+    accessTier: (
+      env.DREAMLY_PINTEREST_ACCESS_TIER ||
+      env.PINTEREST_DREAMLY_ACCESS_TIER ||
+      env.PINTEREST_PRIMARY_ACCESS_TIER ||
+      env.PINTEREST_ACCESS_TIER ||
+      "standard"
+    ).trim(),
+    allowTrialPosting: parseBoolEnv(
+      env.DREAMLY_PINTEREST_ALLOW_TRIAL_POSTING ??
+      env.PINTEREST_DREAMLY_ALLOW_TRIAL_POSTING ??
+      env.PINTEREST_PRIMARY_ALLOW_TRIAL_POSTING ??
+      env.PINTEREST_ALLOW_TRIAL_POSTING,
+      false
+    ),
     httpTimeoutMs: Number(env.PINTEREST_HTTP_TIMEOUT_MS) || 30000
   };
 
@@ -206,7 +251,9 @@ function loadVideoTargetsConfig(env = process.env) {
 
   // 6. Pinterest LifeMode (@lifemodehq, Board: Dream Meanings & Night Symbols)
   const pinterestLifemodeEnabled = parseBoolEnv(
-    env.LIFEMODE_PINTEREST_ENABLED ?? env.PINTEREST_SECONDARY_ENABLED,
+    env.LIFEMODE_PINTEREST_ENABLED ??
+    env.PINTEREST_LIFEMODE_ENABLED ??
+    env.PINTEREST_SECONDARY_ENABLED,
     true
   );
   const pinterestLifemodeConfig = {
@@ -216,39 +263,52 @@ function loadVideoTargetsConfig(env = process.env) {
     account: "@lifemodehq",
     boardName: "Dream Meanings & Night Symbols",
     enabled: pinterestLifemodeEnabled,
-    boardId: (env.LIFEMODE_PINTEREST_BOARD_ID || env.PINTEREST_SECONDARY_BOARD_ID || "").trim(),
+    boardId: (
+      env.LIFEMODE_PINTEREST_BOARD_ID ||
+      env.PINTEREST_LIFEMODE_BOARD_ID ||
+      env.PINTEREST_SECONDARY_BOARD_ID ||
+      ""
+    ).trim(),
     accessToken: (
       env.LIFEMODE_PINTEREST_ACCESS_TOKEN ||
+      env.PINTEREST_LIFEMODE_ACCESS_TOKEN ||
       env.PINTEREST_SECONDARY_ACCESS_TOKEN ||
       env.PINTEREST_ACCESS_TOKEN ||
       ""
     ).trim(),
     refreshToken: (
       env.LIFEMODE_PINTEREST_REFRESH_TOKEN ||
+      env.PINTEREST_LIFEMODE_REFRESH_TOKEN ||
       env.PINTEREST_SECONDARY_REFRESH_TOKEN ||
       env.PINTEREST_REFRESH_TOKEN ||
       ""
     ).trim(),
     appId: (
       env.LIFEMODE_PINTEREST_APP_ID ||
+      env.PINTEREST_LIFEMODE_APP_ID ||
       env.PINTEREST_SECONDARY_APP_ID ||
       env.PINTEREST_APP_ID ||
       ""
     ).trim(),
     appSecret: (
       env.LIFEMODE_PINTEREST_APP_SECRET ||
+      env.PINTEREST_LIFEMODE_APP_SECRET ||
       env.PINTEREST_SECONDARY_APP_SECRET ||
       env.PINTEREST_APP_SECRET ||
       ""
     ).trim(),
     accessTier: (
       env.LIFEMODE_PINTEREST_ACCESS_TIER ||
+      env.PINTEREST_LIFEMODE_ACCESS_TIER ||
       env.PINTEREST_SECONDARY_ACCESS_TIER ||
       env.PINTEREST_ACCESS_TIER ||
       "standard"
     ).trim(),
     allowTrialPosting: parseBoolEnv(
-      env.LIFEMODE_PINTEREST_ALLOW_TRIAL_POSTING ?? env.PINTEREST_SECONDARY_ALLOW_TRIAL_POSTING ?? env.PINTEREST_ALLOW_TRIAL_POSTING,
+      env.LIFEMODE_PINTEREST_ALLOW_TRIAL_POSTING ??
+      env.PINTEREST_LIFEMODE_ALLOW_TRIAL_POSTING ??
+      env.PINTEREST_SECONDARY_ALLOW_TRIAL_POSTING ??
+      env.PINTEREST_ALLOW_TRIAL_POSTING,
       false
     ),
     httpTimeoutMs: Number(env.PINTEREST_HTTP_TIMEOUT_MS) || 30000
