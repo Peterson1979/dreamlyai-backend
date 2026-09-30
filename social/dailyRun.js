@@ -32,6 +32,10 @@ const {
   loadInstagramConfig,
   loadInstagramSecondaryConfig
 } = require("./instagramConfig");
+const {
+  loadThreadsConfig,
+  isThreadsConfigured
+} = require("./threadsConfig");
 
 const DAILY_RUN_STATUS = Object.freeze({
   COMPLETED: "COMPLETED",
@@ -55,7 +59,9 @@ function buildPublishingOutput(destinations) {
     facebook_primary: destinations.facebook_primary,
     facebook_secondary: destinations.facebook_secondary,
     instagram_primary: destinations.instagram_primary,
-    instagram_secondary: destinations.instagram_secondary
+    instagram_secondary: destinations.instagram_secondary,
+    threads_primary: destinations.threads_primary || destinations.threads,
+    threads: destinations.threads || destinations.threads_primary
   };
 
   Object.defineProperty(output, "facebook", {
@@ -85,7 +91,9 @@ function buildSkippedPublishing(reason) {
     facebook_primary: { success: false, status: "SKIPPED", reason },
     facebook_secondary: { success: false, status: "SKIPPED", reason },
     instagram_primary: { success: false, status: "SKIPPED", reason },
-    instagram_secondary: { success: false, status: "SKIPPED", reason }
+    instagram_secondary: { success: false, status: "SKIPPED", reason },
+    threads: { success: false, status: "SKIPPED", reason },
+    threads_primary: { success: false, status: "SKIPPED", reason }
   });
 }
 
@@ -123,9 +131,12 @@ async function runDailySocialPipeline(params = {}) {
     facebookSecondaryConfig,
     instagramConfig,
     instagramSecondaryConfig,
+    threadsConfig,
     sleepImpl,
     instagramMaxPollAttempts,
     instagramPollIntervalMs,
+    threadsMaxPollAttempts,
+    threadsPollIntervalMs,
     recentTopicHints = []
   } = params;
 
@@ -435,6 +446,58 @@ async function runDailySocialPipeline(params = {}) {
     }
   }
 
+  // Resolve Threads Configuration
+  let resolvedThreadsConfig =
+    threadsConfig !== undefined
+      ? threadsConfig
+      : (() => {
+          try {
+            if (isThreadsConfigured()) {
+              return loadThreadsConfig();
+            }
+            return null;
+          } catch (_) {
+            return null;
+          }
+        })();
+
+  // Destination 5: threads
+  let threadsResult;
+  if (resolvedThreadsConfig === null) {
+    threadsResult = {
+      success: false,
+      status: "SKIPPED",
+      destination: "threads",
+      platform: "threads",
+      reason: "NOT_CONFIGURED"
+    };
+  } else {
+    try {
+      threadsResult = await publishSocialPlatform({
+        publishDate,
+        destination: "threads",
+        leaseId: runnerLeaseId,
+        redis: resolvedRedis,
+        fetchImpl: resolvedFetch,
+        threadsConfig: resolvedThreadsConfig,
+        sleepImpl,
+        threadsMaxPollAttempts,
+        threadsPollIntervalMs
+      });
+    } catch (thErr) {
+      threadsResult = {
+        success: false,
+        status: "FAILED",
+        destination: "threads",
+        platform: "threads",
+        publishDate,
+        contentId,
+        errorCode: thErr.code || "THREADS_PUBLISH_FAILED",
+        error: sanitizeErrorMessage(thErr.message)
+      };
+    }
+  }
+
   // 6. Compute overall status across all configured destinations
   const checkDestOk = (res) =>
     res &&
@@ -448,7 +511,8 @@ async function runDailySocialPipeline(params = {}) {
     facebookPrimaryResult,
     facebookSecondaryResult,
     instagramPrimaryResult,
-    instagramSecondaryResult
+    instagramSecondaryResult,
+    threadsResult
   ];
 
   const configuredDestResults = allDestResults.filter(checkDestConfigured);
@@ -507,6 +571,13 @@ async function runDailySocialPipeline(params = {}) {
         providerId: instagramSecondaryResult.providerId,
         errorCode: instagramSecondaryResult.errorCode,
         reason: instagramSecondaryResult.reason
+      },
+      threads: {
+        success: threadsResult.success,
+        status: threadsResult.status,
+        providerId: threadsResult.providerId,
+        errorCode: threadsResult.errorCode,
+        reason: threadsResult.reason
       }
     })
   };

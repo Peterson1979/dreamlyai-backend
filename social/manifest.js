@@ -345,7 +345,7 @@ function validateManifest(manifest) {
   if (!isPlainObject(manifest.captions)) {
     errors.push("Field 'captions' must be a plain object");
   } else {
-    const allowedCaptionsKeys = new Set(["instagram", "facebook"]);
+    const allowedCaptionsKeys = new Set(["instagram", "facebook", "threads"]);
     for (const key of Object.keys(manifest.captions)) {
       if (!allowedCaptionsKeys.has(key)) {
         errors.push(`Unexpected field '${key}' in captions`);
@@ -372,6 +372,15 @@ function validateManifest(manifest) {
       errors.push(
         `Field 'captions.facebook' exceeds max length of ${TEXT_LIMITS.FACEBOOK_CAPTION_MAX}`
       );
+    }
+
+    if (manifest.captions.threads !== undefined) {
+      if (
+        typeof manifest.captions.threads !== "string" ||
+        manifest.captions.threads.trim().length === 0
+      ) {
+        errors.push("Field 'captions.threads' must be a non-empty string");
+      }
     }
   }
 

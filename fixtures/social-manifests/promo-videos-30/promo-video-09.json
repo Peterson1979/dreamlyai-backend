@@ -16,8 +16,7 @@
   "destinations": [
     "pinterest_dreamly",
     "youtube_dreamly",
-    "instagram_dreamly",
-    "facebook_dreamly",
+    "threads_dreamly",
     "instagram_lifemode",
     "facebook_lifemode",
     "youtube_lifemode",
@@ -27,6 +26,7 @@
   "captions": {
     "instagram": "✨ Why does the same dream keep coming back?\n\nWhy does the same dream keep coming back? Explore it with Dreamly AI.\n\nUnpack your subconscious symbols, emotions, and hidden nighttime stories with Dreamly AI.\n\nExplore your dreams with Dreamly AI — link in bio 🌙\n\n#dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious #nightdreams #dreamjournal",
     "facebook": "✨ Why does the same dream keep coming back?\n\nWhy does the same dream keep coming back? Explore it with Dreamly AI.\n\nEvery dream has a story waiting to be decoded. Discover what your subconscious symbols and nighttime emotions reveal about your waking life.\n\nExplore your dreams with Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-09\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dfacebook%26utm_medium%3Dsocial%26utm_campaign%3Dvideo_cta%26utm_content%3Ddreamly-video-09\n\n#dreamlyai #dreammeaning #dreaminterpretation #subconscious #sleeppsychology",
+    "threads": "✨ Why does the same dream keep coming back?\n\nWhy does the same dream keep coming back? Explore it with Dreamly AI.\n\nExplore your dreams with Dreamly AI.\n\nExplore Dreamly AI → https://dreamlyai.life/",
     "youtube": {
       "title": "Why Does the Same Dream Keep Coming Back? 🔄 #Shorts",
       "description": "Why does the same dream keep coming back?\n\nWhy does the same dream keep coming back? Explore it with Dreamly AI.\n\nExplore what your subconscious is telling you through dream symbols, sleep psychology, and structured reflections with Dreamly AI.\n\nExplore on Dreamly AI:\nhttps://dreamlyai.life/dreams?utm_source=social&utm_medium=video&utm_campaign=promo_video_30&utm_content=dreamly-video-09\n\nDownload Dreamly AI on Google Play:\nhttps://play.google.com/store/apps/details?id=com.oberon.dreamlyai&referrer=utm_source%3Dyoutube%26utm_medium%3Dsocial%26utm_campaign%3Dshort_cta%26utm_content%3Ddreamly-video-09\n\n#Shorts #dreamlyai #dreammeaning #dreaminterpretation #luciddreaming #sleeppsychology #subconscious",
@@ -66,6 +66,6 @@
     "scheduledPublishTimeUtc": "18:00:00Z",
     "scheduledPublicationDateTime": "2026-10-06T18:00:00Z",
     "qualityGate": "QUALITY_GATE_PASS",
-    "generatedAt": "2026-09-28T15:47:56.923Z"
+    "generatedAt": "2026-09-30T12:46:28.604Z"
   }
 }

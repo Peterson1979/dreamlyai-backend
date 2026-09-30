@@ -5,6 +5,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
+const { formatThreadsCaption } = require("../social/captions");
 
 const SOURCE_TEXT_PATH = "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\DreamlyAI 1 havi.txt";
 const SOURCE_VIDEO_DIR = "C:\\Users\\opeti\\APP\\Dreamly\\Dreamly marketing\\Dreamly 1 havi\\Dreamly AI 1 havi videok";
@@ -319,6 +320,11 @@ function generateManifests() {
     const pinDreamlyDescription = `✨ ${title}\n\n${voiceover}\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\n${PINTEREST_DREAMLY_DEST_URL}`;
     const pinSecondaryDescription = `✨ ${title}\n\n${voiceover}\n\nExplore your dreams and decode subconscious symbols with Dreamly AI.\n\nExplore on Dreamly AI:\n${destUrl}`;
 
+    const threadsCaption = formatThreadsCaption({
+      baseCaption: `✨ ${title}\n\n${voiceover}\n\nExplore your dreams with Dreamly AI.`,
+      websiteUrl: destUrl
+    });
+
     const manifest = {
       date: dateStr,
       id: `promo-video-${dateStr}`,
@@ -337,6 +343,7 @@ function generateManifests() {
       destinations: [
         "pinterest_dreamly",
         "youtube_dreamly",
+        "threads_dreamly",
         "instagram_lifemode",
         "facebook_lifemode",
         "youtube_lifemode",
@@ -346,6 +353,7 @@ function generateManifests() {
       captions: {
         instagram: igCaption,
         facebook: fbCaption,
+        threads: threadsCaption,
         youtube: {
           title: cfg.ytTitle,
           description: ytDescription,

@@ -29,6 +29,8 @@ const SUPPORTED_PUBLISH_DESTINATIONS = Object.freeze([
   "facebook_secondary",
   "instagram_primary",
   "instagram_secondary",
+  "threads_primary",
+  "threads",
   "facebook",
   "instagram"
 ]);

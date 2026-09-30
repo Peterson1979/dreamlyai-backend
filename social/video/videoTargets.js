@@ -15,6 +15,7 @@ const VIDEO_TARGETS = Object.freeze({
   YOUTUBE_DREAMLY: "youtube_dreamly",
   INSTAGRAM_DREAMLY: "instagram_dreamly",
   FACEBOOK_DREAMLY: "facebook_dreamly",
+  THREADS_DREAMLY: "threads_dreamly",
   INSTAGRAM_LIFEMODE: "instagram_lifemode",
   FACEBOOK_LIFEMODE: "facebook_lifemode",
   YOUTUBE_LIFEMODE: "youtube_lifemode",
@@ -26,6 +27,7 @@ const ALL_TARGET_IDS = Object.freeze([
   VIDEO_TARGETS.YOUTUBE_DREAMLY,
   VIDEO_TARGETS.INSTAGRAM_DREAMLY,
   VIDEO_TARGETS.FACEBOOK_DREAMLY,
+  VIDEO_TARGETS.THREADS_DREAMLY,
   VIDEO_TARGETS.INSTAGRAM_LIFEMODE,
   VIDEO_TARGETS.FACEBOOK_LIFEMODE,
   VIDEO_TARGETS.YOUTUBE_LIFEMODE,
@@ -41,6 +43,9 @@ const TARGET_ALIASES = Object.freeze({
   instagram_primary: VIDEO_TARGETS.INSTAGRAM_DREAMLY,
   facebook: VIDEO_TARGETS.FACEBOOK_DREAMLY,
   facebook_primary: VIDEO_TARGETS.FACEBOOK_DREAMLY,
+  threads: VIDEO_TARGETS.THREADS_DREAMLY,
+  threads_primary: VIDEO_TARGETS.THREADS_DREAMLY,
+  threads_dreamly: VIDEO_TARGETS.THREADS_DREAMLY,
   instagram_secondary: VIDEO_TARGETS.INSTAGRAM_LIFEMODE,
   facebook_secondary: VIDEO_TARGETS.FACEBOOK_LIFEMODE,
   youtube_secondary: VIDEO_TARGETS.YOUTUBE_LIFEMODE,
@@ -383,11 +388,46 @@ function loadVideoTargetsConfig(env = process.env) {
     httpTimeoutMs: Number(env.PINTEREST_HTTP_TIMEOUT_MS) || 30000
   };
 
+  // 9. Threads Dreamly (@dreamlyai Threads Video)
+  const threadsDreamlyEnabled = parseBoolEnv(
+    env.DREAMLY_THREADS_ENABLED ??
+    env.THREADS_DREAMLY_ENABLED ??
+    env.THREADS_PRIMARY_ENABLED ??
+    env.THREADS_ENABLED,
+    true
+  );
+  const threadsDreamlyConfig = {
+    targetId: VIDEO_TARGETS.THREADS_DREAMLY,
+    platform: "threads",
+    brand: "Dreamly AI",
+    account: "@dreamlyaiapp",
+    enabled: threadsDreamlyEnabled,
+    userId: (
+      env.DREAMLY_THREADS_USER_ID ||
+      env.THREADS_DREAMLY_USER_ID ||
+      env.THREADS_PRIMARY_USER_ID ||
+      env.THREADS_USER_ID ||
+      ""
+    ).trim(),
+    accessToken: (
+      env.DREAMLY_THREADS_ACCESS_TOKEN ||
+      env.THREADS_DREAMLY_ACCESS_TOKEN ||
+      env.THREADS_PRIMARY_ACCESS_TOKEN ||
+      env.THREADS_ACCESS_TOKEN ||
+      ""
+    ).trim(),
+    apiVersion: env.THREADS_API_VERSION || "v1.0",
+    httpTimeoutMs: Number(env.THREADS_HTTP_TIMEOUT_MS) || 30000,
+    pollMaxAttempts: Number(env.THREADS_POLL_MAX_ATTEMPTS) || 25,
+    pollIntervalMs: Number(env.THREADS_POLL_INTERVAL_MS) || 3000
+  };
+
   return {
     [VIDEO_TARGETS.PINTEREST_DREAMLY]: pinterestDreamlyConfig,
     [VIDEO_TARGETS.YOUTUBE_DREAMLY]: youtubeDreamlyConfig,
     [VIDEO_TARGETS.INSTAGRAM_DREAMLY]: instagramDreamlyConfig,
     [VIDEO_TARGETS.FACEBOOK_DREAMLY]: facebookDreamlyConfig,
+    [VIDEO_TARGETS.THREADS_DREAMLY]: threadsDreamlyConfig,
     [VIDEO_TARGETS.INSTAGRAM_LIFEMODE]: instagramLifemodeConfig,
     [VIDEO_TARGETS.FACEBOOK_LIFEMODE]: facebookLifemodeConfig,
     [VIDEO_TARGETS.YOUTUBE_LIFEMODE]: youtubeLifemodeConfig,

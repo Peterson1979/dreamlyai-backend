@@ -30,12 +30,18 @@ const {
   ERROR_CLASSIFICATION: IG_ERROR_CLASSIFICATION,
   publishInstagramCarousel
 } = require("./instagram");
+const {
+  ERROR_CLASSIFICATION: THREADS_ERROR_CLASSIFICATION,
+  publishThreadsCarousel
+} = require("./threads");
 
 const SUPPORTED_PUBLISH_DESTINATIONS = Object.freeze([
   "facebook_primary",
   "facebook_secondary",
   "instagram_primary",
   "instagram_secondary",
+  "threads_primary",
+  "threads",
   "facebook",
   "instagram"
 ]);
@@ -71,6 +77,9 @@ function resolveDestinationInfo(target) {
   if (target === "instagram_secondary") {
     return { family: "instagram", destination: "instagram_secondary" };
   }
+  if (target === "threads" || target === "threads_primary") {
+    return { family: "threads", destination: target };
+  }
   return null;
 }
 
@@ -105,7 +114,8 @@ function validatePublishInputs({
   redis,
   fetchImpl,
   facebookConfig,
-  instagramConfig
+  instagramConfig,
+  threadsConfig
 }) {
   if (!isValidDateString(publishDate)) {
     throw new SocialPublishingError(
@@ -181,6 +191,18 @@ function validatePublishInputs({
       }
     );
   }
+
+  if (
+    destInfo.family === "threads" &&
+    (!threadsConfig || typeof threadsConfig !== "object")
+  ) {
+    throw new SocialPublishingError(
+      "Invalid threadsConfig: must be an injected config object for Threads publishing",
+      {
+        code: PUBLISHING_ERROR_CODES.INVALID_PUBLISH_INPUT
+      }
+    );
+  }
 }
 
 /**
@@ -209,9 +231,12 @@ async function publishSocialPlatform({
   fetchImpl,
   facebookConfig,
   instagramConfig,
+  threadsConfig,
   sleepImpl,
   instagramMaxPollAttempts,
-  instagramPollIntervalMs
+  instagramPollIntervalMs,
+  threadsMaxPollAttempts,
+  threadsPollIntervalMs
 } = {}) {
   validatePublishInputs({
     publishDate,
@@ -221,7 +246,8 @@ async function publishSocialPlatform({
     redis,
     fetchImpl,
     facebookConfig,
-    instagramConfig
+    instagramConfig,
+    threadsConfig
   });
 
   const targetKey = destination || platform;
@@ -626,6 +652,114 @@ async function publishSocialPlatform({
         publishDate,
         contentId,
         providerId: igResult.mediaId
+      };
+    }
+
+    if (family === "threads") {
+      let threadsResult;
+
+      try {
+        threadsResult = await publishThreadsCarousel({
+          manifest,
+          fetchImpl,
+          config: threadsConfig,
+          sleepImpl,
+          maxPollAttempts: threadsMaxPollAttempts,
+          pollIntervalMs: threadsPollIntervalMs
+        });
+      } catch (providerErr) {
+        if (
+          providerErr.classification ===
+          THREADS_ERROR_CLASSIFICATION.AMBIGUOUS_FINAL_PUBLISH
+        ) {
+          await markPublicationReconciliationRequired({
+            redis,
+            publishDate,
+            contentId,
+            platform: targetKey,
+            leaseId
+          });
+
+          leaseAcquired = false;
+
+          return {
+            success: false,
+            status: "RECONCILIATION_REQUIRED",
+            platform: "threads",
+            destination: targetKey,
+            publishDate,
+            contentId
+          };
+        }
+
+        await markPublicationFailed({
+          redis,
+          publishDate,
+          contentId,
+          platform: targetKey,
+          leaseId
+        });
+
+        leaseAcquired = false;
+
+        return {
+          success: false,
+          status: "FAILED",
+          platform: "threads",
+          destination: targetKey,
+          publishDate,
+          contentId,
+          errorCode: "PROVIDER_DEFINITIVE_FAILURE"
+        };
+      }
+
+      if (
+        !threadsResult ||
+        threadsResult.success !== true ||
+        threadsResult.status !== "PUBLISHED" ||
+        threadsResult.platform !== "threads" ||
+        typeof threadsResult.postId !== "string" ||
+        threadsResult.postId.trim().length === 0
+      ) {
+        await markPublicationFailed({
+          redis,
+          publishDate,
+          contentId,
+          platform: targetKey,
+          leaseId
+        });
+
+        leaseAcquired = false;
+
+        return {
+          success: false,
+          status: "FAILED",
+          platform: "threads",
+          destination: targetKey,
+          publishDate,
+          contentId,
+          errorCode: "PROVIDER_DEFINITIVE_FAILURE"
+        };
+      }
+
+      await markPublicationPublished({
+        redis,
+        publishDate,
+        contentId,
+        platform: targetKey,
+        leaseId
+      });
+
+      leaseAcquired = false;
+
+      return {
+        success: true,
+        status: "PUBLISHED",
+        platform: "threads",
+        destination: targetKey,
+        publishDate,
+        contentId,
+        providerId: threadsResult.postId
       };
     }
 

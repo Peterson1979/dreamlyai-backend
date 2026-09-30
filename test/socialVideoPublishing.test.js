@@ -73,12 +73,12 @@ describe("Dreamly AI Video Publishing Pipeline", () => {
     assert.equal(dryRunResult.dryRun, true);
     assert.equal(redis.store.size, 0, "Dry-run must not mutate Redis");
 
-    // All 8 targets should be checked
+    // All 9 targets should be checked
     const targetKeys = Object.keys(dryRunResult.targets);
-    assert.equal(targetKeys.length, 8);
+    assert.equal(targetKeys.length, 9);
   });
 
-  it("2. Multi-target publishing succeeds across all 8 targets with isolated state", async () => {
+  it("2. Multi-target publishing succeeds across all 9 targets with isolated state", async () => {
     const redis = new MockRedis();
     const manifest = sampleManifest;
 
@@ -98,6 +98,10 @@ describe("Dreamly AI Video Publishing Pipeline", () => {
       facebook_dreamly: {
         validateConfig: () => ({ valid: true }),
         publish: async () => ({ success: true, status: "PUBLISHED", postId: "fb_dreamly_204" })
+      },
+      threads_dreamly: {
+        validateConfig: () => ({ valid: true }),
+        publish: async () => ({ success: true, status: "PUBLISHED", postId: "th_dreamly_205" })
       },
       instagram_lifemode: {
         validateConfig: () => ({ valid: true }),
@@ -133,6 +137,8 @@ describe("Dreamly AI Video Publishing Pipeline", () => {
     assert.equal(result.targets.instagram_dreamly.postId, "ig_dreamly_203");
     assert.equal(result.targets.facebook_dreamly.status, "PUBLISHED");
     assert.equal(result.targets.facebook_dreamly.postId, "fb_dreamly_204");
+    assert.equal(result.targets.threads_dreamly.status, "PUBLISHED");
+    assert.equal(result.targets.threads_dreamly.postId, "th_dreamly_205");
     assert.equal(result.targets.instagram_lifemode.status, "PUBLISHED");
     assert.equal(result.targets.instagram_lifemode.postId, "ig_lifemode_303");
     assert.equal(result.targets.facebook_lifemode.status, "PUBLISHED");
@@ -188,6 +194,10 @@ describe("Dreamly AI Video Publishing Pipeline", () => {
       facebook_dreamly: {
         validateConfig: () => ({ valid: true }),
         publish: async () => ({ success: true, status: "PUBLISHED", postId: "fb_dreamly_ok" })
+      },
+      threads_dreamly: {
+        validateConfig: () => ({ valid: true }),
+        publish: async () => ({ success: true, status: "PUBLISHED", postId: "th_dreamly_ok" })
       },
       instagram_lifemode: {
         validateConfig: () => ({ valid: true }),
@@ -267,6 +277,7 @@ describe("Dreamly AI Video Publishing Pipeline", () => {
       youtube_dreamly: { validateConfig: () => ({ valid: true }), publish: async () => ({ success: true, status: "PUBLISHED", postId: "yt1" }) },
       instagram_dreamly: { validateConfig: () => ({ valid: true }), publish: async () => ({ success: true, status: "PUBLISHED", postId: "ig_d" }) },
       facebook_dreamly: { validateConfig: () => ({ valid: true }), publish: async () => ({ success: true, status: "PUBLISHED", postId: "fb_d" }) },
+      threads_dreamly: { validateConfig: () => ({ valid: true }), publish: async () => ({ success: true, status: "PUBLISHED", postId: "th_d" }) },
       instagram_lifemode: { validateConfig: () => ({ valid: true }), publish: async () => ({ success: true, status: "PUBLISHED", postId: "ig1" }) },
       facebook_lifemode: { validateConfig: () => ({ valid: true }), publish: async () => ({ success: true, status: "PUBLISHED", postId: "fb1" }) },
       youtube_lifemode: { validateConfig: () => ({ valid: true }), publish: async () => ({ success: true, status: "PUBLISHED", postId: "yt2" }) },
@@ -305,6 +316,7 @@ describe("Dreamly AI Video Publishing Pipeline", () => {
       youtube_dreamly: { validateConfig: () => ({ valid: true }), publish: async () => ({ success: true, status: "PUBLISHED", postId: "y1" }) },
       instagram_dreamly: { validateConfig: () => ({ valid: true }), publish: async () => ({ success: true, status: "PUBLISHED", postId: "igd1" }) },
       facebook_dreamly: { validateConfig: () => ({ valid: true }), publish: async () => ({ success: true, status: "PUBLISHED", postId: "fbd1" }) },
+      threads_dreamly: { validateConfig: () => ({ valid: true }), publish: async () => ({ success: true, status: "PUBLISHED", postId: "thd1" }) },
       instagram_lifemode: { validateConfig: () => ({ valid: true }), publish: async () => ({ success: true, status: "PUBLISHED", postId: "i1" }) },
       facebook_lifemode: { validateConfig: () => ({ valid: true }), publish: async () => ({ success: true, status: "PUBLISHED", postId: "f1" }) },
       youtube_lifemode: { validateConfig: () => ({ valid: true }), publish: async () => ({ success: true, status: "PUBLISHED", postId: "y2" }) },

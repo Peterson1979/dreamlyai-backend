@@ -19,12 +19,13 @@ const { FacebookVideoAdapter } = require("../social/video/adapters/facebookVideo
 
 describe("Dreamly AI Video Social Target Registry & Config", () => {
   it("1. Resolves all 8 canonical target IDs and alias mappings", () => {
-    assert.equal(ALL_TARGET_IDS.length, 8);
+    assert.equal(ALL_TARGET_IDS.length, 9);
     assert.deepEqual(ALL_TARGET_IDS, [
       "pinterest_dreamly",
       "youtube_dreamly",
       "instagram_dreamly",
       "facebook_dreamly",
+      "threads_dreamly",
       "instagram_lifemode",
       "facebook_lifemode",
       "youtube_lifemode",
@@ -40,6 +41,9 @@ describe("Dreamly AI Video Social Target Registry & Config", () => {
     assert.equal(canonicalizeTargetId("instagram_primary"), "instagram_dreamly");
     assert.equal(canonicalizeTargetId("facebook"), "facebook_dreamly");
     assert.equal(canonicalizeTargetId("facebook_primary"), "facebook_dreamly");
+    assert.equal(canonicalizeTargetId("threads"), "threads_dreamly");
+    assert.equal(canonicalizeTargetId("threads_primary"), "threads_dreamly");
+    assert.equal(canonicalizeTargetId("threads_dreamly"), "threads_dreamly");
     assert.equal(canonicalizeTargetId("instagram_secondary"), "instagram_lifemode");
     assert.equal(canonicalizeTargetId("facebook_secondary"), "facebook_lifemode");
     assert.equal(canonicalizeTargetId("youtube_secondary"), "youtube_lifemode");

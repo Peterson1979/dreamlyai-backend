@@ -24,6 +24,10 @@ const {
   loadInstagramConfig,
   loadInstagramSecondaryConfig
 } = require("./instagramConfig");
+const {
+  loadThreadsConfig,
+  isThreadsConfigured
+} = require("./threadsConfig");
 
 /**
  * Builds skipped publishing response for early production failure exits.
@@ -35,7 +39,9 @@ function buildSkippedProductionPublishing(reason) {
     facebook_primary: { success: false, status: "SKIPPED", reason },
     facebook_secondary: { success: false, status: "SKIPPED", reason },
     instagram_primary: { success: false, status: "SKIPPED", reason },
-    instagram_secondary: { success: false, status: "SKIPPED", reason }
+    instagram_secondary: { success: false, status: "SKIPPED", reason },
+    threads_primary: { success: false, status: "SKIPPED", reason },
+    threads: { success: false, status: "SKIPPED", reason }
   };
   Object.defineProperty(output, "facebook", {
     get() { return this.facebook_primary; },
@@ -82,9 +88,12 @@ async function runProductionSocialPipeline(params = {}) {
     facebookSecondaryConfig,
     instagramConfig,
     instagramSecondaryConfig,
+    threadsConfig,
     sleepImpl,
     instagramMaxPollAttempts,
     instagramPollIntervalMs,
+    threadsMaxPollAttempts,
+    threadsPollIntervalMs,
     recentTopicHints = []
   } = params;
 
@@ -218,6 +227,20 @@ async function runProductionSocialPipeline(params = {}) {
     }
   }
 
+  // 6b. Resolve production Threads config
+  let resolvedThreadsConfig = null;
+  if (threadsConfig !== undefined) {
+    resolvedThreadsConfig = threadsConfig;
+  } else {
+    try {
+      if (isThreadsConfigured()) {
+        resolvedThreadsConfig = loadThreadsConfig();
+      }
+    } catch (_) {
+      resolvedThreadsConfig = null;
+    }
+  }
+
   // 7. Resolve fetch implementation
   const resolvedFetch = typeof fetchImpl === "function" ? fetchImpl : globalThis.fetch;
 
@@ -240,9 +263,12 @@ async function runProductionSocialPipeline(params = {}) {
     facebookSecondaryConfig: resolvedFacebookSecondaryConfig,
     instagramConfig: resolvedInstagramConfig,
     instagramSecondaryConfig: resolvedInstagramSecondaryConfig,
+    threadsConfig: resolvedThreadsConfig,
     sleepImpl,
     instagramMaxPollAttempts,
     instagramPollIntervalMs,
+    threadsMaxPollAttempts,
+    threadsPollIntervalMs,
     recentTopicHints
   });
 }
