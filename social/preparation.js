@@ -8,6 +8,7 @@
 
 const { isValidDateString, getTopicCategoryForDate } = require("./topics");
 const { generateSocialCreative } = require("./contentGenerator");
+const { MAX_RECENT_TOPIC_HINTS, MAX_HINT_LENGTH } = require("./contentPrompt");
 const { buildPreparedContent } = require("./contentSchema");
 const { renderCarousel } = require("./renderer");
 const { uploadRenderedCarousel } = require("./storage");
@@ -300,13 +301,38 @@ async function prepareDailySocialContent({
       };
     }
 
-    // 5. Generate AI creative
+    // 5. Load recent history for anti-repetition hints & Quality Gate
+    let recentHistory = [];
+    try {
+      recentHistory = await loadRecentHistory({
+        redis,
+        publishDate,
+        days: 30
+      });
+    } catch (histErr) {
+      throw new SocialPreparationError(
+        `Failed to load recent Quality Gate history: ${histErr.message}`,
+        { code: PREPARATION_ERROR_CODES.QUALITY_GATE_FAILED, cause: histErr }
+      );
+    }
+
+    // Derive hints from recent history when caller-provided hints are empty
+    let effectiveTopicHints = recentTopicHints;
+    if (!Array.isArray(recentTopicHints) || recentTopicHints.length === 0) {
+      effectiveTopicHints = recentHistory
+        .map((item) => (typeof item?.coverHeadline === "string" ? item.coverHeadline.trim() : ""))
+        .filter((h) => h.length > 0)
+        .map((h) => (h.length > MAX_HINT_LENGTH ? h.slice(0, MAX_HINT_LENGTH) : h))
+        .slice(0, MAX_RECENT_TOPIC_HINTS);
+    }
+
+    // 6. Generate AI creative
     let creative;
     try {
       creative = await generateSocialCreative({
         publishDate,
         category,
-        recentTopicHints,
+        recentTopicHints: effectiveTopicHints,
         generateText
       });
     } catch (genErr) {
@@ -320,7 +346,7 @@ async function prepareDailySocialContent({
       );
     }
 
-    // 6. Build prepared content envelope
+    // 7. Build prepared content envelope
     let preparedContent;
     try {
       preparedContent = buildPreparedContent({
@@ -335,7 +361,7 @@ async function prepareDailySocialContent({
       );
     }
 
-    // 7. Render carousel slides to 1080x1350 JPEG buffers
+    // 8. Render carousel slides to 1080x1350 JPEG buffers
     let renderedCarousel;
     try {
       renderedCarousel = await renderCarousel(preparedContent);
@@ -346,7 +372,7 @@ async function prepareDailySocialContent({
       );
     }
 
-    // 8. Upload rendered carousel slides to Cloudflare R2
+    // 9. Upload rendered carousel slides to Cloudflare R2
     let storageResult;
     try {
       storageResult = await uploadRenderedCarousel({
@@ -362,7 +388,7 @@ async function prepareDailySocialContent({
       );
     }
 
-    // 9. Build and validate publication manifest
+    // 10. Build and validate publication manifest
     let manifest;
     try {
       manifest = buildManifest({
@@ -380,21 +406,7 @@ async function prepareDailySocialContent({
       );
     }
 
-    // 10. Load recent Quality Gate history and evaluate
-    let recentHistory = [];
-    try {
-      recentHistory = await loadRecentHistory({
-        redis,
-        publishDate,
-        days: 30
-      });
-    } catch (histErr) {
-      throw new SocialPreparationError(
-        `Failed to load recent Quality Gate history: ${histErr.message}`,
-        { code: PREPARATION_ERROR_CODES.QUALITY_GATE_FAILED, cause: histErr }
-      );
-    }
-
+    // 11. Evaluate Quality Gate against loaded history
     let evaluation;
     try {
       evaluation = await evaluateQualityGate({

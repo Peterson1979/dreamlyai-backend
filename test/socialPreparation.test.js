@@ -1398,4 +1398,135 @@ describe("DreamlyAI Social Content Preparation Orchestrator", () => {
       assert.equal(assertQualityGatePass({ qualityState, manifest }), true);
     });
   });
+
+  describe("Recent Topic Hints & History Derivation", () => {
+    it("54. passes recent Redis history cover headlines as recentTopicHints when caller provides none", async () => {
+      const historyDate1 = "2026-08-27";
+      const historyRecord1 = {
+        stateVersion: 1,
+        publishDate: historyDate1,
+        contentId: `social-${historyDate1}`,
+        coverHeadline: "What Falling Dreams Mean",
+        creativeDigest: "a".repeat(64),
+        manifestDigest: "b".repeat(64),
+        comparisonTokens: []
+      };
+      await redis.set(`social:history:${historyDate1}`, JSON.stringify(historyRecord1));
+
+      const historyDate2 = "2026-08-26";
+      const historyRecord2 = {
+        stateVersion: 1,
+        publishDate: historyDate2,
+        contentId: `social-${historyDate2}`,
+        coverHeadline: "Mastering Lucid Dream Triggers",
+        creativeDigest: "d".repeat(64),
+        manifestDigest: "e".repeat(64),
+        comparisonTokens: []
+      };
+      await redis.set(`social:history:${historyDate2}`, JSON.stringify(historyRecord2));
+
+      let receivedPrompt = "";
+      const fakeGenerator = async ({ prompt }) => {
+        receivedPrompt = prompt;
+        return JSON.stringify(createValidCreativeFixture("Flying and Freedom Dreams"));
+      };
+
+      const result = await prepareDailySocialContent({
+        publishDate: "2026-08-28",
+        leaseId: "worker-prep-054",
+        redis,
+        generateText: fakeGenerator,
+        r2Client,
+        r2Config
+      });
+
+      assert.equal(result.status, "PREPARED");
+      assert.ok(receivedPrompt.includes("RECENT TOPICS TO AVOID REPEATING TOO CLOSELY:"));
+      assert.ok(receivedPrompt.includes("- What Falling Dreams Mean"));
+      assert.ok(receivedPrompt.includes("- Mastering Lucid Dream Triggers"));
+    });
+
+    it("55. caller-provided explicit recentTopicHints take precedence over Redis history", async () => {
+      const historyDate = "2026-08-27";
+      const historyRecord = {
+        stateVersion: 1,
+        publishDate: historyDate,
+        contentId: `social-${historyDate}`,
+        coverHeadline: "Redis History Headline To Be Overridden",
+        creativeDigest: "a".repeat(64),
+        manifestDigest: "b".repeat(64),
+        comparisonTokens: []
+      };
+      await redis.set(`social:history:${historyDate}`, JSON.stringify(historyRecord));
+
+      let receivedPrompt = "";
+      const fakeGenerator = async ({ prompt }) => {
+        receivedPrompt = prompt;
+        return JSON.stringify(createValidCreativeFixture("Explicit Hints Dream"));
+      };
+
+      const explicitHints = ["Caller Explicit Hint 1", "Caller Explicit Hint 2"];
+      const result = await prepareDailySocialContent({
+        publishDate: "2026-08-28",
+        leaseId: "worker-prep-055",
+        redis,
+        generateText: fakeGenerator,
+        r2Client,
+        r2Config,
+        recentTopicHints: explicitHints
+      });
+
+      assert.equal(result.status, "PREPARED");
+      assert.ok(receivedPrompt.includes("RECENT TOPICS TO AVOID REPEATING TOO CLOSELY:"));
+      assert.ok(receivedPrompt.includes("- Caller Explicit Hint 1"));
+      assert.ok(receivedPrompt.includes("- Caller Explicit Hint 2"));
+      assert.ok(!receivedPrompt.includes("Redis History Headline To Be Overridden"));
+    });
+
+    it("56. sanitizes and caps Redis-derived history hints (max 30 hints, max 160 chars, filters empty)", async () => {
+      for (let i = 1; i <= 31; i++) {
+        const dayStr = String(i).padStart(2, "0");
+        const date = `2026-07-${dayStr}`;
+        let coverHeadline = `Cover Headline Number ${i}`;
+        if (i === 1) coverHeadline = "";
+        if (i === 2) coverHeadline = "   ";
+        if (i === 3) coverHeadline = "Z".repeat(200);
+
+        const historyRecord = {
+          stateVersion: 1,
+          publishDate: date,
+          contentId: `social-${date}`,
+          coverHeadline,
+          creativeDigest: "a".repeat(64),
+          manifestDigest: "b".repeat(64),
+          comparisonTokens: []
+        };
+        await redis.set(`social:history:${date}`, JSON.stringify(historyRecord));
+      }
+
+      let receivedPrompt = "";
+      const fakeGenerator = async ({ prompt }) => {
+        receivedPrompt = prompt;
+        return JSON.stringify(createValidCreativeFixture("Edge Case Hints Test"));
+      };
+
+      const result = await prepareDailySocialContent({
+        publishDate: "2026-08-01",
+        leaseId: "worker-prep-056",
+        redis,
+        generateText: fakeGenerator,
+        r2Client,
+        r2Config
+      });
+
+      assert.equal(result.status, "PREPARED");
+      assert.ok(receivedPrompt.includes("RECENT TOPICS TO AVOID REPEATING TOO CLOSELY:"));
+      assert.ok(receivedPrompt.includes("- " + "Z".repeat(160)));
+      assert.ok(!receivedPrompt.includes("Z".repeat(161)));
+      const hintsSection = receivedPrompt.split("RECENT TOPICS TO AVOID REPEATING TOO CLOSELY:")[1].split("SAFETY AND EDITORIAL BOUNDARIES:")[0];
+      const hintLines = hintsSection.trim().split("\n").filter(l => l.startsWith("- "));
+      assert.ok(hintLines.length <= 30);
+      assert.ok(hintLines.every(l => l.replace("- ", "").trim().length > 0));
+    });
+  });
 });
