@@ -522,4 +522,223 @@ describe("Dreamly AI Video Publishing Pipeline", () => {
     assert.deepEqual(sleptIntervals, [1000, 1000], "Should sleep between attempts 1-2 and 2-3");
     assert.ok(result.error?.message.includes("timed out"), "Error message should mention timeout");
   });
+
+  it("9. Dreamly Pinterest Pin payload strictly enforces the exact Google Play destination URL", async () => {
+    const { PinterestVideoAdapter } = require("../social/video/adapters/pinterestVideoAdapter");
+    const adapter = new PinterestVideoAdapter("pinterest_dreamly");
+
+    let capturedPinPayload = null;
+    const mockFetch = async (url, opts = {}) => {
+      const u = String(url);
+      if (u.endsWith("/media")) {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({ media_id: "m_playstore_test", upload_url: "https://mock.upload.url", upload_parameters: {} })
+        };
+      }
+      if (u.endsWith("/1.mp4") || u.endsWith(".mp4")) {
+        return { ok: true, status: 200, arrayBuffer: async () => Buffer.from("video") };
+      }
+      if (u.includes("mock.upload.url")) {
+        return { ok: true, status: 204 };
+      }
+      if (u.includes("/media/m_playstore_test")) {
+        return { ok: true, status: 200, json: async () => ({ status: "succeeded" }) };
+      }
+      if (u.endsWith("/pins")) {
+        capturedPinPayload = JSON.parse(opts.body);
+        return { ok: true, status: 201, json: async () => ({ id: "pin_dreamly_play_ok" }) };
+      }
+      throw new Error(`Unexpected fetch URL: ${u}`);
+    };
+
+    // Even if manifest destinationUrl is a generic website
+    const customManifest = {
+      ...sampleManifest,
+      destinationUrl: "https://dreamly.life/",
+      captions: {
+        pinterest: {
+          title: "Dream Meaning Test",
+          description: "Explore dreams with Dreamly AI",
+          link: "https://dreamly.life/" // Should be replaced with Google Play URL for pinterest_dreamly
+        }
+      }
+    };
+
+    const config = {
+      boardId: "board_dreamly_abc",
+      accessToken: "token_dreamly_xyz",
+      accessTier: "standard"
+    };
+
+    const result = await adapter.publish({
+      manifest: customManifest,
+      config,
+      fetchFn: mockFetch
+    });
+
+    assert.equal(result.success, true);
+    assert.equal(result.status, "PUBLISHED");
+    assert.equal(result.postId, "pin_dreamly_play_ok");
+    assert.ok(capturedPinPayload, "Pin payload must have been sent");
+    assert.equal(
+      capturedPinPayload.link,
+      "https://play.google.com/store/apps/details?id=com.oberon.dreamlyai&pli=1",
+      "Dreamly Pinterest Pin destination URL must be exact Google Play link"
+    );
+    assert.equal(capturedPinPayload.board_id, "board_dreamly_abc");
+  });
+
+  it("10. Dreamly Pinterest media processing polling tolerates >8 attempts without failing", async () => {
+    const { PinterestVideoAdapter } = require("../social/video/adapters/pinterestVideoAdapter");
+    const adapter = new PinterestVideoAdapter("pinterest_dreamly");
+
+    let mediaPollCount = 0;
+    const sleptIntervals = [];
+    const mockSleep = async (ms) => {
+      sleptIntervals.push(ms);
+    };
+
+    const mockFetch = async (url, opts = {}) => {
+      const u = String(url);
+      if (u.endsWith("/media")) {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({ media_id: "m_long_poll", upload_url: "https://mock.upload.url", upload_parameters: {} })
+        };
+      }
+      if (u.endsWith("/1.mp4") || u.endsWith(".mp4")) {
+        return { ok: true, status: 200, arrayBuffer: async () => Buffer.from("video") };
+      }
+      if (u.includes("mock.upload.url")) {
+        return { ok: true, status: 204 };
+      }
+      if (u.includes("/media/m_long_poll")) {
+        mediaPollCount++;
+        // Keep in processing for 14 attempts, succeeds on attempt 15 (exceeding old limit of 8)
+        if (mediaPollCount < 15) {
+          return { ok: true, status: 200, json: async () => ({ status: "processing" }) };
+        }
+        return { ok: true, status: 200, json: async () => ({ status: "succeeded" }) };
+      }
+      if (u.endsWith("/pins")) {
+        return { ok: true, status: 201, json: async () => ({ id: "pin_long_poll_ok" }) };
+      }
+      throw new Error(`Unexpected fetch URL: ${u}`);
+    };
+
+    const config = {
+      boardId: "board_dreamly_abc",
+      accessToken: "token_dreamly_xyz",
+      accessTier: "standard"
+      // Default 25 attempts x 3000ms should be used automatically
+    };
+
+    const result = await adapter.publish({
+      manifest: sampleManifest,
+      config,
+      fetchFn: mockFetch,
+      sleepFn: mockSleep
+    });
+
+    assert.equal(result.success, true);
+    assert.equal(result.status, "PUBLISHED");
+    assert.equal(result.postId, "pin_long_poll_ok");
+    assert.equal(mediaPollCount, 15, "Should have successfully polled 15 times");
+    assert.equal(sleptIntervals.length, 14, "Should have slept 14 times");
+    assert.equal(sleptIntervals[0], 3000, "Default poll interval should be 3000ms");
+  });
+
+  it("11. LifeMode Pinterest publishes to LifeMode board and preserves LifeMode destination link", async () => {
+    const { PinterestVideoAdapter } = require("../social/video/adapters/pinterestVideoAdapter");
+    const adapter = new PinterestVideoAdapter("pinterest_lifemode");
+
+    let capturedPinPayload = null;
+    const mockFetch = async (url, opts = {}) => {
+      const u = String(url);
+      if (u.endsWith("/media")) {
+        return {
+          ok: true,
+          status: 200,
+          json: async () => ({ media_id: "m_lifemode_1", upload_url: "https://mock.upload.url", upload_parameters: {} })
+        };
+      }
+      if (u.endsWith("/1.mp4") || u.endsWith(".mp4")) {
+        return { ok: true, status: 200, arrayBuffer: async () => Buffer.from("video") };
+      }
+      if (u.includes("mock.upload.url")) {
+        return { ok: true, status: 204 };
+      }
+      if (u.includes("/media/m_lifemode_1")) {
+        return { ok: true, status: 200, json: async () => ({ status: "succeeded" }) };
+      }
+      if (u.endsWith("/pins")) {
+        capturedPinPayload = JSON.parse(opts.body);
+        return { ok: true, status: 201, json: async () => ({ id: "pin_lifemode_888" }) };
+      }
+      throw new Error(`Unexpected fetch URL: ${u}`);
+    };
+
+    const config = {
+      boardId: "board_lifemode_789",
+      accessToken: "token_lifemode_with_boards_write",
+      accessTier: "standard"
+    };
+
+    const result = await adapter.publish({
+      manifest: sampleManifest,
+      config,
+      fetchFn: mockFetch
+    });
+
+    assert.equal(result.success, true);
+    assert.equal(result.status, "PUBLISHED");
+    assert.equal(result.postId, "pin_lifemode_888");
+    assert.ok(capturedPinPayload);
+    assert.equal(capturedPinPayload.board_id, "board_lifemode_789");
+    assert.equal(
+      capturedPinPayload.link,
+      sampleManifest.captions.pinterest_secondary.link,
+      "LifeMode Pinterest should preserve its own destination link"
+    );
+  });
+
+  it("12. LifeMode Pinterest surfaces OAuth permission 403 Forbidden error cleanly", async () => {
+    const { PinterestVideoAdapter } = require("../social/video/adapters/pinterestVideoAdapter");
+    const adapter = new PinterestVideoAdapter("pinterest_lifemode");
+
+    const mockFetch = async (url) => {
+      const u = String(url);
+      if (u.endsWith("/media")) {
+        return {
+          ok: false,
+          status: 403,
+          json: async () => ({
+            code: 403,
+            message: "Your token does not have sufficient permissions to perform this operation. Missing: ['boards:write']"
+          })
+        };
+      }
+      throw new Error(`Unexpected fetch URL: ${u}`);
+    };
+
+    const config = {
+      boardId: "board_lifemode_789",
+      accessToken: "token_missing_boards_write",
+      accessTier: "standard"
+    };
+
+    const result = await adapter.publish({
+      manifest: sampleManifest,
+      config,
+      fetchFn: mockFetch
+    });
+
+    assert.equal(result.success, false);
+    assert.equal(result.status, "FAILED");
+    assert.equal(result.targetId, "pinterest_lifemode");
+    assert.ok(result.error?.message?.includes("boards:write") || result.error?.message?.includes("permissions"));
+  });
 });

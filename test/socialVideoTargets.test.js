@@ -168,4 +168,21 @@ describe("Dreamly AI Video Social Target Registry & Config", () => {
     assert.equal(fbVal.valid, false);
     assert.ok(fbVal.errors.some(e => e.includes("Missing Page ID")));
   });
+
+  it("5. Configures 25 attempts x 3000ms polling defaults and respects PINTEREST_POLL_* overrides", () => {
+    const defaultConfig = loadVideoTargetsConfig({});
+    assert.equal(defaultConfig.pinterest_dreamly.pollMaxAttempts, 25);
+    assert.equal(defaultConfig.pinterest_dreamly.pollIntervalMs, 3000);
+    assert.equal(defaultConfig.pinterest_lifemode.pollMaxAttempts, 25);
+    assert.equal(defaultConfig.pinterest_lifemode.pollIntervalMs, 3000);
+
+    const customConfig = loadVideoTargetsConfig({
+      PINTEREST_POLL_MAX_ATTEMPTS: "30",
+      PINTEREST_POLL_INTERVAL_MS: "4000"
+    });
+    assert.equal(customConfig.pinterest_dreamly.pollMaxAttempts, 30);
+    assert.equal(customConfig.pinterest_dreamly.pollIntervalMs, 4000);
+    assert.equal(customConfig.pinterest_lifemode.pollMaxAttempts, 30);
+    assert.equal(customConfig.pinterest_lifemode.pollIntervalMs, 4000);
+  });
 });

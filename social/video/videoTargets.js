@@ -154,7 +154,9 @@ function loadVideoTargetsConfig(env = process.env) {
       env.PINTEREST_ALLOW_TRIAL_POSTING,
       false
     ),
-    httpTimeoutMs: Number(env.PINTEREST_HTTP_TIMEOUT_MS) || 30000
+    httpTimeoutMs: Number(env.PINTEREST_HTTP_TIMEOUT_MS) || 30000,
+    pollMaxAttempts: Number(env.PINTEREST_POLL_MAX_ATTEMPTS) || 25,
+    pollIntervalMs: Number(env.PINTEREST_POLL_INTERVAL_MS) || 3000
   };
 
   // 2. YouTube Dreamly (Channel: Dreamly AI, GCP: DreamlyAi-New)
@@ -385,7 +387,9 @@ function loadVideoTargetsConfig(env = process.env) {
       env.PINTEREST_ALLOW_TRIAL_POSTING,
       false
     ),
-    httpTimeoutMs: Number(env.PINTEREST_HTTP_TIMEOUT_MS) || 30000
+    httpTimeoutMs: Number(env.PINTEREST_HTTP_TIMEOUT_MS) || 30000,
+    pollMaxAttempts: Number(env.PINTEREST_POLL_MAX_ATTEMPTS) || 25,
+    pollIntervalMs: Number(env.PINTEREST_POLL_INTERVAL_MS) || 3000
   };
 
   // 9. Threads Dreamly (@dreamlyai Threads Video)

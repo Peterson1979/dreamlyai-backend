@@ -349,7 +349,7 @@ class PinterestVideoAdapter extends BaseVideoAdapter {
 
       // Step D: Poll media status until succeeded (with delay)
       let mediaReady = false;
-      const pollMaxAttempts = Number(config.pollMaxAttempts) || 8;
+      const pollMaxAttempts = Number(config.pollMaxAttempts) || 25;
       const pollIntervalMs = Number(config.pollIntervalMs) || 3000;
 
       for (let attempt = 1; attempt <= pollMaxAttempts; attempt++) {
@@ -398,11 +398,16 @@ class PinterestVideoAdapter extends BaseVideoAdapter {
       }
 
       // Step E: Create Video Pin via /pins
+      const DREAMLY_PINTEREST_PLAYSTORE_URL = "https://play.google.com/store/apps/details?id=com.oberon.dreamlyai&pli=1";
+      const targetDestinationLink = this.targetId === "pinterest_dreamly"
+        ? DREAMLY_PINTEREST_PLAYSTORE_URL
+        : (pinCopy.link || manifest.destinationUrl || "");
+
       const videoPinPayload = {
         board_id: boardId,
         title: (pinCopy.title || manifest.metadata?.exactSourceTitle || "").slice(0, 100),
         description: (pinCopy.description || "").slice(0, 500),
-        link: pinCopy.link || manifest.destinationUrl || "",
+        link: targetDestinationLink,
         media_source: {
           source_type: "video_id",
           media_id: mediaId,
