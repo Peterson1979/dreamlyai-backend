@@ -1,7 +1,6 @@
 // api/ai-disclaimer.js
 const fs = require("fs");
 const path = require("path");
-const { getGoogleTagHeadScript, getMeasurementFoundationScript } = require("../utils/analytics");
 
 const AI_DISCLAIMER_HTML = `<!DOCTYPE html>
 <html lang="en">
@@ -20,8 +19,6 @@ const AI_DISCLAIMER_HTML = `<!DOCTYPE html>
   <meta property="og:url" content="https://dreamlyai.life/ai-disclaimer">
   <meta property="og:site_name" content="Dreamly AI">
   <meta property="og:image" content="https://dreamlyai.life/assets/ic_interpret1.png">
-
-${getGoogleTagHeadScript()}
 
   <style>
     :root {
@@ -569,7 +566,37 @@ ${getGoogleTagHeadScript()}
       });
     })();
   </script>
-${getMeasurementFoundationScript()}
+
+  <!-- In-Memory Campaign Parameter Forwarding (No cookies, No storage, No tracking) -->
+  <script>
+    (function() {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var source = params.get('utm_source');
+        var medium = params.get('utm_medium');
+        var campaign = params.get('utm_campaign');
+        var content = params.get('utm_content');
+        var term = params.get('utm_term');
+        if (source || campaign) {
+          var utms = [];
+          if (source) utms.push('utm_source=' + encodeURIComponent(source));
+          if (medium) utms.push('utm_medium=' + encodeURIComponent(medium));
+          if (campaign) utms.push('utm_campaign=' + encodeURIComponent(campaign));
+          if (content) utms.push('utm_content=' + encodeURIComponent(content));
+          if (term) utms.push('utm_term=' + encodeURIComponent(term));
+          var rawReferrer = utms.join('&');
+          var playLinks = document.querySelectorAll('a[href*="play.google.com/store/apps/details?id=com.oberon.dreamlyai"]');
+          playLinks.forEach(function(link) {
+            var href = link.getAttribute('href') || '';
+            if (!href.includes('referrer=')) {
+              var base = 'https://play.google.com/store/apps/details?id=com.oberon.dreamlyai';
+              link.href = base + '&referrer=' + encodeURIComponent(rawReferrer);
+            }
+          });
+        }
+      } catch (_) {}
+    })();
+  </script>
 </body>
 </html>`;
 

@@ -54,8 +54,11 @@ describe("Landing Page & Privacy Policy Verification", () => {
     assert.ok(!html.includes("mixpanel"), "Landing page must NOT contain Mixpanel");
     assert.ok(!html.includes("amplitude"), "Landing page must NOT contain Amplitude");
     assert.ok(!html.includes("appsflyer"), "Landing page must NOT contain AppsFlyer");
-    assert.ok(html.includes("utm_source"), "Landing page script must handle UTM preservation");
-    assert.ok(html.includes("play_store_click"), "Landing page script must track play_store_click");
+    assert.ok(!html.includes("googletagmanager.com"), "Landing page must NOT contain Google Tag Manager / gtag script");
+    assert.ok(!html.includes("play_store_click"), "Landing page must NOT track play_store_click analytics event");
+    assert.ok(!html.includes("sessionStorage"), "Landing page must NOT use sessionStorage");
+    assert.ok(!html.includes("localStorage"), "Landing page must NOT use localStorage");
+    assert.ok(html.includes("utm_source"), "Landing page script must handle in-memory UTM forwarding");
   });
 
   it("Privacy policy static files exist and contain required substantive disclosures", () => {

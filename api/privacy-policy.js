@@ -1,7 +1,6 @@
 // api/privacy-policy.js
 const fs = require("fs");
 const path = require("path");
-const { getGoogleTagHeadScript, getMeasurementFoundationScript } = require("../utils/analytics");
 
 const PRIVACY_POLICY_HTML = `<!DOCTYPE html>
 <html lang="en">
@@ -21,10 +20,7 @@ const PRIVACY_POLICY_HTML = `<!DOCTYPE html>
   <meta property="og:site_name" content="Dreamly AI">
   <meta property="og:image" content="https://dreamlyai.life/assets/ic_interpret1.png">
 
-${getGoogleTagHeadScript()}
-
   <style>
-    :root {
       --bg-deep: #070913;
       --bg-surface: #0e1224;
       --bg-surface-elevated: #151b34;
@@ -609,9 +605,9 @@ ${getGoogleTagHeadScript()}
       <section>
         <h2>6. Analytics &amp; Product Measurement Disclosures</h2>
         <p>
-          To evaluate product stability, understand feature engagement, and measure organic acquisition, Dreamly AI utilizes <strong>Google Analytics for Firebase</strong> (within the Android mobile application) and <strong>Google Analytics</strong> (on our website).
+          To evaluate product stability, understand feature engagement, and measure organic acquisition, Dreamly AI utilizes <strong>Google Analytics for Firebase</strong> within the Android mobile application. The Dreamly AI website does not employ website traffic analytics, Google tag/GA4 scripts, advertising tracking pixels, or cross-site profiling cookies.
         </p>
-        <p><strong>A. Measurement Purposes:</strong></p>
+        <p><strong>A. Mobile Application Measurement Purposes:</strong></p>
         <ul>
           <li>Measuring product lifecycle milestones and activation (such as first open, initiating a dream entry, and receiving an interpretation).</li>
           <li>Understanding feature engagement (such as viewing the dream journal, calendar patterns, saving favorites, and sharing entries).</li>
@@ -634,13 +630,13 @@ ${getGoogleTagHeadScript()}
             <strong>Strict Content Safeguard:</strong> Dreamly AI does NOT transmit dream narrative text, interpretation text, personal names, specific emotions, symbols, audio recordings, or arbitrary user-generated notes to analytics systems.
           </p>
         </div>
-        <p><strong>C. Website Measurement &amp; UTM Campaign Attribution:</strong></p>
+        <p><strong>C. Website Campaign Parameter Forwarding:</strong></p>
         <p>
-          The Dreamly AI website uses client-side session storage (<code>sessionStorage</code>) to temporarily maintain standard acquisition campaign parameters (such as UTM source, medium, campaign, content, term, and referrer sources) across pages. When a user clicks to visit the Google Play Store, these parameters are attached to the Google Play Store URL to measure install attribution. The website does not employ third-party advertising tracking pixels or cross-site profiling cookies.
+          The Dreamly AI website does not use cookies, <code>sessionStorage</code>, <code>localStorage</code>, or persistent client-side tracking. When a user arrives at the website through a link containing standard campaign parameters (such as UTM source or campaign), those parameters are processed in memory solely to attach them to the outgoing Google Play Store link for that page view. No persistent tracking profile or cross-page attribution store is created.
         </p>
         <p><strong>D. Third-Party Networks:</strong></p>
         <p>
-          Google Analytics operates under Google's Privacy Policy (<a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">https://policies.google.com/privacy</a>). Users can manage ad identifiers and device personalization through Android Settings (Google &gt; Ads).
+          Google Analytics for Firebase in the mobile app operates under Google's Privacy Policy (<a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">https://policies.google.com/privacy</a>). Users can manage ad identifiers and device personalization through Android Settings (Google &gt; Ads).
         </p>
         <p>
           We do not sell user data, nor do we integrate Mobile Measurement Partners (MMPs such as AppsFlyer, Adjust, or Singular), data brokers, or social network tracking pixels.
@@ -684,7 +680,7 @@ ${getGoogleTagHeadScript()}
       <section>
         <h2>11. Cookies &amp; Web Tracking</h2>
         <p>
-          The Dreamly AI website does not use persistent tracking cookies, cross-site trackers, or third-party marketing pixels. It utilizes standard client-side <code>sessionStorage</code> solely for temporary UTM campaign attribution during your active browsing session.
+          The Dreamly AI website does not use cookies, persistent browser tracking, <code>localStorage</code>, <code>sessionStorage</code>, cross-site trackers, or third-party marketing pixels. Any campaign parameter forwarding for Google Play Store links occurs strictly in memory during the active page view without persistent storage.
         </p>
       </section>
 
@@ -799,7 +795,37 @@ ${getGoogleTagHeadScript()}
       });
     })();
   </script>
-${getMeasurementFoundationScript()}
+
+  <!-- In-Memory Campaign Parameter Forwarding (No cookies, No storage, No tracking) -->
+  <script>
+    (function() {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var source = params.get('utm_source');
+        var medium = params.get('utm_medium');
+        var campaign = params.get('utm_campaign');
+        var content = params.get('utm_content');
+        var term = params.get('utm_term');
+        if (source || campaign) {
+          var utms = [];
+          if (source) utms.push('utm_source=' + encodeURIComponent(source));
+          if (medium) utms.push('utm_medium=' + encodeURIComponent(medium));
+          if (campaign) utms.push('utm_campaign=' + encodeURIComponent(campaign));
+          if (content) utms.push('utm_content=' + encodeURIComponent(content));
+          if (term) utms.push('utm_term=' + encodeURIComponent(term));
+          var rawReferrer = utms.join('&');
+          var playLinks = document.querySelectorAll('a[href*="play.google.com/store/apps/details?id=com.oberon.dreamlyai"]');
+          playLinks.forEach(function(link) {
+            var href = link.getAttribute('href') || '';
+            if (!href.includes('referrer=')) {
+              var base = 'https://play.google.com/store/apps/details?id=com.oberon.dreamlyai';
+              link.href = base + '&referrer=' + encodeURIComponent(rawReferrer);
+            }
+          });
+        }
+      } catch (_) {}
+    })();
+  </script>
 </body>
 </html>`;
 

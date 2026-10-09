@@ -9,7 +9,6 @@
 
 const { getTopicById, getTopicsByCategory } = require("../../content/topics/registry");
 const { buildAttributedPlayStoreUrl } = require("../../social/urlBuilder");
-const { getGoogleTagHeadScript, getMeasurementFoundationScript } = require("../../utils/analytics");
 
 const CATEGORY_LABELS = Object.freeze({
   dream_symbols: "Dream Symbols & Archetypes",
@@ -56,8 +55,6 @@ function renderNotFoundHtml() {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Topic Not Found — Dreamly AI</title>
   <meta name="robots" content="noindex, follow">
-
-${getGoogleTagHeadScript()}
 
   <style>
     :root {
@@ -108,7 +105,6 @@ ${getGoogleTagHeadScript()}
     <p>The dream symbol or topic you are searching for is not available or may have been moved.</p>
     <a href="/dreams" class="btn">Explore All Dream Topics &rarr;</a>
   </div>
-${getMeasurementFoundationScript()}
 </body>
 </html>`;
 }
@@ -188,8 +184,6 @@ function renderTopicHtml(topic) {
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="${escapeHtml(topic.title)}">
   <meta name="twitter:description" content="${escapeHtml(topic.searchIntent)}">
-
-${getGoogleTagHeadScript()}
 
   <!-- Structured Data JSON-LD -->
   <script type="application/ld+json">
@@ -958,7 +952,37 @@ ${JSON.stringify(breadcrumbJsonLd, null, 2)}
       });
     })();
   </script>
-${getMeasurementFoundationScript({ topicId: topic.id })}
+
+  <!-- In-Memory Campaign Parameter Forwarding (No cookies, No storage, No tracking) -->
+  <script>
+    (function() {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var source = params.get('utm_source');
+        var medium = params.get('utm_medium');
+        var campaign = params.get('utm_campaign');
+        var content = params.get('utm_content');
+        var term = params.get('utm_term');
+        if (source || campaign) {
+          var utms = [];
+          if (source) utms.push('utm_source=' + encodeURIComponent(source));
+          if (medium) utms.push('utm_medium=' + encodeURIComponent(medium));
+          if (campaign) utms.push('utm_campaign=' + encodeURIComponent(campaign));
+          if (content) utms.push('utm_content=' + encodeURIComponent(content));
+          if (term) utms.push('utm_term=' + encodeURIComponent(term));
+          var rawReferrer = utms.join('&');
+          var playLinks = document.querySelectorAll('a[href*="play.google.com/store/apps/details?id=com.oberon.dreamlyai"]');
+          playLinks.forEach(function(link) {
+            var href = link.getAttribute('href') || '';
+            if (!href.includes('referrer=')) {
+              var base = 'https://play.google.com/store/apps/details?id=com.oberon.dreamlyai';
+              link.href = base + '&referrer=' + encodeURIComponent(rawReferrer);
+            }
+          });
+        }
+      } catch (_) {}
+    })();
+  </script>
 </body>
 </html>`;
 }
